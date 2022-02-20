@@ -1,3 +1,4 @@
+export * from "./dialog";
 export {
   Description,
   DescriptionGroup,

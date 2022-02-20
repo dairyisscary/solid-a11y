@@ -11,6 +11,24 @@ export type A11yDynamicProps<
     component?: Comp;
   };
 
+const FOCUS_SELECTOR = [
+  "[contentEditable=true]",
+  "[tabindex]",
+  "a[href]",
+  "area[href]",
+  "button:not([disabled])",
+  "iframe",
+  "input:not([disabled])",
+  "select:not([disabled])",
+  "textarea:not([disabled])",
+]
+  .map((selector) => `${selector}:not([tabindex='-1'])`)
+  .join(",");
+
+function getFocusableElements(container: HTMLElement) {
+  return Array.from(container.querySelectorAll<HTMLElement>(FOCUS_SELECTOR));
+}
+
 export function joinSeperated(
   ...values: (undefined | false | null | string)[]
 ): string | undefined {
@@ -26,4 +44,26 @@ export function callThrough<T, E extends Event>(
   } else if (typeof callback === "function") {
     return callback(event as E & { currentTarget: T; target: HTMLElement });
   }
+}
+
+export function focusIn(element: HTMLElement, direction: "prev" | "next"): boolean {
+  const allFocusable = getFocusableElements(element);
+  const active = document.activeElement as HTMLElement;
+  const activeIndex = allFocusable.indexOf(active);
+  const beforeElems = allFocusable.slice(0, Math.max(activeIndex, 0));
+  const afterElems = allFocusable.slice(activeIndex + 1);
+  const baseIter =
+    direction === "prev"
+      ? beforeElems.reverse().concat(afterElems.reverse())
+      : afterElems.concat(beforeElems);
+  const iter = activeIndex > -1 ? baseIter.concat(active) : baseIter;
+
+  for (const elem of iter) {
+    elem.focus();
+    if (document.activeElement === elem) {
+      return true;
+    }
+  }
+
+  return false;
 }

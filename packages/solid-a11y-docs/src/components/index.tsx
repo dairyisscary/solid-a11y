@@ -1,4 +1,9 @@
 export const COMPONENTS = Object.freeze({
+  dialog: {
+    color: "from-purple-500 to-indigo-500",
+    getModule: () => import("@docs/components/dialog/index.mdx"),
+    title: "Dialog (Modal)",
+  },
   switch: {
     color: "from-orange-400 to-pink-600",
     getModule: () => import("@docs/components/switch/index.mdx"),

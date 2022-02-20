@@ -1,0 +1,27 @@
+{
+  "name": "solid-a11y",
+  "version": "0.1.0",
+  "author": "Eric Kim-Butler",
+  "license": "MIT",
+  "main": "src/index.tsx",
+  "scripts": {
+    "test": "jest"
+  },
+  "peerDependencies": {
+    "solid-js": "^1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.17.5",
+    "@babel/preset-env": "^7.16.11",
+    "@babel/preset-typescript": "^7.16.7",
+    "@testing-library/user-event": "^14.0.0-beta.11",
+    "@types/jest": "^27.4.0",
+    "babel-jest": "^27.5.1",
+    "babel-preset-solid": "^1.3.6",
+    "enhanced-resolve-jest": "^1.1.0",
+    "jest": "^27.5.1",
+    "jest-node-exports-resolver": "^1.1.5",
+    "solid-js": "^1.3.7",
+    "solid-testing-library": "^0.2.1"
+  }
+}

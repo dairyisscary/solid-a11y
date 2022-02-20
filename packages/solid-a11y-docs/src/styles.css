@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html,
+  body {
+    @apply scroll-smooth bg-slate-900 font-sans text-slate-400 antialiased;
+  }
+
+  a {
+    @apply underline transition-colors duration-200 hover:text-slate-200 focus:text-slate-200;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  pre {
+    tab-size: 2;
+    hyphens: none;
+  }
+  pre > code {
+    @apply block w-max;
+  }
+}
+
+#root > header + * {
+  @apply flex-1;
+}
+
+.code-line-highlight {
+  @apply border-code-keyword bg-code-keyword -mx-4 border-l-2 bg-opacity-10 px-4;
+}

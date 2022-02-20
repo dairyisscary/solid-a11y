@@ -1,0 +1,77 @@
+version: 2.1
+
+commands:
+  install_npm_deps:
+    description: Install deps from NPM
+    steps:
+      - run:
+          name: Install pnpm
+          command: |
+            sudo npm install -g pnpm@6.31.0
+            pnpm config set store-dir /home/circleci/.pnpm-store
+      - run:
+          name: Install deps
+          command: pnpm install --frozen-lockfile
+
+  checkout_a11y:
+    description: Checkout the git repo with a standard root
+    steps:
+      - checkout:
+          path: /home/circleci/solid-a11y
+
+executors:
+  default_node_env:
+    docker:
+      - image: cimg/node:16.13.2
+    resource_class: small
+    working_directory: /home/circleci/solid-a11y
+
+jobs:
+  lint:
+    executor: default_node_env
+    steps:
+      - checkout_a11y
+      - install_npm_deps
+      - run:
+          name: Linting
+          command: pnpm exec eslint --ext .js,.cjs,.ts,.tsx --max-warnings 0 .
+
+  format:
+    executor: default_node_env
+    steps:
+      - checkout_a11y
+      - install_npm_deps
+      - run:
+          name: Checking Formatting
+          command: pnpm exec prettier --check .
+
+  typecheck:
+    executor: default_node_env
+    steps:
+      - checkout_a11y
+      - install_npm_deps
+      - run:
+          name: Type Checking
+          command: pnpm -r --no-bail --filter ./packages/ exec tsc
+
+  build_docs_static:
+    executor: default_node_env
+    steps:
+      - checkout_a11y
+      - install_npm_deps
+      - run:
+          name: Building Docs Static Content
+          command: pnpm build --filter solid-a11y-docs
+      - persist_to_workspace:
+          root: "../"
+          paths:
+            - solid-a11y/packages/solid-a11y-docs/dist
+
+workflows:
+  version: 2
+  Check:
+    jobs:
+      - lint
+      - format
+      - typecheck
+      - build_docs_static

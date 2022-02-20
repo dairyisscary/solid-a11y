@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "paths": {
+      "@docs/*": ["./src/*"]
+    },
+    "types": ["vite/client", "mdx"]
+  },
+  "extends": "../../tsconfig.json"
+}

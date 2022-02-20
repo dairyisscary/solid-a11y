@@ -20,58 +20,141 @@ commands:
           path: /home/circleci/solid-a11y
 
 executors:
-  default_node_env:
+  awscli:
+    docker:
+      - image: dairyisscary/awscli:1.22.58
+    resource_class: small
+
+  default_node:
     docker:
       - image: cimg/node:16.13.2
     resource_class: small
     working_directory: /home/circleci/solid-a11y
 
+  terraform:
+    docker:
+      - image: dairyisscary/terraform:1.1.6
+    resource_class: small
+    working_directory: /home/circleci/solid-a11y/infra
+
 jobs:
-  lint:
-    executor: default_node_env
+  build_static_documentation:
+    executor: default_node
     steps:
       - checkout_a11y
       - install_npm_deps
       - run:
-          name: Linting
-          command: pnpm exec eslint --ext .js,.cjs,.ts,.tsx --max-warnings 0 .
+          name: Build Docs Static Content
+          command: pnpm build --filter solid-a11y-docs
+      - persist_to_workspace:
+          root: "./"
+          paths:
+            - packages/solid-a11y-docs/dist
+
+  deploy_documentation:
+    executor: awscli
+    working_directory: /home/circleci/solid-a11y/packages/solid-a11y-docs
+    steps:
+      - checkout_a11y
+      - attach_workspace:
+          at: /home/circleci/solid-a11y
+      - run:
+          name: Upload Static Assets
+          command: |
+            ONE_YEAR="31536000"
+            BROWSER_EXPIRES="public, max-age=0, s-maxage=$ONE_YEAR, must-revalidate"
+            BROWSER_IMMUTABLE="public, max-age=$ONE_YEAR, immutable"
+            BUCKET_NAME="$(cat ../../infra/output/terraform.json | jq '.documentation_static_bucket_name.value' -r)"
+
+            aws s3 cp --metadata-directive REPLACE --content-type "text/html; charset=utf-8" --cache-control "$BROWSER_EXPIRES" dist/*.html "s3://$BUCKET_NAME"
+
+            aws s3 cp --recursive --metadata-directive REPLACE --cache-control "$BROWSER_IMMUTABLE" dist/assets "s3://$BUCKET_NAME/assets"
 
   format:
-    executor: default_node_env
+    executor: default_node
     steps:
       - checkout_a11y
       - install_npm_deps
       - run:
-          name: Checking Formatting
+          name: Check Base Formatting
           command: pnpm exec prettier --check .
 
-  typecheck:
-    executor: default_node_env
+  format_infrastructure_configuration:
+    executor: terraform
+    working_directory: /home/circleci/solid-a11y
     steps:
       - checkout_a11y
-      - install_npm_deps
       - run:
-          name: Type Checking
-          command: pnpm -r --no-bail --filter ./packages/ exec tsc
+          name: Check Infrastructure Formatting
+          command: terraform fmt -check -diff -list=true -recursive
 
-  build_docs_static:
-    executor: default_node_env
+  lint:
+    executor: default_node
     steps:
       - checkout_a11y
       - install_npm_deps
       - run:
-          name: Building Docs Static Content
-          command: pnpm build --filter solid-a11y-docs
+          name: Lint
+          command: pnpm exec eslint --ext .js,.cjs,.ts,.tsx --max-warnings 0 .
+
+  provision_infrastructure:
+    executor: terraform
+    steps:
+      - checkout_a11y
+      - run:
+          name: Init Terraform
+          command: terraform init
+      - run:
+          name: Form and Provision Infrastructure
+          command: |
+            mkdir -p output
+            terraform apply -auto-approve
+            terraform output -json > output/terraform.json
       - persist_to_workspace:
           root: "../"
           paths:
-            - solid-a11y/packages/solid-a11y-docs/dist
+            - infra/output
+
+  typecheck:
+    executor: default_node
+    steps:
+      - checkout_a11y
+      - install_npm_deps
+      - run:
+          name: Typecheck
+          command: pnpm -r --no-bail --filter ./packages/ exec tsc
+
+  validate_infrastructure_configuration:
+    executor: terraform
+    steps:
+      - checkout_a11y
+      - run:
+          name: Init Terraform
+          command: terraform init -backend=false
+      - run:
+          name: Validate Infrastructure
+          command: terraform validate
 
 workflows:
   version: 2
-  Check:
+  "Check and Deploy":
     jobs:
-      - lint
+      - build_static_documentation
+      - deploy_documentation:
+          filters:
+            branches:
+              only: production
+          requires:
+            - provision_infrastructure
+            - build_static_documentation
       - format
+      - format_infrastructure_configuration
+      - lint
+      - provision_infrastructure:
+          filters:
+            branches:
+              only: production
+          requires:
+            - validate_infrastructure_configuration
       - typecheck
-      - build_docs_static
+      - validate_infrastructure_configuration

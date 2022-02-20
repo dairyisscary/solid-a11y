@@ -6,3 +6,4 @@ export {
   useDescribedBy,
   useLabeledBy,
 } from "./group";
+export * from "./switch";

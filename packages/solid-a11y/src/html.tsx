@@ -9,7 +9,10 @@ export type A11yDynamicProps<
 > = Omit<ComponentProps<Comp>, Omitted | keyof OtherProps> &
   OtherProps & {
     component?: Comp;
+    children?: ComponentProps<Comp> extends { children?: infer Child } ? Child : never;
   };
+type NextFocusAction = { type: "direction"; direction: "next" | "prev" };
+type FocusAction = { type: "element"; element: HTMLElement } | NextFocusAction;
 
 const FOCUS_SELECTOR = [
   "[contentEditable=true]",
@@ -29,6 +32,27 @@ function getFocusableElements(container: HTMLElement) {
   return Array.from(container.querySelectorAll<HTMLElement>(FOCUS_SELECTOR));
 }
 
+function findNextFocus(allFocusable: HTMLElement[], direction: NextFocusAction["direction"]) {
+  const active = document.activeElement as HTMLElement | null;
+  const activeIndex = allFocusable.indexOf(active!);
+  const beforeElems = allFocusable.slice(0, Math.max(activeIndex, 0));
+  const afterElems = allFocusable.slice(activeIndex + 1);
+  const baseIter =
+    direction === "prev"
+      ? beforeElems.reverse().concat(afterElems.reverse())
+      : afterElems.concat(beforeElems);
+  const iter = activeIndex > -1 ? baseIter.concat(active!) : baseIter;
+
+  for (const elem of iter) {
+    elem.focus();
+    if (document.activeElement === elem) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
 export function joinSeperated(
   ...values: (undefined | false | null | string)[]
 ): string | undefined {
@@ -46,24 +70,11 @@ export function callThrough<T, E extends Event>(
   }
 }
 
-export function focusIn(element: HTMLElement, direction: "prev" | "next"): boolean {
+export function focusIn(element: HTMLElement, action: FocusAction): boolean {
   const allFocusable = getFocusableElements(element);
-  const active = document.activeElement as HTMLElement;
-  const activeIndex = allFocusable.indexOf(active);
-  const beforeElems = allFocusable.slice(0, Math.max(activeIndex, 0));
-  const afterElems = allFocusable.slice(activeIndex + 1);
-  const baseIter =
-    direction === "prev"
-      ? beforeElems.reverse().concat(afterElems.reverse())
-      : afterElems.concat(beforeElems);
-  const iter = activeIndex > -1 ? baseIter.concat(active) : baseIter;
-
-  for (const elem of iter) {
-    elem.focus();
-    if (document.activeElement === elem) {
-      return true;
-    }
+  if (action.type === "element" && allFocusable.includes(action.element)) {
+    action.element.focus();
+    return true;
   }
-
-  return false;
+  return findNextFocus(allFocusable, action.type === "direction" ? action.direction : "next");
 }

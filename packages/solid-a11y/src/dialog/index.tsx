@@ -18,6 +18,11 @@ import {
 } from "../html";
 import { ESCAPE_KEY, TAB_KEY } from "../keyboard";
 
+type FocusOptions = {
+  containerGetter: () => HTMLElement | undefined;
+  close: () => void;
+  initialFocusRef?: HTMLElement | (() => HTMLElement);
+};
 type DialogOverlayProps<C extends DynamicComponent> = A11yDynamicProps<
   C,
   { onClick?: (evt: MouseEvent) => void },
@@ -29,6 +34,7 @@ type DialogProps<C extends DynamicComponent> = A11yDynamicProps<
     "aria-labelledby"?: string;
     "aria-describedby"?: string;
     mount?: ComponentProps<typeof Portal>["mount"];
+    initialFocusRef?: FocusOptions["initialFocusRef"];
     onClose: () => void;
   },
   "role" | "aria-modal"
@@ -52,21 +58,32 @@ function useScrollLock() {
   });
 }
 
-function useFocusManagement(containerRef: () => HTMLElement | undefined, close: () => void) {
+function useFocusManagement({ containerGetter, close, initialFocusRef }: FocusOptions) {
   function dialogKeydownHandler(evt: KeyboardEvent) {
     if (evt.key === ESCAPE_KEY) {
       close();
     } else if (evt.key === TAB_KEY) {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const success = focusIn(containerRef()!, evt.shiftKey ? "prev" : "next");
+      const success = focusIn(containerGetter()!, {
+        type: "direction",
+        direction: evt.shiftKey ? "prev" : "next",
+      });
       if (success) {
         evt.preventDefault();
       }
     }
   }
   onMount(() => {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    focusIn(containerRef()!, "next");
+    focusIn(
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      containerGetter()!,
+      initialFocusRef
+        ? {
+            type: "element",
+            element: typeof initialFocusRef === "function" ? initialFocusRef() : initialFocusRef,
+          }
+        : { type: "direction", direction: "next" },
+    );
     window.document.addEventListener("keydown", dialogKeydownHandler);
   });
   onCleanup(() => {
@@ -75,13 +92,21 @@ function useFocusManagement(containerRef: () => HTMLElement | undefined, close: 
 }
 
 function DialogRoot<C extends DynamicComponent>(props: Omit<DialogProps<C>, "mount">) {
-  const [local, rest] = splitProps(props, ["aria-labelledby", "aria-describedby"]);
+  const [local, rest] = splitProps(props, [
+    "initialFocusRef",
+    "aria-labelledby",
+    "aria-describedby",
+  ]);
   const labeledBy = useLabeledBy();
   const describedBy = useDescribedBy();
   const close = useContext(DIALOG_CONTEXT);
   let containerRef: undefined | HTMLElement;
   useScrollLock();
-  useFocusManagement(() => containerRef, close);
+  useFocusManagement({
+    containerGetter: () => containerRef,
+    initialFocusRef: local.initialFocusRef,
+    close,
+  });
   return (
     <Dynamic
       component={DEFAULT_DIALOG_COMPONENT}

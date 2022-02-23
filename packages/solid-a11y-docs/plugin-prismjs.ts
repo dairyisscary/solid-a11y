@@ -54,9 +54,9 @@ function cleanContent(content: string): { cleaned: string; ranges: Range[] } {
   const lines = content.split("\n");
   const { cleanedLines, ranges } = lines.reduce(
     (accum, line) => {
-      const firstMatchValue: string[] | undefined = line
-        .matchAll(/highlight-next-line(s (\d+))?/g)
-        .next().value;
+      const firstMatchValue = line.matchAll(/highlight-next-line(s (\d+))?/g).next().value as
+        | string[]
+        | undefined;
       if (firstMatchValue) {
         const [, , end] = firstMatchValue;
         const range = [accum.lineNumber, accum.lineNumber + Number(end || 1) - 1] as Range;

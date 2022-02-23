@@ -34,13 +34,14 @@ function getFocusableElements(container: HTMLElement) {
 
 function findNextFocus(allFocusable: HTMLElement[], direction: NextFocusAction["direction"]) {
   const active = document.activeElement as HTMLElement | null;
-  const activeIndex = allFocusable.indexOf(active!);
+  const activeIndex = allFocusable.indexOf(active!); // eslint-disable-line @typescript-eslint/no-non-null-assertion
   const beforeElems = allFocusable.slice(0, Math.max(activeIndex, 0));
   const afterElems = allFocusable.slice(activeIndex + 1);
   const baseIter =
     direction === "prev"
       ? beforeElems.reverse().concat(afterElems.reverse())
       : afterElems.concat(beforeElems);
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const iter = activeIndex > -1 ? baseIter.concat(active!) : baseIter;
 
   for (const elem of iter) {
@@ -62,9 +63,10 @@ export function joinSeperated(
 export function callThrough<T, E extends Event>(
   callback: undefined | JSX.EventHandlerUnion<T, E>,
   event: E,
-) {
+): void {
   if (Array.isArray(callback)) {
-    return callback[0](callback[1], event);
+    const bound = callback as JSX.BoundEventHandler<T, E>;
+    return bound[0](bound[1], event as E & { currentTarget: T; target: Element });
   } else if (typeof callback === "function") {
     return callback(event as E & { currentTarget: T; target: HTMLElement });
   }

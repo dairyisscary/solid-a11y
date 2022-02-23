@@ -4,10 +4,12 @@ const projectGlobs = "./packages/*/tsconfig{.test.json,.json}";
 module.exports = {
   extends: ["eslint:recommended"],
   overrides: [
+    // Node commonjs files
     {
       files: ["**/*.cjs"],
       env: { node: true },
     },
+    // TS files
     {
       extends: [
         "plugin:@typescript-eslint/recommended",
@@ -21,6 +23,13 @@ module.exports = {
         "no-undef": "off",
         "@typescript-eslint/no-empty-function": "off",
         "@typescript-eslint/no-var-requires": "off",
+      },
+    },
+    // Test files
+    {
+      files: ["**/*.test.{ts,tsx}"],
+      rules: {
+        "@typescript-eslint/no-non-null-assertion": "off",
       },
     },
   ],

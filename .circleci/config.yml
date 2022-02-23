@@ -96,6 +96,8 @@ jobs:
       - run:
           name: Lint
           command: pnpm exec eslint --ext .js,.cjs,.ts,.tsx --max-warnings 0 .
+          env:
+            USE_EXPENSIVE_LINT_RULES: true
 
   provision_infrastructure:
     executor: terraform
@@ -114,6 +116,15 @@ jobs:
           root: "../"
           paths:
             - infra/output
+
+  test:
+    executor: default_node
+    steps:
+      - checkout_a11y
+      - install_npm_deps
+      - run:
+          name: Run Tests
+          command: pnpm -r --no-bail test -- --maxWorkers=2 --ci
 
   typecheck:
     executor: default_node
@@ -156,5 +167,6 @@ workflows:
               only: production
           requires:
             - validate_infrastructure_configuration
+      - test
       - typecheck
       - validate_infrastructure_configuration

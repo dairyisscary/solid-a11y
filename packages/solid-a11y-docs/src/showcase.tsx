@@ -1,4 +1,4 @@
-import { NavLink, Outlet } from "solid-app-router";
+import { Link, NavLink, Outlet } from "solid-app-router";
 import {
   type Component,
   type ComponentProps,
@@ -75,20 +75,24 @@ function ShowcaseActions(props: ActionsProps) {
   };
   return (
     <div class="absolute right-0 top-0 z-10 flex items-stretch px-2 py-1">
-      {props.includePreview && (
-        <ShowcaseActionButton
-          onClick={[props.onSelect, "preview"]}
-          selected={props.selectedAction === "preview"}
-        >
-          Preview
-        </ShowcaseActionButton>
-      )}
-      <ShowcaseActionButton
-        onClick={[props.onSelect, "code"]}
-        selected={props.selectedAction === "code"}
-      >
-        Code
-      </ShowcaseActionButton>
+      <Show when={props.includePreview}>
+        {() => (
+          <>
+            <ShowcaseActionButton
+              onClick={[props.onSelect, "preview"]}
+              selected={props.selectedAction === "preview"}
+            >
+              Preview
+            </ShowcaseActionButton>
+            <ShowcaseActionButton
+              onClick={[props.onSelect, "code"]}
+              selected={props.selectedAction === "code"}
+            >
+              Code
+            </ShowcaseActionButton>
+          </>
+        )}
+      </Show>
       <ShowcaseActionButton onClick={handleCopyClick}>
         {copied() ? "Copied!" : "Copy"}
       </ShowcaseActionButton>
@@ -157,7 +161,9 @@ function TableOfContents(props: TableOfContentsProps) {
           <For each={props.list}>
             {({ id, text }) => (
               <li>
-                <a href={`#${id}`}>{text}</a>
+                <Link href={`#${id}`} target="_self">
+                  {text}
+                </Link>
               </li>
             )}
           </For>
@@ -207,7 +213,7 @@ export function ComponentShowcase(props: ShowcaseProps) {
     <Show when={mod()}>
       {({ MdxComponent, tableOfContents }) => (
         <Main class="flex min-w-0 items-start space-x-4 sm:space-x-6 lg:space-x-8">
-          <article class="prose prose-invert prose-headings:before:content-[''] prose-headings:before:block prose-headings:before:mt-[-120px] prose-headings:before:h-[120px] lg:prose-lg min-w-0 max-w-none flex-1">
+          <article class="prose prose-invert prose-headings:scroll-mt-24 lg:prose-lg min-w-0 max-w-none flex-1">
             <Dynamic component={MdxComponent} />
           </article>
           <Show when={tableOfContents}>{(list) => <TableOfContents list={list} />}</Show>

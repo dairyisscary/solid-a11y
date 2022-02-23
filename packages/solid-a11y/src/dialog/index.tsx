@@ -73,7 +73,9 @@ function useFocusManagement({ containerGetter, close, initialFocusRef }: FocusOp
       }
     }
   }
+  let preDialogRef: HTMLElement | null | undefined;
   onMount(() => {
+    preDialogRef = document.activeElement as HTMLElement | null;
     focusIn(
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       containerGetter()!,
@@ -87,6 +89,7 @@ function useFocusManagement({ containerGetter, close, initialFocusRef }: FocusOp
     window.document.addEventListener("keydown", dialogKeydownHandler);
   });
   onCleanup(() => {
+    preDialogRef?.focus({ preventScroll: true });
     window.document.removeEventListener("keydown", dialogKeydownHandler);
   });
 }

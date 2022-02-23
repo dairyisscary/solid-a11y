@@ -86,6 +86,16 @@ describe("<Dialog />", () => {
     expect(onClose).toHaveBeenCalledTimes(3);
   });
 
+  it("should restore focus when it closes.", async () => {
+    const { rendered, user } = createDialog({}, false);
+    const buttonBehind = rendered.getByText("Toggle me!");
+    await toggleOpenDialog(rendered, user);
+    expect(document.activeElement).not.toBe(buttonBehind);
+
+    await defaultDismissDialog(rendered, user);
+    expect(document.activeElement).toBe(buttonBehind);
+  });
+
   it("should focus trap.", async () => {
     let firstButton: HTMLButtonElement | undefined;
     let secondButton: HTMLButtonElement | undefined;

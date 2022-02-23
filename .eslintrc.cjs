@@ -25,6 +25,13 @@ module.exports = {
         "@typescript-eslint/no-var-requires": "off",
       },
     },
+    // Example files
+    {
+      files: ["**/*.example.{ts,tsx}"],
+      rules: {
+        "@typescript-eslint/no-non-null-assertion": "off",
+      },
+    },
     // Test files
     {
       files: ["**/*.test.{ts,tsx}"],

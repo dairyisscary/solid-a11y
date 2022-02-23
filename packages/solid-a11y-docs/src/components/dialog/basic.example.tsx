@@ -23,7 +23,6 @@ export default function Example() {
 
               {/* Content */}
               <div class="w-full max-w-md transform rounded-2xl bg-slate-800 p-6 text-sm shadow-xl">
-                {/* Be sure so include a <DialogTitle /> to ARIA label the dialog. */}
                 <DialogTitle class="text-lg font-medium leading-6 text-white">
                   Payment successful
                 </DialogTitle>

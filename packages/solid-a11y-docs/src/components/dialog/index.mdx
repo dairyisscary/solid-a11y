@@ -3,12 +3,37 @@ import { CodeSampleShowcase, RunningShowcase } from "@docs/showcase";
 
 import DialogBasicExample from "./basic.example";
 import ProcessedBasicExample from "./basic.example?prism";
+import ProcessedWithConfirmation from "./focus-confirmation.example?prism";
+import ProcessedWithCustomLabelExample from "./with-custom-label.example?prism";
 
 # {COMPONENTS.dialog.title}
 
-A fully-managed, renderless dialog component jam-packed with accessibility and keyboard features,
-perfect for building completely custom modal and dialog windows for your next application.
+A dialog (or "modal") component with keyboard support, focus management, scroll locking, and more.
 
 <RunningShowcase source={ProcessedBasicExample} class={COMPONENTS.dialog.color}>
   <DialogBasicExample />
 </RunningShowcase>
+
+## Some Notes on Labeling
+
+Like many other accessibility concerns, its considered good practice to add ARIA aware labels to
+your dialog so that users understand what it is for. This commponent has built in support for the
+`<Label />` (title of the modal) and `<Description />` (additional context and information)
+components. Instead of `<Label />`, one may use the `<DialogTitle />` which uses a better default
+tag of `h1` but is otherwise identical to `<Label />`.
+
+<CodeSampleShowcase source={ProcessedWithCustomLabelExample} />
+
+## Focus Management
+
+It is a good idea to ensure that dialogs have at least one focusable element contained within them
+(for instance, at the very least a button to dismiss the dialog). By default, `<Dialog />` will
+focus the first item within the dialog and also "trap" focus within the dialog meaning that
+`Tab`/`Shift+Tab` will round robin within the dialog's focusable elements.
+
+It may also be desirable to override this default behavior with an element that makes more sense. Be
+sure to make this element the more conservative or less destructive action so that accidental
+keypresses do not disturb the user. For instance, in a confirmation modal, it makes sense to focus
+the "cancelling" button rather than the "affirmative" button.
+
+<CodeSampleShowcase source={ProcessedWithConfirmation} />

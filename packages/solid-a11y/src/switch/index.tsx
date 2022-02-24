@@ -2,7 +2,7 @@ import { splitProps } from "solid-js";
 import type { JSX } from "solid-js/jsx-runtime";
 import { Dynamic } from "solid-js/web";
 
-import { useLabeledBy } from "../group";
+import { useDescribedBy, useLabeledBy } from "../group";
 import { type A11yDynamicProps, type DynamicComponent, callThrough, joinSeperated } from "../html";
 import { SPACE_KEY, TAB_KEY } from "../keyboard";
 
@@ -10,6 +10,7 @@ type SwitchProps<C extends DynamicComponent> = A11yDynamicProps<
   C,
   {
     "aria-labelledby"?: string;
+    "aria-describedby"?: string;
     checked?: boolean;
     onChange: (newValue: boolean) => void;
     onClick?: JSX.EventHandlerUnion<C, MouseEvent>;
@@ -31,6 +32,7 @@ export function Switch<C extends DynamicComponent = typeof DEFAULT_SWITCH_COMPON
   ]);
   const toggle = () => local.onChange(!local.checked);
   const labeledBy = useLabeledBy();
+  const describedBy = useDescribedBy();
   return (
     <Dynamic
       component={DEFAULT_SWITCH_COMPONENT}
@@ -43,6 +45,7 @@ export function Switch<C extends DynamicComponent = typeof DEFAULT_SWITCH_COMPON
       role="switch"
       tabindex={0}
       aria-labelledby={joinSeperated(props["aria-labelledby"], labeledBy())}
+      aria-describedby={joinSeperated(props["aria-describedby"], describedBy())}
       aria-checked={Boolean(local.checked)}
       onClick={(evt: MouseEvent) => {
         toggle();

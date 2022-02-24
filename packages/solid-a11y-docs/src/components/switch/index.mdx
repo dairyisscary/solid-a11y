@@ -3,17 +3,29 @@ import { CodeSampleShowcase, RunningShowcase } from "@docs/showcase";
 
 import SwitchBasicExample from "./basic.example";
 import ProcessedBasicExample from "./basic.example?prism";
+import ProcessedWithDirectLabelExample from "./with-direct-label.example?prism";
 import ProcessedWithCustomLabelExample from "./with-custom-label.example?prism";
 
 # {COMPONENTS.switch.title}
 
-Switches are a pleasant interface for toggling a value between two states, and offer the same
-semantics and keyboard navigation as native checkbox elements.
+Switches are an interface for toggling a value between two states and offer the same semantics and
+keyboard navigation as native checkbox elements.
 
 <RunningShowcase source={ProcessedBasicExample} class={COMPONENTS.switch.color}>
   <SwitchBasicExample />
 </RunningShowcase>
 
-## Using a Custom Label
+## Proper Labeling
+
+One should label their switch with screen-reader friendly text. The easiest way is to add visually
+hidden, but not `display: none`, text as a direct child of the switch (for example, a [utility class
+like `.sr-only` from Tailwind CSS][tailwind_sr_only]).
+
+<CodeSampleShowcase source={ProcessedWithDirectLabelExample} />
+
+One can use all the `<Label* />` and/or `<Description* />` components to also provideadditional ARIA
+support to the switch, while keeping the text visible and elsewhere in the DOM.
 
 <CodeSampleShowcase source={ProcessedWithCustomLabelExample} />
+
+[tailwind_sr_only]: https://tailwindcss.com/docs/screen-readers

@@ -1,3 +1,5 @@
-export function classnames(...args: (false | string | null | undefined)[]): string {
-  return args.filter(Boolean).join(" ");
+export function joinSpaceSeparated(
+  ...values: (undefined | false | null | string)[]
+): string | undefined {
+  return values.filter(Boolean).join(" ") || undefined;
 }

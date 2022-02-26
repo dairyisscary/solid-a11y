@@ -13,7 +13,7 @@ import { Dynamic } from "solid-js/web";
 
 import { ORDERED_COMPONENTS } from "@docs/components";
 import { Main, StickySidebar } from "@docs/layout";
-import { classnames } from "@docs/utils/html";
+import { joinSpaceSeparated } from "@docs/utils/html";
 
 type ShowcaseActionButtonProps = {
   children: JSX.Element;
@@ -132,7 +132,7 @@ export function RunningShowcase(props: ExampleProps) {
         <CodeSample code={props.source.highlighted} />
       ) : (
         <div
-          class={classnames(
+          class={joinSpaceSeparated(
             "flex h-full min-h-[180px] items-center justify-center rounded-xl bg-gradient-to-r",
             props.class,
           )}
@@ -190,7 +190,7 @@ export function ComponentShowcaseNavigation() {
                     href={`/components/${key}`}
                   >
                     <span
-                      class={classnames(
+                      class={joinSpaceSeparated(
                         color,
                         "mr-4 inline-block h-6 w-6 flex-shrink-0 rounded bg-gradient-to-r",
                       )}

@@ -15,7 +15,7 @@ import {
   type DynamicComponent,
   callThrough,
   focusIn,
-  joinSeperated,
+  joinSpaceSeparated,
 } from "../html";
 import { ESCAPE_KEY, TAB_KEY } from "../keyboard";
 
@@ -118,8 +118,8 @@ function DialogRoot<C extends DynamicComponent>(props: Omit<DialogProps<C>, "mou
       ref={containerRef}
       role="dialog"
       aria-modal="true"
-      aria-labelledby={joinSeperated(local["aria-labelledby"], labeledBy())}
-      aria-describedby={joinSeperated(local["aria-describedby"], describedBy())}
+      aria-labelledby={joinSpaceSeparated(local["aria-labelledby"], labeledBy())}
+      aria-describedby={joinSpaceSeparated(local["aria-describedby"], describedBy())}
     />
   );
 }

@@ -9,7 +9,7 @@ import {
 import type { JSX } from "solid-js/jsx-runtime";
 import { Dynamic } from "solid-js/web";
 
-import { type A11yDynamicProps, type DynamicComponent, joinSeperated } from "./html";
+import { type A11yDynamicProps, type DynamicComponent, joinSpaceSeparated } from "./html";
 
 type GroupContext = [() => undefined | string, (id: string) => () => void];
 type GroupProps<C extends DynamicComponent> = A11yDynamicProps<C, Record<never, never>, "id">;
@@ -32,7 +32,7 @@ function makeGroupContext(name: string) {
     },
     provider: function GroupProvider(props: { children: JSX.Element }) {
       const [ids, setIds] = createSignal<Set<string>>(new Set());
-      const joinedIds = createMemo(() => joinSeperated(...ids()));
+      const joinedIds = createMemo(() => joinSpaceSeparated(...ids()));
       const register = function registerLabelId(id: string) {
         setIds((ids) => {
           const newIds = new Set(ids);

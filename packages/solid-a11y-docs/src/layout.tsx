@@ -4,7 +4,7 @@ import type { JSX } from "solid-js/jsx-runtime";
 
 import { GitHubIcon } from "@docs/assets/github-icon";
 import { SVGIconLink } from "@docs/assets/svg-icon";
-import { classnames } from "@docs/utils/html";
+import { joinSpaceSeparated } from "@docs/utils/html";
 
 const MAIN_CONTENT_ID = createUniqueId();
 
@@ -13,7 +13,7 @@ function Container(props: JSX.IntrinsicElements["div"]) {
   return (
     <div
       {...rest}
-      class={classnames("max-w-8xl mx-auto w-full px-4 sm:px-6 lg:px-8", local.class)}
+      class={joinSpaceSeparated("max-w-8xl mx-auto w-full px-4 sm:px-6 lg:px-8", local.class)}
     />
   );
 }
@@ -23,7 +23,7 @@ export function StickySidebar(props: ComponentProps<"div">) {
   return (
     <div
       {...rest}
-      class={classnames(
+      class={joinSpaceSeparated(
         "sticky top-[81px] max-h-screen flex-shrink-0 overflow-y-auto pb-20",
         local.class,
       )}
@@ -36,7 +36,7 @@ export function BodyContainer(props: ComponentProps<typeof Container>) {
   return (
     <Container
       {...rest}
-      class={classnames(
+      class={joinSpaceSeparated(
         "flex items-start space-x-4 py-4 sm:space-x-6 sm:py-6 lg:space-x-8",
         local.class,
       )}
@@ -51,7 +51,7 @@ export function Header() {
     <header class="firefox:bg-opacity-90 sticky inset-x-0 top-0 z-20 border-b border-gray-800 bg-gray-900 bg-opacity-50 py-4 backdrop-blur backdrop-filter">
       <a
         href={`#${MAIN_CONTENT_ID}`}
-        className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-full p-1 opacity-0 transition focus:translate-y-0 focus:opacity-100 focus:ease-in"
+        class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-full p-1 opacity-0 transition focus:translate-y-0 focus:opacity-100 focus:ease-in"
       >
         Jump to Content
       </a>

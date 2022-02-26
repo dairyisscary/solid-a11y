@@ -3,7 +3,7 @@ import { For } from "solid-js";
 
 import { ORDERED_COMPONENTS } from "@docs/components";
 import { Main } from "@docs/layout";
-import { classnames } from "@docs/utils/html";
+import { joinSpaceSeparated } from "@docs/utils/html";
 
 export default function Home() {
   return (
@@ -13,7 +13,7 @@ export default function Home() {
           {({ key, title, color }) => (
             <li>
               <Link
-                class={classnames(
+                class={joinSpaceSeparated(
                   color,
                   "block flex h-36 w-64 items-center justify-center rounded-xl bg-gradient-to-r text-white",
                 )}

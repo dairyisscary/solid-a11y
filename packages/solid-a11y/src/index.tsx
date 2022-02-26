@@ -7,4 +7,5 @@ export {
   useDescribedBy,
   useLabeledBy,
 } from "./group";
+export * from "./radio-group";
 export * from "./switch";

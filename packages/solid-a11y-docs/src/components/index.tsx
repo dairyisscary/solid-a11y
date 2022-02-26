@@ -4,6 +4,11 @@ export const COMPONENTS = Object.freeze({
     getModule: () => import("@docs/components/dialog/index.mdx"),
     title: "Dialog (Modal)",
   },
+  "radio-group": {
+    color: "from-green-400 to-cyan-500",
+    getModule: () => import("@docs/components/radio-group/index.mdx"),
+    title: "Radio Group",
+  },
   switch: {
     color: "from-orange-400 to-pink-600",
     getModule: () => import("@docs/components/switch/index.mdx"),

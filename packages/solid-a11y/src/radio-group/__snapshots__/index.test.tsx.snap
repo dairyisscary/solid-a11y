@@ -1,0 +1,432 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<RadioGroup /> should allow focus to with tab and selection with space key.: 00 Red active but not selected 1`] = `
+Array [
+  Object {
+    "checked": false,
+    "classList": Array [
+      "active",
+    ],
+    "description": "Active: true - Checked: false",
+    "disabled": false,
+    "label": "Label for: red",
+  },
+  Object {
+    "checked": false,
+    "classList": Array [],
+    "description": "Active: false - Checked: false",
+    "disabled": false,
+    "label": "Label for: blue",
+  },
+  Object {
+    "checked": false,
+    "classList": Array [],
+    "description": "Active: false - Checked: false",
+    "disabled": false,
+    "label": "Label for: green",
+  },
+]
+`;
+
+exports[`<RadioGroup /> should allow focus to with tab and selection with space key.: 01 Red active and selected 1`] = `
+Array [
+  Object {
+    "checked": true,
+    "classList": Array [
+      "active",
+      "checked",
+    ],
+    "description": "Active: true - Checked: true",
+    "disabled": false,
+    "label": "Label for: red",
+  },
+  Object {
+    "checked": false,
+    "classList": Array [],
+    "description": "Active: false - Checked: false",
+    "disabled": false,
+    "label": "Label for: blue",
+  },
+  Object {
+    "checked": false,
+    "classList": Array [],
+    "description": "Active: false - Checked: false",
+    "disabled": false,
+    "label": "Label for: green",
+  },
+]
+`;
+
+exports[`<RadioGroup /> should allow focus to with tab and selection with space key.: 02 Red still selected, but not active 1`] = `
+Array [
+  Object {
+    "checked": true,
+    "classList": Array [
+      "checked",
+    ],
+    "description": "Active: false - Checked: true",
+    "disabled": false,
+    "label": "Label for: red",
+  },
+  Object {
+    "checked": false,
+    "classList": Array [],
+    "description": "Active: false - Checked: false",
+    "disabled": false,
+    "label": "Label for: blue",
+  },
+  Object {
+    "checked": false,
+    "classList": Array [],
+    "description": "Active: false - Checked: false",
+    "disabled": false,
+    "label": "Label for: green",
+  },
+]
+`;
+
+exports[`<RadioGroup /> should allow focus to with tab and selection with space key.: 03 Red active and selected again 1`] = `
+Array [
+  Object {
+    "checked": true,
+    "classList": Array [
+      "active",
+      "checked",
+    ],
+    "description": "Active: true - Checked: true",
+    "disabled": false,
+    "label": "Label for: red",
+  },
+  Object {
+    "checked": false,
+    "classList": Array [],
+    "description": "Active: false - Checked: false",
+    "disabled": false,
+    "label": "Label for: blue",
+  },
+  Object {
+    "checked": false,
+    "classList": Array [],
+    "description": "Active: false - Checked: false",
+    "disabled": false,
+    "label": "Label for: green",
+  },
+]
+`;
+
+exports[`<RadioGroup /> should allow focus to with tab and selection with space key.: 04 Blue active but not selected, red disabled 1`] = `
+Array [
+  Object {
+    "checked": false,
+    "classList": Array [],
+    "description": "Active: false - Checked: false",
+    "disabled": true,
+    "label": "Label for: red",
+  },
+  Object {
+    "checked": false,
+    "classList": Array [
+      "active",
+    ],
+    "description": "Active: true - Checked: false",
+    "disabled": false,
+    "label": "Label for: blue",
+  },
+  Object {
+    "checked": false,
+    "classList": Array [],
+    "description": "Active: false - Checked: false",
+    "disabled": false,
+    "label": "Label for: green",
+  },
+]
+`;
+
+exports[`<RadioGroup /> should allow options to change.: 00 Red selected with extra options 1`] = `
+Array [
+  Object {
+    "checked": true,
+    "classList": Array [
+      "checked",
+    ],
+    "description": "Active: false - Checked: true",
+    "disabled": false,
+    "label": "Label for: red",
+  },
+  Object {
+    "checked": false,
+    "classList": Array [],
+    "description": "Active: false - Checked: false",
+    "disabled": false,
+    "label": "Label for: blue",
+  },
+  Object {
+    "checked": false,
+    "classList": Array [],
+    "description": "Active: false - Checked: false",
+    "disabled": false,
+    "label": "Label for: cyan",
+  },
+  Object {
+    "checked": false,
+    "classList": Array [],
+    "description": "Active: false - Checked: false",
+    "disabled": false,
+    "label": "Label for: yellow",
+  },
+]
+`;
+
+exports[`<RadioGroup /> should allow options to change.: 01 Red selected but not in options anymore 1`] = `
+Array [
+  Object {
+    "checked": false,
+    "classList": Array [],
+    "description": "Active: false - Checked: false",
+    "disabled": false,
+    "label": "Label for: blue",
+  },
+  Object {
+    "checked": false,
+    "classList": Array [],
+    "description": "Active: false - Checked: false",
+    "disabled": false,
+    "label": "Label for: cyan",
+  },
+  Object {
+    "checked": false,
+    "classList": Array [],
+    "description": "Active: false - Checked: false",
+    "disabled": false,
+    "label": "Label for: yellow",
+  },
+]
+`;
+
+exports[`<RadioGroup /> should allow options to change.: 02 Cyan selected in smaller list 1`] = `
+Array [
+  Object {
+    "checked": false,
+    "classList": Array [],
+    "description": "Active: false - Checked: false",
+    "disabled": false,
+    "label": "Label for: blue",
+  },
+  Object {
+    "checked": true,
+    "classList": Array [
+      "checked",
+    ],
+    "description": "Active: false - Checked: true",
+    "disabled": false,
+    "label": "Label for: cyan",
+  },
+  Object {
+    "checked": false,
+    "classList": Array [],
+    "description": "Active: false - Checked: false",
+    "disabled": false,
+    "label": "Label for: yellow",
+  },
+]
+`;
+
+exports[`<RadioGroup /> should allow the arrow keys to select items.: 00 Blue active and selected 1`] = `
+Array [
+  Object {
+    "checked": false,
+    "classList": Array [],
+    "description": "Active: false - Checked: false",
+    "disabled": false,
+    "label": "Label for: red",
+  },
+  Object {
+    "checked": true,
+    "classList": Array [
+      "active",
+      "checked",
+    ],
+    "description": "Active: true - Checked: true",
+    "disabled": false,
+    "label": "Label for: blue",
+  },
+  Object {
+    "checked": false,
+    "classList": Array [],
+    "description": "Active: false - Checked: false",
+    "disabled": true,
+    "label": "Label for: green",
+  },
+]
+`;
+
+exports[`<RadioGroup /> should allow the arrow keys to select items.: 01 Red active and selected 1`] = `
+Array [
+  Object {
+    "checked": true,
+    "classList": Array [
+      "active",
+      "checked",
+    ],
+    "description": "Active: true - Checked: true",
+    "disabled": false,
+    "label": "Label for: red",
+  },
+  Object {
+    "checked": false,
+    "classList": Array [],
+    "description": "Active: false - Checked: false",
+    "disabled": false,
+    "label": "Label for: blue",
+  },
+  Object {
+    "checked": false,
+    "classList": Array [],
+    "description": "Active: false - Checked: false",
+    "disabled": true,
+    "label": "Label for: green",
+  },
+]
+`;
+
+exports[`<RadioGroup /> should allow the arrow keys to select items.: 02 Blue active and selected again 1`] = `
+Array [
+  Object {
+    "checked": false,
+    "classList": Array [],
+    "description": "Active: false - Checked: false",
+    "disabled": false,
+    "label": "Label for: red",
+  },
+  Object {
+    "checked": true,
+    "classList": Array [
+      "active",
+      "checked",
+    ],
+    "description": "Active: true - Checked: true",
+    "disabled": false,
+    "label": "Label for: blue",
+  },
+  Object {
+    "checked": false,
+    "classList": Array [],
+    "description": "Active: false - Checked: false",
+    "disabled": true,
+    "label": "Label for: green",
+  },
+]
+`;
+
+exports[`<RadioGroup /> should render a list of clickable options.: 00 Nothing active, selected, nor disabled 1`] = `
+Array [
+  Object {
+    "checked": false,
+    "classList": Array [],
+    "description": "Active: false - Checked: false",
+    "disabled": false,
+    "label": "Label for: red",
+  },
+  Object {
+    "checked": false,
+    "classList": Array [],
+    "description": "Active: false - Checked: false",
+    "disabled": false,
+    "label": "Label for: blue",
+  },
+  Object {
+    "checked": false,
+    "classList": Array [],
+    "description": "Active: false - Checked: false",
+    "disabled": false,
+    "label": "Label for: green",
+  },
+]
+`;
+
+exports[`<RadioGroup /> should render a list of clickable options.: 01 Red active and selected 1`] = `
+Array [
+  Object {
+    "checked": true,
+    "classList": Array [
+      "active",
+      "checked",
+    ],
+    "description": "Active: true - Checked: true",
+    "disabled": false,
+    "label": "Label for: red",
+  },
+  Object {
+    "checked": false,
+    "classList": Array [],
+    "description": "Active: false - Checked: false",
+    "disabled": false,
+    "label": "Label for: blue",
+  },
+  Object {
+    "checked": false,
+    "classList": Array [],
+    "description": "Active: false - Checked: false",
+    "disabled": false,
+    "label": "Label for: green",
+  },
+]
+`;
+
+exports[`<RadioGroup /> should render a list of clickable options.: 02 Blue now active and selected 1`] = `
+Array [
+  Object {
+    "checked": false,
+    "classList": Array [],
+    "description": "Active: false - Checked: false",
+    "disabled": false,
+    "label": "Label for: red",
+  },
+  Object {
+    "checked": true,
+    "classList": Array [
+      "active",
+      "checked",
+    ],
+    "description": "Active: true - Checked: true",
+    "disabled": false,
+    "label": "Label for: blue",
+  },
+  Object {
+    "checked": false,
+    "classList": Array [],
+    "description": "Active: false - Checked: false",
+    "disabled": false,
+    "label": "Label for: green",
+  },
+]
+`;
+
+exports[`<RadioGroup /> should render a list of clickable options.: 03 Blue _still_ active and selected 1`] = `
+Array [
+  Object {
+    "checked": false,
+    "classList": Array [],
+    "description": "Active: false - Checked: false",
+    "disabled": false,
+    "label": "Label for: red",
+  },
+  Object {
+    "checked": true,
+    "classList": Array [
+      "active",
+      "checked",
+    ],
+    "description": "Active: true - Checked: true",
+    "disabled": false,
+    "label": "Label for: blue",
+  },
+  Object {
+    "checked": false,
+    "classList": Array [],
+    "description": "Active: false - Checked: false",
+    "disabled": false,
+    "label": "Label for: green",
+  },
+]
+`;

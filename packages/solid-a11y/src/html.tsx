@@ -9,10 +9,15 @@ export type A11yDynamicProps<
 > = Omit<ComponentProps<Comp>, Omitted | keyof OtherProps> &
   OtherProps & {
     component?: Comp;
-    children?: ComponentProps<Comp> extends { children?: infer Child } ? Child : never;
+    children?: OtherProps extends { children?: infer OtherChild }
+      ? OtherChild
+      : ComponentProps<Comp> extends { children?: infer BaseChild }
+      ? BaseChild
+      : never;
   };
-type NextFocusAction = { type: "direction"; direction: "next" | "prev" };
-type FocusAction = { type: "element"; element: HTMLElement } | NextFocusAction;
+type FocusAction =
+  | { type: "element"; element: HTMLElement }
+  | { type: "direction"; direction: Parameters<typeof focusNextElement>[1] };
 
 const FOCUS_SELECTOR = [
   "[contentEditable=true]",
@@ -28,30 +33,8 @@ const FOCUS_SELECTOR = [
   .map((selector) => `${selector}:not([tabindex='-1'])`)
   .join(",");
 
-function getFocusableElements(container: HTMLElement) {
-  return Array.from(container.querySelectorAll<HTMLElement>(FOCUS_SELECTOR));
-}
-
-function findNextFocus(allFocusable: HTMLElement[], direction: NextFocusAction["direction"]) {
-  const active = document.activeElement as HTMLElement | null;
-  const activeIndex = allFocusable.indexOf(active!); // eslint-disable-line @typescript-eslint/no-non-null-assertion
-  const beforeElems = allFocusable.slice(0, Math.max(activeIndex, 0));
-  const afterElems = allFocusable.slice(activeIndex + 1);
-  const baseIter =
-    direction === "prev"
-      ? beforeElems.reverse().concat(afterElems.reverse())
-      : afterElems.concat(beforeElems);
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const iter = activeIndex > -1 ? baseIter.concat(active!) : baseIter;
-
-  for (const elem of iter) {
-    elem.focus();
-    if (document.activeElement === elem) {
-      return true;
-    }
-  }
-
-  return false;
+function getFocusableElements(container: HTMLElement, selector?: string) {
+  return Array.from(container.querySelectorAll<HTMLElement>(selector || FOCUS_SELECTOR));
 }
 
 export function joinSpaceSeparated(
@@ -72,11 +55,36 @@ export function callThrough<T, E extends Event>(
   }
 }
 
-export function focusIn(element: HTMLElement, action: FocusAction): boolean {
-  const allFocusable = getFocusableElements(element);
-  if (action.type === "element" && allFocusable.includes(action.element)) {
-    action.element.focus();
-    return true;
+export function focusNextElement(
+  orderedElementPool: HTMLElement[],
+  direction: "next" | "prev",
+): undefined | HTMLElement {
+  const active = document.activeElement as HTMLElement;
+  const activeIndex = orderedElementPool.indexOf(active);
+  const beforeElems = orderedElementPool.slice(0, Math.max(activeIndex, 0));
+  const afterElems = orderedElementPool.slice(activeIndex + 1);
+  const baseIter =
+    direction === "prev"
+      ? beforeElems.reverse().concat(afterElems.reverse())
+      : afterElems.concat(beforeElems);
+  const iter = activeIndex > -1 ? baseIter.concat(active) : baseIter;
+
+  for (const elem of iter) {
+    elem.focus();
+    if (document.activeElement === elem) {
+      return elem;
+    }
   }
-  return findNextFocus(allFocusable, action.type === "direction" ? action.direction : "next");
+}
+
+export function focusIn(element: HTMLElement, action: FocusAction): undefined | HTMLElement {
+  const allFocusable = getFocusableElements(element);
+  const pointedElement = action.type === "element" && action.element;
+  if (pointedElement && allFocusable.includes(pointedElement)) {
+    pointedElement.focus();
+    if (document.activeElement === pointedElement) {
+      return pointedElement;
+    }
+  }
+  return focusNextElement(allFocusable, action.type === "direction" ? action.direction : "next");
 }

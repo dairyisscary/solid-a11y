@@ -133,7 +133,7 @@ export function RunningShowcase(props: ExampleProps) {
       ) : (
         <div
           class={joinSpaceSeparated(
-            "flex h-full min-h-[180px] items-center justify-center rounded-xl bg-gradient-to-r",
+            "flex h-full min-h-[180px] items-center justify-center rounded-xl bg-gradient-to-r p-8",
             props.class,
           )}
         >

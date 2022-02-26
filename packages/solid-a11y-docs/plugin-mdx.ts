@@ -32,7 +32,11 @@ type HeadingNode = {
 type HastNode = Node & {
   children?: HastNode[];
 } & (MdxEsmNode | TextNode | MdxTextExpressionNode | HTMLElementNode);
+type ComponentTypesTuple =
+  | ["COMPONENTS", string, keyof typeof COMPONENTS, undefined]
+  | ["COMPONENTS", string, undefined, keyof typeof COMPONENTS];
 
+const COMPONENTS_TITLE_MATCH = /^COMPONENTS(\.([^.]+)|\["([^"]+)"\])\.title$/;
 const HEADING_ELEMS = ["h1", "h2", "h3", "h4", "h5"] as const;
 const HEADING_LOOKUP = new Set(HEADING_ELEMS as readonly string[]);
 
@@ -58,7 +62,7 @@ function* getHeadings(node: HastNode): Generator<HeadingNode> {
 }
 
 function isComponentsTitleNode(node: HastNode): node is MdxTextExpressionNode {
-  return node.type === "mdxTextExpression" && node.value.startsWith("COMPONENTS.");
+  return node.type === "mdxTextExpression" && COMPONENTS_TITLE_MATCH.test(node.value);
 }
 
 function getText(node: HastNode) {
@@ -66,12 +70,10 @@ function getText(node: HastNode) {
   if (isTextNode(node)) {
     text += node.value || "";
   } else if (isComponentsTitleNode(node)) {
-    const [, component, key] = node.value.split(".") as [
-      "COMPONENTS",
-      keyof typeof COMPONENTS,
-      "title",
-    ];
-    text += COMPONENTS[component][key];
+    const [, , keyProperty, keyStringLiteral] = node.value.match(
+      COMPONENTS_TITLE_MATCH,
+    ) as ComponentTypesTuple;
+    text += COMPONENTS[keyStringLiteral || keyProperty].title;
   }
   for (const child of node.children || []) {
     text += getText(child);

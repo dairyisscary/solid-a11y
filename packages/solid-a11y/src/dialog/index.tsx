@@ -6,6 +6,7 @@ import {
   splitProps,
   useContext,
 } from "solid-js";
+import type { JSX } from "solid-js/jsx-runtime";
 import { Dynamic, Portal } from "solid-js/web";
 
 import { DescriptionGroup, Label, LabelGroup, useDescribedBy, useLabeledBy } from "../group";
@@ -25,7 +26,7 @@ type FocusOptions = {
 };
 type DialogOverlayProps<C extends DynamicComponent> = A11yDynamicProps<
   C,
-  { onClick?: (evt: MouseEvent) => void },
+  { onClick?: JSX.EventHandlerUnion<C, MouseEvent> },
   "aria-hidden"
 >;
 type DialogProps<C extends DynamicComponent> = A11yDynamicProps<

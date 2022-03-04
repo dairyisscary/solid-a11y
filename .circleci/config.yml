@@ -96,8 +96,8 @@ jobs:
       - run:
           name: Lint
           command: pnpm exec eslint --ext .js,.cjs,.ts,.tsx --max-warnings 0 .
-          env:
-            USE_EXPENSIVE_LINT_RULES: true
+          environment:
+            USE_EXPENSIVE_LINT_RULES: yes
 
   provision_infrastructure:
     executor: terraform

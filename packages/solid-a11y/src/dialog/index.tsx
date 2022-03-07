@@ -19,8 +19,9 @@ import {
 } from "../html";
 import { ESCAPE_KEY, TAB_KEY } from "../keyboard";
 
+type InertHTMLElement = HTMLElement & { inert: boolean };
 type FocusOptions = {
-  containerGetter: () => HTMLElement | undefined;
+  containerGetter: () => HTMLElement;
   close: () => void;
   initialFocusRef?: HTMLElement | (() => HTMLElement);
 };
@@ -65,7 +66,7 @@ function useFocusManagement({ containerGetter, close, initialFocusRef }: FocusOp
       close();
     } else if (evt.key === TAB_KEY) {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const success = focusIn(containerGetter()!, {
+      const success = focusIn(containerGetter(), {
         type: "direction",
         direction: evt.shiftKey ? "prev" : "next",
       });
@@ -74,9 +75,8 @@ function useFocusManagement({ containerGetter, close, initialFocusRef }: FocusOp
       }
     }
   }
-  let preDialogRef: HTMLElement | null | undefined;
   onMount(() => {
-    preDialogRef = document.activeElement as HTMLElement | null;
+    const preDialogRef = document.activeElement as HTMLElement | null;
     focusIn(
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       containerGetter()!,
@@ -88,10 +88,54 @@ function useFocusManagement({ containerGetter, close, initialFocusRef }: FocusOp
         : { type: "direction", direction: "next" },
     );
     window.document.addEventListener("keydown", dialogKeydownHandler);
+
+    onCleanup(() => {
+      preDialogRef?.focus({ preventScroll: true });
+      window.document.removeEventListener("keydown", dialogKeydownHandler);
+    });
   });
-  onCleanup(() => {
-    preDialogRef?.focus({ preventScroll: true });
-    window.document.removeEventListener("keydown", dialogKeydownHandler);
+}
+
+function forEachHTMLChild(fn: (child: InertHTMLElement) => void) {
+  return document.querySelectorAll<Element | InertHTMLElement>("body > *").forEach((child) => {
+    if (child instanceof HTMLElement) {
+      fn(child);
+    }
+  });
+}
+
+function useInertOthers(containerGetter: () => HTMLElement) {
+  onMount(() => {
+    const originalAttributesLookup = new Map<
+      HTMLElement,
+      { ariaHidden: null | string; inert: boolean }
+    >();
+    const container = containerGetter();
+    forEachHTMLChild((child) => {
+      if (!child.contains(container)) {
+        originalAttributesLookup.set(child, {
+          ariaHidden: child.getAttribute("aria-hidden"),
+          inert: child.inert,
+        });
+        child.setAttribute("aria-hidden", "true");
+        child.inert = true;
+      }
+    });
+
+    onCleanup(() => {
+      forEachHTMLChild((child) => {
+        const originalAttributes = originalAttributesLookup.get(child);
+        if (!originalAttributes) {
+          return;
+        }
+        child.inert = originalAttributes.inert;
+        if (originalAttributes.ariaHidden === null) {
+          child.removeAttribute("aria-hidden");
+        } else {
+          child.setAttribute("aria-hidden", originalAttributes.ariaHidden);
+        }
+      });
+    });
   });
 }
 
@@ -105,12 +149,14 @@ function DialogRoot<C extends DynamicComponent>(props: Omit<DialogProps<C>, "mou
   const describedBy = useDescribedBy();
   const close = useContext(DIALOG_CONTEXT);
   let containerRef: undefined | HTMLElement;
+  const containerGetter = () => containerRef!;
   useScrollLock();
   useFocusManagement({
-    containerGetter: () => containerRef,
+    containerGetter,
     initialFocusRef: local.initialFocusRef,
     close,
   });
+  useInertOthers(containerGetter);
   return (
     <Dynamic
       component={DEFAULT_DIALOG_COMPONENT}

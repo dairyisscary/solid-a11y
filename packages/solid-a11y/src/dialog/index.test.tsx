@@ -70,6 +70,18 @@ describe("<Dialog />", () => {
     return user.click(rendered.getByTestId("overlay") as HTMLElement);
   }
 
+  function addDocumentBodyChild(attrs?: { ariaHidden?: string; inert?: boolean }) {
+    const child = document.createElement("div");
+    if (attrs?.ariaHidden) {
+      child.setAttribute("aria-hidden", attrs.ariaHidden);
+    }
+    if (attrs?.inert !== undefined) {
+      (child as unknown as { inert: boolean }).inert = attrs.inert;
+    }
+    document.body.appendChild(child);
+    return child as HTMLElement & { inert?: boolean };
+  }
+
   it("should have various built in close options.", async () => {
     const { onClose, rendered, user } = createDialog();
     expect(onClose).not.toHaveBeenCalled();
@@ -222,5 +234,33 @@ describe("<Dialog />", () => {
     expect(document.getElementById(dialogElm.getAttribute("aria-describedby")!)?.textContent).toBe(
       descriptionText,
     );
+  });
+
+  it("should inert other document children.", async () => {
+    const bothInertAndHidden = addDocumentBodyChild({ inert: true, ariaHidden: "true" });
+    const justHidden = addDocumentBodyChild({ ariaHidden: "true" });
+    const justInert = addDocumentBodyChild({ inert: true });
+    const plain = addDocumentBodyChild();
+    const { rendered, user } = createDialog(undefined, false);
+
+    await toggleOpenDialog(rendered, user);
+    expect(bothInertAndHidden.inert).toBe(true);
+    expect(justHidden.inert).toBe(true);
+    expect(justInert.inert).toBe(true);
+    expect(plain.inert).toBe(true);
+    expect(bothInertAndHidden.getAttribute("aria-hidden")).toBe("true");
+    expect(justHidden.getAttribute("aria-hidden")).toBe("true");
+    expect(justInert.getAttribute("aria-hidden")).toBe("true");
+    expect(plain.getAttribute("aria-hidden")).toBe("true");
+
+    await toggleOpenDialog(rendered, user);
+    expect(bothInertAndHidden.inert).toBe(true);
+    expect(justHidden.inert).toBeFalsy();
+    expect(justInert.inert).toBe(true);
+    expect(plain.inert).toBeFalsy();
+    expect(bothInertAndHidden.getAttribute("aria-hidden")).toBe("true");
+    expect(justHidden.getAttribute("aria-hidden")).toBe("true");
+    expect(justInert.getAttribute("aria-hidden")).toBeNull();
+    expect(plain.getAttribute("aria-hidden")).toBeNull();
   });
 });

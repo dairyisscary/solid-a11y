@@ -14,13 +14,15 @@ function DocsApp() {
     <Router>
       <Header />
       <Routes>
-        <Route path="/*" element={<BodyContainer />}>
+        <Route path="/*" element={<BodyContainer class="lg:space-x-8" />}>
           <Route path="/components" element={<ComponentShowcaseNavigation />}>
             {ORDERED_COMPONENTS.map(({ key, getModule }) => (
               <Route path={key} element={<ComponentShowcase lazyModule={getModule} />} />
             ))}
           </Route>
+        </Route>
 
+        <Route path="/*" element={<BodyContainer />}>
           <Route path="/" element={<Home />} />
         </Route>
 

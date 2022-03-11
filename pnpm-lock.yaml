@@ -65,6 +65,7 @@ importers:
       postcss: ^8.4.12
       prismjs: ^1.27.0
       remark-slug: ^7.0.1
+      remixicon: ^2.5.0
       solid-a11y: file:../solid-a11y
       solid-app-router: ^0.3.1
       solid-js: ^1.3.13
@@ -81,6 +82,7 @@ importers:
       postcss: 8.4.12
       prismjs: 1.27.0
       remark-slug: 7.0.1
+      remixicon: 2.5.0
       solid-a11y: link:../solid-a11y
       solid-app-router: 0.3.1_solid-js@1.3.13
       solid-js: 1.3.13
@@ -5388,6 +5390,10 @@ packages:
       mdast-util-to-string: 3.1.0
       unified: 10.1.1
       unist-util-visit: 4.1.0
+    dev: false
+
+  /remixicon/2.5.0:
+    resolution: {integrity: sha512-q54ra2QutYDZpuSnFjmeagmEiN9IMo56/zz5dDNitzKD23oFRw77cWo4TsrAdmdkPiEn8mxlrTqxnkujDbEGww==}
     dev: false
 
   /require-directory/2.1.1:

@@ -22,7 +22,7 @@ import { ESCAPE_KEY, TAB_KEY } from "../keyboard";
 type InertHTMLElement = HTMLElement & { inert: boolean };
 type FocusOptions = {
   containerGetter: () => HTMLElement;
-  close: () => void;
+  close: (value: false) => void;
   initialFocusRef?: HTMLElement | (() => HTMLElement);
 };
 type DialogOverlayProps<C extends DynamicComponent> = A11yDynamicProps<
@@ -37,7 +37,7 @@ type DialogProps<C extends DynamicComponent> = A11yDynamicProps<
     "aria-describedby"?: string;
     mount?: ComponentProps<typeof Portal>["mount"];
     initialFocusRef?: FocusOptions["initialFocusRef"];
-    onClose: () => void;
+    onClose: (value: false) => void;
   },
   "role" | "aria-modal"
 >;
@@ -63,7 +63,7 @@ function useScrollLock() {
 function useFocusManagement({ containerGetter, close, initialFocusRef }: FocusOptions) {
   function dialogKeydownHandler(evt: KeyboardEvent) {
     if (evt.key === ESCAPE_KEY) {
-      close();
+      close(false);
     } else if (evt.key === TAB_KEY) {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const success = focusIn(containerGetter(), {
@@ -139,7 +139,7 @@ function useInertOthers(containerGetter: () => HTMLElement) {
   });
 }
 
-function DialogRoot<C extends DynamicComponent>(props: Omit<DialogProps<C>, "mount">) {
+function DialogRoot<C extends DynamicComponent>(props: Omit<DialogProps<C>, "onClose" | "mount">) {
   const [local, rest] = splitProps(props, [
     "initialFocusRef",
     "aria-labelledby",
@@ -149,6 +149,7 @@ function DialogRoot<C extends DynamicComponent>(props: Omit<DialogProps<C>, "mou
   const describedBy = useDescribedBy();
   const close = useContext(DIALOG_CONTEXT);
   let containerRef: undefined | HTMLElement;
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const containerGetter = () => containerRef!;
   useScrollLock();
   useFocusManagement({
@@ -173,9 +174,9 @@ function DialogRoot<C extends DynamicComponent>(props: Omit<DialogProps<C>, "mou
 export function Dialog<C extends DynamicComponent = typeof DEFAULT_DIALOG_COMPONENT>(
   props: DialogProps<C>,
 ) {
-  const [local, rest] = splitProps(props, ["mount"]);
+  const [local, rest] = splitProps(props, ["onClose", "mount"]);
   return (
-    <DIALOG_CONTEXT.Provider value={props.onClose}>
+    <DIALOG_CONTEXT.Provider value={local.onClose}>
       <LabelGroup>
         <DescriptionGroup>
           <Portal mount={local.mount}>
@@ -196,7 +197,7 @@ export function DialogOverlay<C extends DynamicComponent = typeof DEFAULT_DIALOG
       component={DEFAULT_DIALOG_COMPONENT}
       {...props}
       onClick={(evt: MouseEvent) => {
-        close();
+        close(false);
         return callThrough(props.onClick, evt);
       }}
       aria-hidden="true"

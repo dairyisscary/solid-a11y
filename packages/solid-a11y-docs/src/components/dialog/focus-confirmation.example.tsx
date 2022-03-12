@@ -1,6 +1,6 @@
 import { Dialog, DialogOverlay, DialogTitle } from "solid-a11y";
 
-export default function ExampleWithLabels({ onClose }: { onClose: () => void }) {
+export default function ExampleWithLabels({ onClose }: { onClose: (value: false) => void }) {
   // highlight-next-line
   let cancelButtonRef: HTMLButtonElement | undefined;
   return (

@@ -16,7 +16,7 @@ export default function Example() {
 
       <Show when={open()}>
         {() => (
-          <Dialog class="fixed inset-0 z-30 overflow-y-auto" onClose={() => setOpen(false)}>
+          <Dialog class="fixed inset-0 z-30 overflow-y-auto" onClose={setOpen}>
             <div class="flex min-h-screen items-center justify-center py-5">
               {/* Put in an overlay to capture clicks outside the dialog. */}
               <DialogOverlay class="fixed inset-0 bg-zinc-900/40" />

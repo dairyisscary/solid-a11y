@@ -1,6 +1,6 @@
 import { Description, Dialog, DialogOverlay, DialogTitle } from "solid-a11y";
 
-export default function ExampleWithLabels({ onClose }: { onClose: () => void }) {
+export default function ExampleWithLabels({ onClose }: { onClose: (value: false) => void }) {
   return (
     <Dialog class="fixed inset-0 z-30 overflow-y-auto" onClose={onClose}>
       <div class="flex min-h-screen items-center justify-center py-5">

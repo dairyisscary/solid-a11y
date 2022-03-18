@@ -38,6 +38,22 @@ executors:
     working_directory: /home/circleci/solid-a11y/infra
 
 jobs:
+  build_npm_package:
+    executor: default_node
+    steps:
+      - checkout_a11y
+      - install_npm_deps
+      - run:
+          name: Build
+          command: |
+            pnpm clean --filter solid-a11y
+            pnpm build --filter solid-a11y
+      - persist_to_workspace:
+          root: "./"
+          paths:
+            - packages/solid-a11y/dist
+            - packages/solid-a11y/types
+
   build_static_documentation:
     executor: default_node
     steps:
@@ -117,6 +133,17 @@ jobs:
           paths:
             - infra/output
 
+  publish_npm_package:
+    executor: default_node
+    steps:
+      - checkout_a11y
+      - install_npm_deps
+      - attach_workspace:
+          at: /home/circleci/solid-a11y
+      - run:
+          name: Publish
+          command: pnpm publish --access public --filter solid-a11y --publish-branch production-npm
+
   test:
     executor: default_node
     steps:
@@ -135,20 +162,6 @@ jobs:
           name: Typecheck
           command: pnpm -r --no-bail --filter ./packages/ exec tsc
 
-  publish_npm_package:
-    executor: default_node
-    steps:
-      - checkout_a11y
-      - install_npm_deps
-      - run:
-          name: Build
-          command: |
-            pnpm clean --filter solid-a11y
-            pnpm build --filter solid-a11y
-      - run:
-          name: Publish
-          command: pnpm publish --access public --filter solid-a11y --publish-branch production-npm
-
   validate_infrastructure_configuration:
     executor: terraform
     steps:
@@ -164,7 +177,14 @@ workflows:
   version: 2
   "Check and Deploy":
     jobs:
-      - build_static_documentation
+      - build_npm_package:
+          filters:
+            branches:
+              ignore: production-docs
+      - build_static_documentation:
+          filters:
+            branches:
+              ignore: production-npm
       - deploy_documentation:
           filters:
             branches:
@@ -186,6 +206,7 @@ workflows:
             branches:
               only: production-npm
           requires:
+            - build_npm_package
             - format
             - lint
             - test

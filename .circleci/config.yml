@@ -135,6 +135,20 @@ jobs:
           name: Typecheck
           command: pnpm -r --no-bail --filter ./packages/ exec tsc
 
+  publish_npm_package:
+    executor: default_node
+    steps:
+      - checkout_a11y
+      - install_npm_deps
+      - run:
+          name: Build
+          command: |
+            pnpm clean --filter solid-a11y
+            pnpm build --filter solid-a11y
+      - run:
+          name: Publish
+          command: pnpm publish --access public --filter solid-a11y --publish-branch production-npm
+
   validate_infrastructure_configuration:
     executor: terraform
     steps:
@@ -154,7 +168,7 @@ workflows:
       - deploy_documentation:
           filters:
             branches:
-              only: production
+              only: production-docs
           requires:
             - provision_infrastructure
             - build_static_documentation
@@ -164,9 +178,18 @@ workflows:
       - provision_infrastructure:
           filters:
             branches:
-              only: production
+              only: production-docs
           requires:
             - validate_infrastructure_configuration
+      - publish_npm_package:
+          filters:
+            branches:
+              only: production-npm
+          requires:
+            - format
+            - lint
+            - test
+            - typecheck
       - test
       - typecheck
       - validate_infrastructure_configuration

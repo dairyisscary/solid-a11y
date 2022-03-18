@@ -1,8 +1,6 @@
 {
   "name": "solid-a11y-docs",
-  "version": "1.0.0",
-  "author": "Eric Kim-Butler",
-  "license": "MIT",
+  "private": true,
   "type": "module",
   "scripts": {
     "build": "vite build",

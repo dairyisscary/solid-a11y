@@ -2,3 +2,5 @@ node_modules/
 .pnpm-debug.log
 
 packages/solid-a11y-docs/dist/
+packages/solid-a11y/dist/
+packages/solid-a11y/types/

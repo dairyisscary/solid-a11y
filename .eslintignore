@@ -1,3 +1,5 @@
 node_modules/
 
 packages/solid-a11y-docs/dist/
+packages/solid-a11y/dist/
+packages/solid-a11y/types/

@@ -1,9 +1,25 @@
-resource "aws_s3_bucket" "docs_website_bucket" {
-  bucket = "solid-a11y"
+terraform {
+  required_version = "~> 1.1"
 
-  lifecycle {
-    prevent_destroy = true
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 4.2"
+    }
+
+    cloudflare = {
+      source  = "cloudflare/cloudflare"
+      version = "~> 3.10"
+    }
   }
+}
+
+locals {
+  root_domain = "solid-a11y.dev"
+}
+
+resource "aws_s3_bucket" "docs_website_bucket" {
+  bucket = "www.${local.root_domain}"
 }
 
 resource "aws_s3_bucket_policy" "docs_website_bucket_policy" {
@@ -59,4 +75,63 @@ resource "aws_s3_bucket_lifecycle_configuration" "docs_website_bucket_lifecycle"
 
 output "documentation_static_bucket_name" {
   value = aws_s3_bucket.docs_website_bucket.bucket
+}
+
+resource "cloudflare_zone" "root_zone" {
+  zone = local.root_domain
+}
+
+resource "cloudflare_record" "root" {
+  zone_id = cloudflare_zone.root_zone.id
+  type    = "CNAME"
+  name    = "@"
+  value   = "www.${local.root_domain}"
+  proxied = true
+}
+
+resource "cloudflare_record" "www" {
+  zone_id = cloudflare_zone.root_zone.id
+  type    = "CNAME"
+  name    = "www"
+  value   = aws_s3_bucket.docs_website_bucket.website_endpoint
+  proxied = true
+}
+
+resource "cloudflare_record" "spf" {
+  zone_id = cloudflare_zone.root_zone.id
+  type    = "TXT"
+  name    = "@"
+  value   = "v=spf1 -all"
+}
+
+resource "cloudflare_record" "dkim" {
+  zone_id = cloudflare_zone.root_zone.id
+  type    = "TXT"
+  name    = "*._domainkey"
+  value   = "v=DKIM1; p="
+}
+
+resource "cloudflare_record" "dmarc" {
+  zone_id = cloudflare_zone.root_zone.id
+  type    = "TXT"
+  name    = "_dmarc"
+  value   = "v=DMARC1; p=reject; sp=reject; adkim=s; aspf=s;"
+}
+
+resource "cloudflare_zone_settings_override" "root_zone" {
+  zone_id = cloudflare_zone.root_zone.id
+
+  settings {
+    always_use_https         = "on"
+    automatic_https_rewrites = "off"
+    brotli                   = "on"
+    browser_check            = "off"
+    http3                    = "on"
+    ipv6                     = "on"
+    min_tls_version          = "1.2"
+    security_level           = "essentially_off"
+    ssl                      = "flexible"
+    tls_1_3                  = "on"
+    websockets               = "off"
+  }
 }

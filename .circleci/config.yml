@@ -33,7 +33,7 @@ executors:
 
   terraform:
     docker:
-      - image: dairyisscary/terraform:1.1.6
+      - image: dairyisscary/terraform:1.1.7
     resource_class: small
     working_directory: /home/circleci/solid-a11y/infra
 

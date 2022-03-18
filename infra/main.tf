@@ -12,12 +12,19 @@ terraform {
       source  = "hashicorp/aws"
       version = "~> 4.2"
     }
+
+    cloudflare = {
+      source  = "cloudflare/cloudflare"
+      version = "~> 3.10"
+    }
   }
 }
 
 provider "aws" {
   region = "us-east-1"
 }
+
+provider "cloudflare" {}
 
 module "solid_a11y_docs" {
   source = "../packages/solid-a11y-docs/infra"

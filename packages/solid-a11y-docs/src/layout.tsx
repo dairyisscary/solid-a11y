@@ -39,7 +39,7 @@ export function BodyContainer(props: ComponentProps<typeof Container>) {
 
 export function Header() {
   return (
-    <header class="firefox:bg-opacity-90 sticky inset-x-0 top-0 z-20 border-b border-gray-800 bg-gray-900 bg-opacity-50 py-4 backdrop-blur backdrop-filter">
+    <header class="firefox:bg-opacity-90 sticky inset-x-0 top-0 z-10 border-b border-gray-800 bg-gray-900 bg-opacity-50 py-4 backdrop-blur backdrop-filter">
       <a
         href={`#${MAIN_CONTENT_ID}`}
         class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-full p-1 opacity-0 transition focus:translate-y-0 focus:opacity-100 focus:ease-in"

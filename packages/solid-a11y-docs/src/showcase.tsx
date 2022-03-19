@@ -86,7 +86,7 @@ function ShowcaseActions(props: ActionsProps) {
   };
   const codeIsShown = () => props.selectedAction === "code";
   return (
-    <div class="absolute right-0 top-0 z-10 flex items-stretch space-x-1 px-2 py-1">
+    <div class="absolute right-0 top-0 flex items-stretch space-x-1 px-2 py-1">
       <Show when={props.includePreview}>
         {() => (
           <>
@@ -237,7 +237,7 @@ function OverlayNav(props: OverlayNavProps) {
       <button
         type="button"
         class={joinSpaceSeparated(
-          "z-20 backdrop-blur backdrop-filter lg:hidden",
+          "z-10 backdrop-blur backdrop-filter lg:hidden",
           commonButtonClasses,
         )}
         onClick={[setOpen, { towards: true }]}
@@ -249,21 +249,28 @@ function OverlayNav(props: OverlayNavProps) {
         {() => (
           <Dialog onClose={() => setOpen({ towards: false })}>
             <DialogOverlay
-              class="firefox:bg-opacity-90 fixed inset-0 z-30 h-full w-full bg-gray-900 bg-opacity-50 backdrop-blur backdrop-filter transition-opacity duration-150"
+              class="firefox:bg-opacity-90 fixed inset-0 z-20 h-full w-full bg-gray-900 bg-opacity-50 backdrop-blur backdrop-filter transition-opacity duration-150"
               classList={{ "opacity-0": isTransitioning() }}
-            >
-              <button type="button" class={commonButtonClasses}>
-                <span class="sr-only">Close Site Navigation</span>
-                <NamedSVGIcon name="close" class="h-1/2 w-1/2" />
-              </button>
-            </DialogOverlay>
+            />
             <div
-              class="fixed inset-y-0 left-0 z-40 w-full max-w-[40ch] border-r border-white border-opacity-10 bg-slate-800 p-5 transition-transform duration-150"
+              class="fixed inset-y-0 left-0 z-20 w-11/12 max-w-[40ch] border-r border-white border-opacity-10 bg-slate-800 p-5 transition-transform duration-150"
               classList={{ "-translate-x-full": isTransitioning() }}
             >
               <DialogTitle class="sr-only">Site Navigation</DialogTitle>
               {props.children}
             </div>
+            <button
+              type="button"
+              onClick={[setOpen, { towards: false }]}
+              class={joinSpaceSeparated(
+                commonButtonClasses,
+                "z-20 transition-opacity duration-150",
+              )}
+              classList={{ "opacity-0": isTransitioning() }}
+            >
+              <span class="sr-only">Close Site Navigation</span>
+              <NamedSVGIcon name="close" class="h-1/2 w-1/2" />
+            </button>
           </Dialog>
         )}
       </Show>

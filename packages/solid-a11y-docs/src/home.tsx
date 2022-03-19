@@ -8,15 +8,15 @@ import { joinSpaceSeparated } from "@docs/utils/html";
 
 export default function Home() {
   return (
-    <Main class="flex min-w-0 items-start space-x-4 sm:space-x-6 lg:space-x-8">
-      <ul class="flex flex-wrap gap-4 lg:gap-8">
+    <Main class="w-full">
+      <ul class="flex w-full flex-wrap gap-4 md:gap-6">
         <For each={ORDERED_COMPONENTS}>
           {({ key, title, color, icon }) => (
-            <li>
+            <li class="w-full md:w-auto">
               <Link
                 class={joinSpaceSeparated(
                   color,
-                  "block flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r p-4 text-white no-underline",
+                  "block flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r py-5 px-4 text-white no-underline",
                 )}
                 href={`/components/${key}`}
               >

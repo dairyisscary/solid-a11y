@@ -20,8 +20,11 @@ import { ORDERED_COMPONENTS } from "@docs/components";
 import { Main, StickySidebar } from "@docs/layout";
 import { joinSpaceSeparated } from "@docs/utils/html";
 
+type NavigationListProps = {
+  onLinkClick?: () => void;
+};
 type OverlayNavProps = {
-  children: JSX.Element;
+  children: (handleClose: () => void) => JSX.Element;
 };
 type ShowcaseActionButtonProps = {
   children: JSX.Element;
@@ -189,7 +192,7 @@ function TableOfContents(props: TableOfContentsProps) {
   );
 }
 
-function ComponentShowcaseNavigationList() {
+function ComponentShowcaseNavigationList(props: NavigationListProps) {
   return (
     <nav aria-label="Main Navigation">
       <ul class="space-y-5">
@@ -200,6 +203,7 @@ function ComponentShowcaseNavigationList() {
                 activeClass="text-white"
                 class="flex items-center whitespace-nowrap font-medium no-underline"
                 href={`/components/${key}`}
+                onClick={props.onLinkClick}
               >
                 <span
                   class={joinSpaceSeparated(
@@ -223,6 +227,7 @@ function ComponentShowcaseNavigationList() {
 function OverlayNav(props: OverlayNavProps) {
   const [open, setOpen] = createSignal<boolean | { towards: boolean }>(false);
   const isTransitioning = createMemo(() => typeof open() === "object");
+  const handleClose = () => setOpen({ towards: false });
   const commonButtonClasses =
     "flex items-center justify-center fixed border bottom-4 right-4 w-16 h-16 rounded-full border-white border-opacity-20 bg-white bg-opacity-20 text-white focus:outline-none focus-visible:ring firefox:bg-opacity-90 firefox:bg-gray-800";
   createEffect(() => {
@@ -246,33 +251,28 @@ function OverlayNav(props: OverlayNavProps) {
         <NamedSVGIcon name="menu" class="h-1/2 w-1/2" />
       </button>
       <Show when={open()}>
-        {() => (
-          <Dialog onClose={() => setOpen({ towards: false })}>
-            <DialogOverlay
-              class="firefox:bg-opacity-90 fixed inset-0 z-20 h-full w-full bg-gray-900 bg-opacity-50 backdrop-blur backdrop-filter transition-opacity duration-150"
-              classList={{ "opacity-0": isTransitioning() }}
-            />
-            <div
-              class="fixed inset-y-0 left-0 z-20 w-11/12 max-w-[40ch] border-r border-white border-opacity-10 bg-slate-800 p-5 transition-transform duration-150"
-              classList={{ "-translate-x-full": isTransitioning() }}
-            >
-              <DialogTitle class="sr-only">Site Navigation</DialogTitle>
-              {props.children}
-            </div>
-            <button
-              type="button"
-              onClick={[setOpen, { towards: false }]}
-              class={joinSpaceSeparated(
-                commonButtonClasses,
-                "z-20 transition-opacity duration-150",
-              )}
-              classList={{ "opacity-0": isTransitioning() }}
-            >
-              <span class="sr-only">Close Site Navigation</span>
-              <NamedSVGIcon name="close" class="h-1/2 w-1/2" />
-            </button>
-          </Dialog>
-        )}
+        <Dialog onClose={handleClose}>
+          <DialogOverlay
+            class="firefox:bg-opacity-90 fixed inset-0 z-20 h-full w-full bg-gray-900 bg-opacity-50 backdrop-blur backdrop-filter transition-opacity duration-150"
+            classList={{ "opacity-0": isTransitioning() }}
+          />
+          <div
+            class="fixed inset-y-0 left-0 z-20 w-11/12 max-w-[40ch] border-r border-white border-opacity-10 bg-slate-800 p-5 transition-transform duration-150"
+            classList={{ "-translate-x-full": isTransitioning() }}
+          >
+            <DialogTitle class="sr-only">Site Navigation</DialogTitle>
+            {props.children(handleClose)}
+          </div>
+          <button
+            type="button"
+            onClick={handleClose}
+            class={joinSpaceSeparated(commonButtonClasses, "z-20 transition-opacity duration-150")}
+            classList={{ "opacity-0": isTransitioning() }}
+          >
+            <span class="sr-only">Close Site Navigation</span>
+            <NamedSVGIcon name="close" class="h-1/2 w-1/2" />
+          </button>
+        </Dialog>
       </Show>
     </>
   );
@@ -285,7 +285,7 @@ export function ComponentShowcaseNavigation() {
         <ComponentShowcaseNavigationList />
       </StickySidebar>
       <OverlayNav>
-        <ComponentShowcaseNavigationList />
+        {(handleClose) => <ComponentShowcaseNavigationList onLinkClick={handleClose} />}
       </OverlayNav>
       <Outlet />
     </>

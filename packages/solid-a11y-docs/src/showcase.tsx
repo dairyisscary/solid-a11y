@@ -20,6 +20,19 @@ import { ORDERED_COMPONENTS } from "@docs/components";
 import { Main, StickySidebar } from "@docs/layout";
 import { joinSpaceSeparated } from "@docs/utils/html";
 
+export type ComponentPropertyDescriptor = {
+  name: string;
+  optional: boolean;
+  description: string;
+  typeLiteral?: string;
+};
+type ComponentAPIExplorerProps = {
+  components: {
+    component: string;
+    summary?: string;
+    props: ComponentPropertyDescriptor[];
+  }[];
+};
 type NavigationListProps = {
   onLinkClick?: () => void;
 };
@@ -305,5 +318,60 @@ export function ComponentShowcase(props: ShowcaseProps) {
         </Main>
       )}
     </Show>
+  );
+}
+
+export function ComponentAPIExplorer(props: ComponentAPIExplorerProps) {
+  return (
+    <For each={props.components}>
+      {({ component, summary, props }) => (
+        <>
+          <h3>
+            <code>&lt;{component} /&gt;</code>
+          </h3>
+          <Show when={summary}>
+            <p>{summary}</p>
+          </Show>
+          <Show when={props.length}>
+            <table class="text-sm">
+              <caption class="sr-only">Properties of {component} component</caption>
+              <thead>
+                <tr>
+                  <th scope="col" class="w-3/12">
+                    Name
+                  </th>
+                  <th scope="col" class="w-1/12">
+                    Optional
+                  </th>
+                  <th scope="col" class="w-2/3">
+                    Description
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <For each={props}>
+                  {({ typeLiteral, name, optional, description }) => (
+                    <tr>
+                      <th scope="row">
+                        <code>{name}</code>
+                      </th>
+                      <td>
+                        <Show when={optional} fallback="No">
+                          Yes
+                        </Show>
+                      </td>
+                      <td>
+                        <code class="block">{typeLiteral}</code>
+                        <span class="my-1 block">{description}</span>
+                      </td>
+                    </tr>
+                  )}
+                </For>
+              </tbody>
+            </table>
+          </Show>
+        </>
+      )}
+    </For>
   );
 }

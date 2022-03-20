@@ -88,9 +88,9 @@ function highlightLines(content: string, ranges: Range[]) {
     .slice(0, -1);
 }
 
-export default function PrismPlugin(): Plugin {
+export default function solidA11yPrismjsPlugin(): Plugin {
   return {
-    name: "prismjs",
+    name: "solid-a11y:prismjs",
     config() {
       loadPrismLanguages("tsx");
       Prism.hooks.add("wrap", (env) => {

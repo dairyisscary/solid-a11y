@@ -1,11 +1,17 @@
 import { defineConfig } from "vite";
 import solidPlugin from "vite-plugin-solid";
 
-import mdxPlugin from "./plugin-mdx";
-import prismjsPlugin from "./plugin-prismjs";
+import componentDocsPlugin from "./vite-plugins/component-docs";
+import mdxPlugin from "./vite-plugins/mdx";
+import prismjsPlugin from "./vite-plugins/prismjs";
 
 export default defineConfig({
-  plugins: [prismjsPlugin(), mdxPlugin(), solidPlugin({ extensions: [".mdx"] })],
+  plugins: [
+    componentDocsPlugin(),
+    mdxPlugin(),
+    prismjsPlugin(),
+    solidPlugin({ extensions: [".mdx"] }),
+  ],
   resolve: {
     alias: [{ find: "@docs", replacement: "/src" }],
   },

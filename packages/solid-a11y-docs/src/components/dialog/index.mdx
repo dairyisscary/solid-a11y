@@ -1,5 +1,6 @@
+import DialogComponentDocumentation from "solid-a11y?component-docs=dialog/index.tsx:Dialog,DialogOverlay,DialogTitle";
 import { COMPONENTS } from "@docs/components";
-import { CodeSampleShowcase, RunningShowcase } from "@docs/showcase";
+import { CodeSampleShowcase, ComponentAPIExplorer, RunningShowcase } from "@docs/showcase";
 
 import DialogBasicExample from "./basic.example";
 import ProcessedBasicExample from "./basic.example?prism";
@@ -37,3 +38,5 @@ keypresses do not disturb the user. For instance, in a confirmation modal, it ma
 the "cancelling" button rather than the "affirmative" button.
 
 <CodeSampleShowcase source={ProcessedWithConfirmation} />
+
+<ComponentAPIExplorer components={DialogComponentDocumentation} />

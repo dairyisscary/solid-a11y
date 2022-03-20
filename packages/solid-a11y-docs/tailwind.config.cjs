@@ -1,7 +1,7 @@
 const plugin = require("tailwindcss/plugin");
 
 module.exports = {
-  content: ["./src/**/*.{html,ts,tsx,mdx}", "./index.html", "./plugin-prismjs.ts"],
+  content: ["./src/**/*.{html,ts,tsx,mdx}", "./index.html", "./vite-plugins/**/*.ts"],
   plugins: [
     require("@tailwindcss/typography"),
     plugin(function ({ addVariant, e, postcss }) {

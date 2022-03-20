@@ -23,11 +23,14 @@ type InertHTMLElement = HTMLElement & { inert: boolean };
 type FocusOptions = {
   containerGetter: () => HTMLElement;
   close: (value: false) => void;
-  initialFocusRef?: HTMLElement | (() => HTMLElement);
+  initialFocusRef?: DialogProps<"div">["initialFocusRef"];
 };
 type DialogOverlayProps<C extends DynamicComponent> = A11yDynamicProps<
   C,
-  { onClick?: JSX.EventHandlerUnion<C, MouseEvent> },
+  {
+    /** Click handler for the overlay element -- this always closes the modal */
+    onClick?: JSX.EventHandlerUnion<C, MouseEvent>;
+  },
   "aria-hidden"
 >;
 type DialogProps<C extends DynamicComponent> = A11yDynamicProps<
@@ -36,7 +39,9 @@ type DialogProps<C extends DynamicComponent> = A11yDynamicProps<
     "aria-labelledby"?: string;
     "aria-describedby"?: string;
     mount?: ComponentProps<typeof Portal>["mount"];
-    initialFocusRef?: FocusOptions["initialFocusRef"];
+    /** Ref (or ref getter) for the element that should be focused when the dialog initializes */
+    initialFocusRef?: HTMLElement | (() => HTMLElement);
+    /** Callback whenever a close action is taken by the user */
     onClose: (value: false) => void;
   },
   "role" | "aria-modal"
@@ -171,6 +176,7 @@ function DialogRoot<C extends DynamicComponent>(props: Omit<DialogProps<C>, "onC
   );
 }
 
+/** Main Dialog component */
 export function Dialog<C extends DynamicComponent = typeof DEFAULT_DIALOG_COMPONENT>(
   props: DialogProps<C>,
 ) {
@@ -188,6 +194,7 @@ export function Dialog<C extends DynamicComponent = typeof DEFAULT_DIALOG_COMPON
   );
 }
 
+/** For creating overlays on top of content -- closes modal onClick */
 export function DialogOverlay<C extends DynamicComponent = typeof DEFAULT_DIALOG_COMPONENT>(
   props: DialogOverlayProps<C>,
 ) {
@@ -205,6 +212,7 @@ export function DialogOverlay<C extends DynamicComponent = typeof DEFAULT_DIALOG
   );
 }
 
+/** For labeling a modal with its "title" or main idea -- just Label with a more sensible default tag */
 export function DialogTitle<C extends DynamicComponent = typeof DEFAULT_DIALOG_TITLE_COMPONENT>(
   props: A11yDynamicProps<C, Record<never, never>, "id">,
 ) {

@@ -1,5 +1,7 @@
+import RadioGroupComponentDocumentation from "solid-a11y?component-docs=radio-group/index.tsx:RadioGroup,RadioGroupOption";
+
 import { COMPONENTS } from "@docs/components";
-import { CodeSampleShowcase, RunningShowcase } from "@docs/showcase";
+import { CodeSampleShowcase, ComponentAPIExplorer, RunningShowcase } from "@docs/showcase";
 
 import RadioGroupBasicExample from "./basic.example";
 import ProcessedBasicExample from "./basic.example?prism";
@@ -32,3 +34,5 @@ For conditional classes, use the function API on `classList` with `checked` and 
 render props. For conditinal content/children, use the `checked` and `active` signal render props.
 
 <CodeSampleShowcase source={ProcessedWithRenderProps} />
+
+<ComponentAPIExplorer components={RadioGroupComponentDocumentation} />

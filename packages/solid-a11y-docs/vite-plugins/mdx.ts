@@ -5,11 +5,15 @@ import { SourceMapGenerator } from "source-map";
 import type { Node } from "unist";
 import type { Plugin } from "vite";
 
-import { COMPONENTS } from "./src/components";
+import { COMPONENTS } from "../src/components";
 
 type MdxEsmNode = {
   type: "mdxjsEsm";
   value: string;
+};
+type MdxJsxFlowElement = {
+  type: "mdxJsxFlowElement";
+  name: string;
 };
 type MdxTextExpressionNode = {
   type: "mdxTextExpression";
@@ -31,7 +35,7 @@ type HeadingNode = {
 };
 type HastNode = Node & {
   children?: HastNode[];
-} & (MdxEsmNode | TextNode | MdxTextExpressionNode | HTMLElementNode);
+} & (MdxJsxFlowElement | MdxEsmNode | TextNode | MdxTextExpressionNode | HTMLElementNode);
 type ComponentTypesTuple =
   | ["COMPONENTS", string, keyof typeof COMPONENTS, undefined]
   | ["COMPONENTS", string, undefined, keyof typeof COMPONENTS];
@@ -39,6 +43,8 @@ type ComponentTypesTuple =
 const COMPONENTS_TITLE_MATCH = /^COMPONENTS(\.([^.]+)|\["([^"]+)"\])\.title$/;
 const HEADING_ELEMS = ["h1", "h2", "h3", "h4", "h5"] as const;
 const HEADING_LOOKUP = new Set(HEADING_ELEMS as readonly string[]);
+const COMPONENT_API_ID = "component-api-documentation";
+const COMPONENT_API_HEADER = "Component API";
 
 function isHeadingNode(node: HastNode): node is HeadingNode {
   return (
@@ -81,6 +87,24 @@ function getText(node: HastNode) {
   return text;
 }
 
+function hasComponentAPIDocs(root: HastNode): boolean {
+  let index = 0;
+  for (const child of root.children || []) {
+    if (child.type === "mdxJsxFlowElement" && child.name === "ComponentAPIExplorer") {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      root.children!.splice(index, 0, {
+        type: "element",
+        tagName: "h2",
+        properties: { id: COMPONENT_API_ID },
+        children: [{ type: "text", value: COMPONENT_API_HEADER }],
+      });
+      return true;
+    }
+    index++;
+  }
+  return false;
+}
+
 function tableOfContents() {
   return function transformMdxTableOfContents(root: HastNode) {
     const data = [];
@@ -89,6 +113,9 @@ function tableOfContents() {
         id: heading.properties.id,
         text: getText(heading),
       });
+    }
+    if (hasComponentAPIDocs(root)) {
+      data.push({ id: COMPONENT_API_ID, text: COMPONENT_API_HEADER });
     }
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     root.children!.push({
@@ -125,7 +152,7 @@ function tableOfContents() {
   };
 }
 
-export default function (): Plugin {
+export default function solidA11yMdxPlugin(): Plugin {
   const processor = createProcessor({
     SourceMapGenerator,
     remarkPlugins: [remarkSlug],
@@ -135,7 +162,7 @@ export default function (): Plugin {
     providerImportSource: "solid-mdx",
   });
   return {
-    name: "solid-a11y-mdx",
+    name: "solid-a11y:mdx",
     enforce: "pre",
     async transform(value, path) {
       if (path.endsWith(".mdx")) {

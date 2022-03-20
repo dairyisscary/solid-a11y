@@ -16,7 +16,9 @@ type SwitchProps<C extends DynamicComponent> = A11yDynamicProps<
   {
     "aria-labelledby"?: string;
     "aria-describedby"?: string;
+    /** Controls if the switch is "on" */
     checked?: boolean;
+    /** Callback when user takes action to change the value of the switch */
     onChange: (newValue: boolean) => void;
     onClick?: JSX.EventHandlerUnion<C, MouseEvent>;
     onKeyUp?: JSX.EventHandlerUnion<C, KeyboardEvent>;
@@ -27,6 +29,7 @@ type SwitchProps<C extends DynamicComponent> = A11yDynamicProps<
 
 const DEFAULT_SWITCH_COMPONENT = "button";
 
+/** Two-state "switch" element */
 export function Switch<C extends DynamicComponent = typeof DEFAULT_SWITCH_COMPONENT>(
   props: SwitchProps<C>,
 ) {

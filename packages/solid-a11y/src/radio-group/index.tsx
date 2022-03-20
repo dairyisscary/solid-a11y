@@ -47,13 +47,18 @@ type OptionRenderProps = {
 type OptionProps<V, C extends DynamicComponent> = A11yDynamicProps<
   C,
   {
+    /** When truthy, this option is disabled and non-interactive */
     disabled?: boolean;
+    /** The option's value */
     value: V;
+    /** The zero-indexed of this item -- so RadioGroup knows what is the first item for focus-managment */
     index: number;
     onClick?: JSX.EventHandlerUnion<C, MouseEvent>;
     onFocus?: JSX.EventHandlerUnion<C, FocusEvent>;
     onBlur?: JSX.EventHandlerUnion<C, FocusEvent>;
+    /** Render prop for children -- passed checked and active signal getters */
     children: (renderProps: OptionRenderProps) => JSX.Element;
+    /** Render prop for conditional classes -- passed checked and active signal getters */
     classList?: (renderProps: OptionRenderProps) => JSX.IntrinsicElements["div"]["classList"];
     "aria-labelledby"?: string;
     "aria-describedby"?: string;
@@ -63,8 +68,11 @@ type OptionProps<V, C extends DynamicComponent> = A11yDynamicProps<
 type GroupProps<V, C extends DynamicComponent> = A11yDynamicProps<
   C,
   {
+    /** Callback for when user takes action to chage the value -- desired new value is passed */
     onChange: (newValue: V) => void;
+    /** The current controlled value of the group */
     value: V;
+    /** When truthy, the entire group is disabled and non-interactive */
     disabled?: boolean;
     onKeyDown?: JSX.EventHandlerUnion<C, KeyboardEvent>;
     "aria-labelledby"?: string;
@@ -150,6 +158,7 @@ function RadioGroupRoot<V, C extends DynamicComponent>(props: GroupProps<V, C>) 
   );
 }
 
+/** The group "container" and context holder */
 export function RadioGroup<V = string, C extends DynamicComponent = typeof DEFAULT_GROUP_COMPONENT>(
   props: GroupProps<V, C>,
 ) {
@@ -162,7 +171,7 @@ export function RadioGroup<V = string, C extends DynamicComponent = typeof DEFAU
   );
 }
 
-export function RadioGroupOptionRoot<V, C extends DynamicComponent>(props: OptionProps<V, C>) {
+function RadioGroupOptionRoot<V, C extends DynamicComponent>(props: OptionProps<V, C>) {
   const group = useContext(RADIO_GROUP_CONTEXT);
   if (!group) {
     throw new Error("Use of <RadioGroupOption /> outside of <RadioGroup />");
@@ -226,6 +235,7 @@ export function RadioGroupOptionRoot<V, C extends DynamicComponent>(props: Optio
   );
 }
 
+/** An option within the group */
 export function RadioGroupOption<
   V = string,
   C extends DynamicComponent = typeof DEFAULT_OPTION_COMPONENT,

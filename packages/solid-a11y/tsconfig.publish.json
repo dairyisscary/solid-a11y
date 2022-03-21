@@ -5,6 +5,7 @@
     "emitDeclarationOnly": true,
     "noEmit": false
   },
+  "exclude": ["./src/**/*.test.*"],
   "extends": "./tsconfig.json",
   "include": ["./src/**/*"]
 }

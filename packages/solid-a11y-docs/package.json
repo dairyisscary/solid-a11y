@@ -16,7 +16,7 @@
     "remark-slug": "^7.0.1",
     "remixicon": "^2.5.0",
     "solid-a11y": "file:../solid-a11y",
-    "solid-app-router": "^0.3.1",
+    "solid-app-router": "^0.3.2",
     "solid-js": "^1.3.13",
     "solid-mdx": "^0.0.6",
     "source-map": "^0.7.3",

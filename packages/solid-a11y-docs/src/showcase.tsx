@@ -191,9 +191,8 @@ function TableOfContents(props: TableOfContentsProps) {
           <For each={props.list}>
             {({ id, text }) => (
               <li>
-                {/* Use native a so we can conrol the base url before the hash */}
-                {/* Add the target to workaround a bug in hash links in solid-app-router */}
-                <a href={`#${id}`} class="no-underline" target="_self">
+                {/* Use native anchor so we can control the base url before the hash -- no trailing slash */}
+                <a href={`#${id}`} class="no-underline">
                   {text}
                 </a>
               </li>

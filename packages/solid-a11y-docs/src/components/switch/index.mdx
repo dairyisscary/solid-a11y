@@ -19,9 +19,8 @@ keyboard navigation as native checkbox elements.
 
 ## Proper Labeling
 
-One should label their switch with screen-reader friendly text. The easiest way is to add visually
-hidden, but not `display: none`, text as a direct child of the switch (for example, a [utility class
-like `.sr-only` from Tailwind CSS][tailwind_sr_only]).
+One should label their switch with screen reader friendly text. The easiest way is to add [visually
+hidden text][visually_hidden] as a direct child of the switch.
 
 <CodeSampleShowcase source={ProcessedWithDirectLabelExample} />
 
@@ -32,4 +31,4 @@ support to the switch, while keeping the text visible and elsewhere in the DOM.
 
 <ComponentAPIExplorer components={SwitchComponentDocumentation} />
 
-[tailwind_sr_only]: https://tailwindcss.com/docs/screen-readers
+[visually_hidden]: /labeling-and-descriptions#visually-hidden-elements

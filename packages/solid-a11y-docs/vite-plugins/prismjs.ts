@@ -1,9 +1,10 @@
-import { readFile } from "fs/promises";
 import Prism from "prismjs";
 import loadPrismLanguages from "prismjs/components/index.js";
 import type { Plugin } from "vite";
 
 type Range = [number, number];
+
+const EXAMPLE_RE = /\.example\.(xcss|tsx)\?.*prism.*$/;
 
 function getClassesFor(className: string): string[] {
   switch (className) {
@@ -91,26 +92,28 @@ function highlightLines(content: string, ranges: Range[]) {
 export default function solidA11yPrismjsPlugin(): Plugin {
   return {
     name: "solid-a11y:prismjs",
+    enforce: "pre",
     config() {
-      loadPrismLanguages("tsx");
+      Prism.manual = true;
       Prism.hooks.add("wrap", (env) => {
         env.classes = Array.from(new Set(env.classes.flatMap(getClassesFor)));
       });
+      loadPrismLanguages(["css", "tsx"]);
     },
-    async load(id) {
-      if (/(\?|&)prism(?:&|$)/.test(id)) {
-        const cleanFileName = id.replace(/#.*$/s, "").replace(/\?.*$/s, "");
-        const contents = await readFile(cleanFileName, "utf-8");
-
-        const { ranges, cleaned } = cleanContent(contents);
-        const syntaxHighlighted = Prism.highlight(cleaned, Prism.languages.tsx, "tsx");
-        const highlighted = highlightLines(syntaxHighlighted, ranges);
-
-        return `export default {
-  raw: ${JSON.stringify(cleaned)},
-  highlighted: ${JSON.stringify(highlighted)},
-};`;
+    transform(code, id) {
+      if (!EXAMPLE_RE.test(id)) {
+        return;
       }
+      const { ranges, cleaned } = cleanContent(code);
+      const [lang, langName] = id.includes(".xcss?")
+        ? [Prism.languages.css, "css"]
+        : [Prism.languages.tsx, "tsx"];
+      const syntaxHighlighted = Prism.highlight(cleaned, lang, langName);
+      const highlighted = highlightLines(syntaxHighlighted, ranges);
+      return `export default {
+raw: ${JSON.stringify(cleaned)},
+highlighted: ${JSON.stringify(highlighted)},
+};`;
     },
   };
 }

@@ -26,9 +26,7 @@ export default function Example() {
                 <DialogTitle class="text-lg font-medium leading-6 text-white">
                   Payment successful
                 </DialogTitle>
-                <p class="mt-2">
-                  You can read more on our <a href="#">payment policy</a>.
-                </p>
+                <p class="mt-2">You can read more on our payment policy.</p>
                 <button
                   type="button"
                   class="mt-4 inline-flex justify-center rounded-md border border-transparent bg-indigo-500 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-600 focus:bg-indigo-600"

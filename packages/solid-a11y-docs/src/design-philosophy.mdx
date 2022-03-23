@@ -1,0 +1,33 @@
+# Design Philosophy
+
+`solid-a11y` is meant to serve as a small and nimble foundation to a [SolidJS][solid_js] web app and
+design system. It aims to be fully accessible for keyboard and screen reader users by handling
+callbacks and `aria-*` DOM attributes automatically for the developer. It also attempts to encourage
+accessibility best practices with its API, documentation, and conveniences. If one chooses to use
+`solid-a11y`, it is because they believe the web should be available to everyone, even when their
+content is highly interactive and uses Solid.
+
+As opposed to other component libraries, `solid-a11y` comes with absolutely no styles or CSS.
+Because of this choice, it enables full control and responsibility of visuals to the developer and
+designer. It pairs perfectly with virtually any CSS framework because styling is done through plain
+`class`, `classList`, and `style` props. Example code in the documentation uses the popular
+[Tailwind CSS][tailwindcss], but this is a not necessitated choice.
+
+Additionally, `solid-a11y` has _zero_ NPM dependencies, if you don't count its peer dependency on
+Solid, and should be tree-shakeable so that one only pays in bundle bytes for the components they
+use.
+
+## Thanks and Appreciations
+
+Much of this library is inspired by the excellent [headless-ui][headless_ui], though some API
+changes to match Solid idioms are in place, and `solid-a11y` is not aiming to be a drop-in
+replacement.
+
+## License
+
+All code, including this documentation website, is licened under the permissive MIT. See `LICENSE`
+in the source code.
+
+[solid_js]: https://www.solidjs.com/
+[tailwindcss]: https://tailwindcss.com/
+[headless_ui]: https://headlessui.dev/

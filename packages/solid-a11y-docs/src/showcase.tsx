@@ -1,23 +1,6 @@
-import { Dialog, DialogOverlay, DialogTitle } from "solid-a11y";
-import { NavLink, Outlet } from "solid-app-router";
-import {
-  type Component,
-  type ComponentProps,
-  For,
-  Show,
-  createEffect,
-  createMemo,
-  createResource,
-  createSignal,
-  createUniqueId,
-  onCleanup,
-} from "solid-js";
+import { type ComponentProps, For, Show, createSignal } from "solid-js";
 import type { JSX } from "solid-js/jsx-runtime";
-import { Dynamic } from "solid-js/web";
 
-import { NamedSVGIcon } from "@docs/assets/svg-icon";
-import { ORDERED_COMPONENTS } from "@docs/components";
-import { Main, StickySidebar } from "@docs/layout";
 import { joinSpaceSeparated } from "@docs/utils/html";
 
 export type ComponentPropertyDescriptor = {
@@ -32,12 +15,6 @@ type ComponentAPIExplorerProps = {
     summary?: string;
     props: ComponentPropertyDescriptor[];
   }[];
-};
-type NavigationListProps = {
-  onLinkClick?: () => void;
-};
-type OverlayNavProps = {
-  children: (handleClose: () => void) => JSX.Element;
 };
 type ShowcaseActionButtonProps = {
   children: JSX.Element;
@@ -59,15 +36,6 @@ type ExampleProps = {
   children: JSX.Element;
   class?: string;
   source: CodeSampleProps["source"];
-};
-type TableOfContentsProps = {
-  list: { text: string; id: string }[];
-};
-type ShowcaseProps = {
-  lazyModule: () => Promise<{
-    default: Component;
-    __tableOfContents?: TableOfContentsProps["list"];
-  }>;
 };
 
 function ShowcaseActionButton(props: ShowcaseActionButtonProps) {
@@ -171,152 +139,6 @@ export function RunningShowcase(props: ExampleProps) {
         </div>
       )}
     </section>
-  );
-}
-
-async function getComponentDocs(source: ShowcaseProps["lazyModule"]) {
-  const { default: MdxComponent, __tableOfContents: tableOfContents } = await source();
-  return { MdxComponent, tableOfContents };
-}
-
-function TableOfContents(props: TableOfContentsProps) {
-  const id = createUniqueId();
-  return (
-    <StickySidebar class="hidden text-sm xl:block">
-      <p id={id} class="font-semibold uppercase tracking-wide text-white">
-        Table of Contents
-      </p>
-      <nav aria-labelledby={id}>
-        <ol class="mt-3 space-y-4">
-          <For each={props.list}>
-            {({ id, text }) => (
-              <li>
-                {/* Use native anchor so we can control the base url before the hash -- no trailing slash */}
-                <a href={`#${id}`} class="no-underline">
-                  {text}
-                </a>
-              </li>
-            )}
-          </For>
-        </ol>
-      </nav>
-    </StickySidebar>
-  );
-}
-
-function ComponentShowcaseNavigationList(props: NavigationListProps) {
-  return (
-    <nav aria-label="Main Navigation">
-      <ul class="space-y-5">
-        <For each={ORDERED_COMPONENTS}>
-          {({ key, title, color, icon }) => (
-            <li>
-              <NavLink
-                activeClass="text-white"
-                class="flex items-center whitespace-nowrap font-medium no-underline"
-                href={`/components/${key}`}
-                onClick={props.onLinkClick}
-              >
-                <span
-                  class={joinSpaceSeparated(
-                    color,
-                    "mr-4 inline-block flex h-6 w-6 flex-shrink-0 items-center justify-center rounded bg-gradient-to-r",
-                  )}
-                  aria-hidden="true"
-                >
-                  <NamedSVGIcon name={icon} class="h-4 w-4 text-white" />
-                </span>
-                {title}
-              </NavLink>
-            </li>
-          )}
-        </For>
-      </ul>
-    </nav>
-  );
-}
-
-function OverlayNav(props: OverlayNavProps) {
-  const [open, setOpen] = createSignal<boolean | { towards: boolean }>(false);
-  const isTransitioning = createMemo(() => typeof open() === "object");
-  const handleClose = () => setOpen({ towards: false });
-  const commonButtonClasses =
-    "flex items-center justify-center fixed border bottom-4 right-4 w-16 h-16 rounded-full border-white border-opacity-20 bg-white bg-opacity-20 text-white focus:outline-none focus-visible:ring firefox:bg-opacity-90 firefox:bg-gray-800";
-  createEffect(() => {
-    if (isTransitioning()) {
-      const { towards } = open() as { towards: boolean };
-      const timeoutId = setTimeout(() => setOpen(towards), towards ? 0 : 250);
-      onCleanup(() => clearTimeout(timeoutId));
-    }
-  });
-  return (
-    <>
-      <button
-        type="button"
-        class={joinSpaceSeparated(
-          "z-10 backdrop-blur backdrop-filter lg:hidden",
-          commonButtonClasses,
-        )}
-        onClick={[setOpen, { towards: true }]}
-      >
-        <span class="sr-only">Open Site Navigation</span>
-        <NamedSVGIcon name="menu" class="h-1/2 w-1/2" />
-      </button>
-      <Show when={open()}>
-        <Dialog onClose={handleClose}>
-          <DialogOverlay
-            class="firefox:bg-opacity-90 fixed inset-0 z-20 h-full w-full bg-gray-900 bg-opacity-50 backdrop-blur backdrop-filter transition-opacity duration-150"
-            classList={{ "opacity-0": isTransitioning() }}
-          />
-          <div
-            class="fixed inset-y-0 left-0 z-20 w-11/12 max-w-[40ch] border-r border-white border-opacity-10 bg-slate-800 p-5 transition-transform duration-150"
-            classList={{ "-translate-x-full": isTransitioning() }}
-          >
-            <DialogTitle class="sr-only">Site Navigation</DialogTitle>
-            {props.children(handleClose)}
-          </div>
-          <button
-            type="button"
-            onClick={handleClose}
-            class={joinSpaceSeparated(commonButtonClasses, "z-20 transition-opacity duration-150")}
-            classList={{ "opacity-0": isTransitioning() }}
-          >
-            <span class="sr-only">Close Site Navigation</span>
-            <NamedSVGIcon name="close" class="h-1/2 w-1/2" />
-          </button>
-        </Dialog>
-      </Show>
-    </>
-  );
-}
-
-export function ComponentShowcaseNavigation() {
-  return (
-    <>
-      <StickySidebar class="hidden w-64 lg:block">
-        <ComponentShowcaseNavigationList />
-      </StickySidebar>
-      <OverlayNav>
-        {(handleClose) => <ComponentShowcaseNavigationList onLinkClick={handleClose} />}
-      </OverlayNav>
-      <Outlet />
-    </>
-  );
-}
-
-export function ComponentShowcase(props: ShowcaseProps) {
-  const [mod] = createResource(() => props.lazyModule, getComponentDocs);
-  return (
-    <Show when={mod()}>
-      {({ MdxComponent, tableOfContents }) => (
-        <Main class="flex min-w-0 flex-1 items-start space-x-4 sm:space-x-6 lg:space-x-8">
-          <article class="prose prose-invert prose-headings:scroll-mt-24 lg:prose-lg min-w-0 max-w-none flex-1">
-            <Dynamic component={MdxComponent} />
-          </article>
-          <Show when={tableOfContents}>{(list) => <TableOfContents list={list} />}</Show>
-        </Main>
-      )}
-    </Show>
   );
 }
 

@@ -1,10 +1,10 @@
-import { Link, Outlet } from "solid-app-router";
+import { Outlet } from "solid-app-router";
 import { type ComponentProps, createUniqueId } from "solid-js";
 import type { JSX } from "solid-js/jsx-runtime";
 
-import { NamedSVGIcon } from "@docs/assets/svg-icon";
-import { SVGIconLink } from "@docs/assets/svg-icon";
 import { joinSpaceSeparated } from "@docs/utils/html";
+
+import { SiteNavigation } from "./navigation";
 
 const MAIN_CONTENT_ID = createUniqueId();
 
@@ -22,7 +22,7 @@ export function StickySidebar(props: ComponentProps<"div">) {
     <div
       {...props}
       class={joinSpaceSeparated(
-        "sticky top-[81px] max-h-screen flex-shrink-0 overflow-y-auto pb-20",
+        "sticky top-[98px] max-h-screen flex-shrink-0 overflow-y-auto pb-20",
         props.class,
       )}
     />
@@ -31,8 +31,11 @@ export function StickySidebar(props: ComponentProps<"div">) {
 
 export function BodyContainer(props: ComponentProps<typeof Container>) {
   return (
-    <Container {...props} class={joinSpaceSeparated("flex items-start py-4 sm:py-6", props.class)}>
-      <Outlet />
+    <Container
+      {...props}
+      class={joinSpaceSeparated("flex items-start pt-4 pb-24 sm:pt-6 lg:pb-12", props.class)}
+    >
+      {props.children || <Outlet />}
     </Container>
   );
 }
@@ -46,17 +49,8 @@ export function Header() {
       >
         Jump to Content
       </a>
-      <Container class="flex items-center justify-between">
-        <Link class="text-white" href="/">
-          solid-a11y
-        </Link>
-        <SVGIconLink
-          readerLabel="GitHub Repository for solid-a11y"
-          href="https://github.com/dairyisscary/solid-a11y"
-          class="h-5 w-5 hover:text-slate-200"
-        >
-          <NamedSVGIcon name="github" />
-        </SVGIconLink>
+      <Container>
+        <SiteNavigation />
       </Container>
     </header>
   );

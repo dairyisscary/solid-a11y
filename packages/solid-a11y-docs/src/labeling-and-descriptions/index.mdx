@@ -1,0 +1,41 @@
+import { CodeSampleShowcase } from "@docs/showcase";
+
+import ProcessedAutomaticExample from "./automatic.example?prism";
+import ProcessedAutomaticWrappedExample from "./automatic-wrapped.example?prism";
+import ProcessedManualExample from "./manual.example?prism";
+import ProcessedSROnlyCSS from "./sr-only.example.xcss?prism";
+
+# Labeling & Descriptions
+
+Since it is so imperative to add ARIA aware labels to web content where appropriate, all
+`solid-a11y` components have built-in and convenient support for this. Components map to native DOM
+elements by default so one can use the `aria-labelledby` and `aria-describedby` props directly.
+
+<CodeSampleShowcase source={ProcessedManualExample} />
+
+## Using Helpers
+
+With `solid-a11y`, it is more common to use `<Label />` or `<Description />` which will
+automatically annotate associated DOM elements using Solid's context API.
+
+<CodeSampleShowcase source={ProcessedAutomaticWrappedExample} />
+
+Note in the following example, one does not need the boilerplate wrapping code of `<LabelGroup />`
+and `<DescriptionGroup />`. Most components in `solid-a11y` (`<RadioGroupOption />` in this case)
+already wrap their children by default with these labeling contexts, so there's no need to do this
+by hand.
+
+<CodeSampleShowcase source={ProcessedAutomaticExample} />
+
+## Visually Hidden Elements
+
+Often, one may want to put content on the page that is spoken by screen readers but not seen by
+visual users to add additional context or labeling to the content. In such cases, `display: none;`
+is not appropriate since screen readers will not read this content. For this, one should use
+something like the [`.sr-only` utility class in Tailwind CSS][tailwind_sr_only], which makes the
+text visually hidden without removing it from the scope of screen readers. An example implementation
+might look something like this:
+
+<CodeSampleShowcase source={ProcessedSROnlyCSS} />
+
+[tailwind_sr_only]: https://tailwindcss.com/docs/screen-readers

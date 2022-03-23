@@ -1,33 +1,61 @@
-import { Route, Router, Routes } from "solid-app-router";
+import { type RouteDefinition, Router, useRoutes } from "solid-app-router";
 import { lazy } from "solid-js";
+import type { JSX } from "solid-js/jsx-runtime";
 import { render } from "solid-js/web";
 
+import { LazyMDXArticle, SECONDARY_NAVIGATION } from "@docs/article";
 import { ORDERED_COMPONENTS } from "@docs/components";
 import { BodyContainer, Header } from "@docs/layout";
-import { ComponentShowcase, ComponentShowcaseNavigation } from "@docs/showcase";
+import { StickySidebarNavigation } from "@docs/layout/navigation";
 
 const Home = lazy(() => import("@docs/home"));
 const NotFound = lazy(() => import("@docs/404"));
+
+function BodyWithStickySidebar(props: { children?: JSX.Element }) {
+  return (
+    <BodyContainer class="lg:space-x-8">
+      <StickySidebarNavigation>{props.children}</StickySidebarNavigation>
+    </BodyContainer>
+  );
+}
+
+function DocsRoutes() {
+  const secondaryRoutes: RouteDefinition[] = SECONDARY_NAVIGATION.map(({ path, getModule }) => ({
+    path,
+    component: () => (
+      <BodyWithStickySidebar>
+        <LazyMDXArticle lazyModule={getModule} />
+      </BodyWithStickySidebar>
+    ),
+  }));
+  const routes = secondaryRoutes.concat([
+    {
+      path: "/components",
+      component: BodyWithStickySidebar,
+      children: ORDERED_COMPONENTS.map(({ key, getModule }) => ({
+        path: key,
+        component: () => <LazyMDXArticle lazyModule={getModule} />,
+      })),
+    },
+    {
+      path: "/",
+      component: () => (
+        <BodyContainer>
+          <Home />
+        </BodyContainer>
+      ),
+    },
+    { path: "/*", component: NotFound },
+  ]);
+  const Routes = useRoutes(routes);
+  return <Routes />;
+}
 
 function DocsApp() {
   return (
     <Router>
       <Header />
-      <Routes>
-        <Route path="/*" element={<BodyContainer class="lg:space-x-8" />}>
-          <Route path="/components" element={<ComponentShowcaseNavigation />}>
-            {ORDERED_COMPONENTS.map(({ key, getModule }) => (
-              <Route path={key} element={<ComponentShowcase lazyModule={getModule} />} />
-            ))}
-          </Route>
-        </Route>
-
-        <Route path="/*" element={<BodyContainer />}>
-          <Route path="/" element={<Home />} />
-        </Route>
-
-        <Route path="/*" element={<NotFound />} />
-      </Routes>
+      <DocsRoutes />
     </Router>
   );
 }

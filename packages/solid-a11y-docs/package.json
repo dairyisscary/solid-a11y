@@ -14,6 +14,7 @@
     "postcss": "^8.4.12",
     "prismjs": "^1.27.0",
     "remark-slug": "^7.0.1",
+    "remark-smartypants": "^2.0.0",
     "remixicon": "^2.5.0",
     "solid-a11y": "file:../solid-a11y",
     "solid-app-router": "^0.3.2",

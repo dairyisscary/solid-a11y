@@ -1,6 +1,7 @@
 import { createProcessor } from "@mdx-js/mdx";
 import { valueToEstree } from "estree-util-value-to-estree";
 import remarkSlug from "remark-slug";
+import remarkSmartypants from "remark-smartypants";
 import { SourceMapGenerator } from "source-map";
 import type { Node } from "unist";
 import type { Plugin } from "vite";
@@ -155,7 +156,7 @@ function tableOfContents() {
 export default function solidA11yMdxPlugin(): Plugin {
   const processor = createProcessor({
     SourceMapGenerator,
-    remarkPlugins: [remarkSlug],
+    remarkPlugins: [remarkSlug, remarkSmartypants],
     rehypePlugins: [tableOfContents],
     jsx: true,
     jsxImportSource: "solid-js",

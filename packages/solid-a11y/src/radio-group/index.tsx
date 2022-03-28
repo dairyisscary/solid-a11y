@@ -40,10 +40,11 @@ type GroupContext = Readonly<{
   change: (newValue: unknown) => void;
   register: (registration: OptionRegistration) => () => void;
 }>;
-type OptionRenderProps = {
+type ClassList = JSX.IntrinsicElements["div"]["classList"];
+type OptionRenderProps = Readonly<{
   checked: () => boolean;
   active: () => boolean;
-};
+}>;
 type OptionProps<V, C extends DynamicComponent> = A11yDynamicProps<
   C,
   {
@@ -51,7 +52,7 @@ type OptionProps<V, C extends DynamicComponent> = A11yDynamicProps<
     disabled?: boolean;
     /** The option's value */
     value: V;
-    /** The zero-indexed of this item -- so RadioGroup knows what is the first item for focus-managment */
+    /** The index of this item -- so RadioGroup knows what is the first item for focus management */
     index: number;
     onClick?: JSX.EventHandlerUnion<C, MouseEvent>;
     onFocus?: JSX.EventHandlerUnion<C, FocusEvent>;
@@ -59,7 +60,7 @@ type OptionProps<V, C extends DynamicComponent> = A11yDynamicProps<
     /** Render prop for children -- passed checked and active signal getters */
     children: (renderProps: OptionRenderProps) => JSX.Element;
     /** Render prop for conditional classes -- passed checked and active signal getters */
-    classList?: (renderProps: OptionRenderProps) => JSX.IntrinsicElements["div"]["classList"];
+    classList?: ((renderProps: OptionRenderProps) => ClassList) | ClassList;
     "aria-labelledby"?: string;
     "aria-describedby"?: string;
   },
@@ -228,7 +229,9 @@ function RadioGroupOptionRoot<V, C extends DynamicComponent>(props: OptionProps<
         }
         return callThrough(props.onClick, evt);
       }}
-      classList={props.classList?.(renderProps)}
+      classList={
+        typeof props.classList === "function" ? props.classList(renderProps) : props.classList
+      }
     >
       {props.children(renderProps)}
     </Dynamic>

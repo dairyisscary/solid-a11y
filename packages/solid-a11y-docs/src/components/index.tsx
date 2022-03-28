@@ -17,6 +17,12 @@ export const COMPONENTS = Object.freeze({
     title: "Switch (Toggle)",
     icon: "toggle" as const,
   },
+  tabs: {
+    color: "from-amber-300 to-orange-500",
+    getModule: () => import("@docs/components/tabs/index.mdx"),
+    title: "Tabs",
+    icon: "table" as const,
+  },
 });
 
 function compare(a: { title: string }, b: { title: string }) {

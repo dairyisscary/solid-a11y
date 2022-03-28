@@ -5,7 +5,7 @@ import type { JSX } from "solid-js/jsx-runtime";
 type IconLinkProps = JSX.IntrinsicElements["a"] & {
   readerLabel: JSX.Element;
 };
-type IconName = "github" | "menu" | "close" | "radio-button" | "toggle" | "window";
+type IconName = "github" | "menu" | "close" | "radio-button" | "toggle" | "window" | "table";
 type NamedIconProps = Omit<JSX.IntrinsicElements["svg"], "children"> & {
   name: IconName;
 };
@@ -24,6 +24,8 @@ function namedIconSymbol(name: IconName): string {
       return "toggle-line";
     case "window":
       return "window-2-line";
+    case "table":
+      return "table-line";
   }
 }
 

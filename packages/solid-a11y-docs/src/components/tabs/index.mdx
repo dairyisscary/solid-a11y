@@ -1,0 +1,65 @@
+import TabsComponentDocumentation from "solid-a11y?component-docs=tabs/index.tsx:TabGroup,Tabs,Tab,TabPanel";
+import { COMPONENTS } from "@docs/components";
+import { CodeSampleShowcase, ComponentAPIExplorer, RunningShowcase } from "@docs/showcase";
+
+import TabsBasicExample from "./basic.example";
+import ProcessedBasicExample from "./basic.example?prism";
+import ProcessedConditionalExample from "./conditional.example?prism";
+import ProcessedControlledExample from "./controlled.example?prism";
+import ProcessedDisabledTabExample from "./disabled.example?prism";
+import ProcessedInitialIndexExample from "./initial-index.example?prism";
+import ProcessedWithLabelExample from "./with-label.example?prism";
+import ProcessedVerticalExample from "./vertical.example?prism";
+
+# {COMPONENTS.tabs.title}
+
+These components constitute a "tabbed" interface that supports keyboard interactions and focus
+management.
+
+<RunningShowcase source={ProcessedBasicExample} class={COMPONENTS.tabs.color}>
+  <TabsBasicExample />
+</RunningShowcase>
+
+## Labeling
+
+One can label the group by using the standard `<Label />` component.
+
+<CodeSampleShowcase source={ProcessedWithLabelExample} />
+
+## Controlling the Current Tab
+
+By default, the tab components control their own state. One may optionally pass `initialIndex` to
+initialize an alternative visible tab panel.
+
+<CodeSampleShowcase source={ProcessedInitialIndexExample} />
+
+It is also possible to fully "control" the tab components by using a `selectedIndex` and `onChange`
+pair.
+
+<CodeSampleShowcase source={ProcessedControlledExample} />
+
+## Conditional Content and Classes
+
+`<Tab />` supports optional render callback with a `selected` signal getter on both the `children`
+and `classList` props to support conditional classes and tab content.
+
+Moreover, `<TabPanel />` supports an optional callback for `children` (like `<Show />`) for lazy
+and/or expensive children.
+
+<CodeSampleShowcase source={ProcessedConditionalExample} />
+
+## Disabled Tabs
+
+Tabs may be disabled so that keyboard interactions ignore these elements.
+
+<CodeSampleShowcase source={ProcessedDisabledTabExample} />
+
+## Vertical Tabs
+
+If vertical tabs are desired, where visually the tabs are oriented from top-to-bottom, rather than
+the standard right-to-left, one should set the `orientation` prop as `"vertical"`. This will invert
+the keybindings to use up and down arrows properly.
+
+<CodeSampleShowcase source={ProcessedVerticalExample} />
+
+<ComponentAPIExplorer components={TabsComponentDocumentation} />

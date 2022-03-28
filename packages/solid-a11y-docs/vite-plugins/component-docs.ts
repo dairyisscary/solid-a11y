@@ -39,26 +39,42 @@ function walkTypeNodeForPropsAndComments(
   props: ComponentPropertyDescriptor[],
   blockCommentLookup: Map<number, string>,
 ) {
-  if (node.type === "TSTypeReference") {
-    for (const param of node.typeParameters?.params || []) {
-      walkTypeNodeForPropsAndComments(sourceLines, param, props, blockCommentLookup);
-    }
-  } else if (node.type === "TSTypeLiteral") {
-    for (const member of node.members) {
-      if (member.type !== "TSPropertySignature" || member.key.type !== "Identifier") {
-        continue;
+  switch (node.type) {
+    case "TSUnionType":
+    case "TSIntersectionType":
+      for (const type of node.types) {
+        walkTypeNodeForPropsAndComments(sourceLines, type, props, blockCommentLookup);
       }
-      const description = blockCommentLookup.get(member.loc.start.line - 1);
-      if (description) {
-        props.push({
-          name: member.key.name,
-          optional: Boolean(member.optional),
-          typeLiteral:
-            member.typeAnnotation && getTypeFromSource(sourceLines, member.typeAnnotation.loc),
-          description: parseCommentContent(description),
-        });
+      break;
+    case "TSTypeReference":
+      for (const param of node.typeParameters?.params || []) {
+        walkTypeNodeForPropsAndComments(sourceLines, param, props, blockCommentLookup);
       }
-    }
+      break;
+    case "TSTypeLiteral":
+      for (const member of node.members) {
+        if (member.type !== "TSPropertySignature" || member.key.type !== "Identifier") {
+          continue;
+        }
+
+        const name = member.key.name;
+        const alreadyNamedProp = props.find((prop) => prop.name === name);
+        if (alreadyNamedProp) {
+          alreadyNamedProp.optional = member.optional || alreadyNamedProp.optional;
+          continue;
+        }
+        const description = blockCommentLookup.get(member.loc.start.line - 1);
+        if (description) {
+          props.push({
+            name,
+            optional: Boolean(member.optional),
+            typeLiteral:
+              member.typeAnnotation && getTypeFromSource(sourceLines, member.typeAnnotation.loc),
+            description: parseCommentContent(description),
+          });
+        }
+      }
+      break;
   }
 }
 

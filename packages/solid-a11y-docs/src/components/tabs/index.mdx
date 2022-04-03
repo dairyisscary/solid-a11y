@@ -1,6 +1,11 @@
 import TabsComponentDocumentation from "solid-a11y?component-docs=tabs/index.tsx:TabGroup,Tabs,Tab,TabPanel";
 import { COMPONENTS } from "@docs/components";
-import { CodeSampleShowcase, ComponentAPIExplorer, RunningShowcase } from "@docs/showcase";
+import {
+  AriaSpecLink,
+  CodeSampleShowcase,
+  ComponentAPIExplorer,
+  RunningShowcase,
+} from "@docs/showcase";
 
 import TabsBasicExample from "./basic.example";
 import ProcessedBasicExample from "./basic.example?prism";
@@ -63,3 +68,5 @@ the keybindings to use up and down arrows properly.
 <CodeSampleShowcase source={ProcessedVerticalExample} />
 
 <ComponentAPIExplorer components={TabsComponentDocumentation} />
+
+<AriaSpecLink href="tabpanel" />

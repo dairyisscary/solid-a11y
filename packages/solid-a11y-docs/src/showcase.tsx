@@ -1,7 +1,7 @@
 import { type ComponentProps, For, Show, createSignal } from "solid-js";
 import type { JSX } from "solid-js/jsx-runtime";
 
-import { joinSpaceSeparated } from "@docs/utils/html";
+import { ExternalLink, joinSpaceSeparated } from "@docs/utils/html";
 
 export type ComponentPropertyDescriptor = {
   name: string;
@@ -194,5 +194,18 @@ export function ComponentAPIExplorer(props: ComponentAPIExplorerProps) {
         </>
       )}
     </For>
+  );
+}
+
+export function AriaSpecLink(props: { href: string; children: JSX.Element }) {
+  return (
+    <p class="flex justify-end">
+      <ExternalLink
+        class="flex items-center no-underline"
+        href={`https://www.w3.org/TR/wai-aria-practices-1.2/#${props.href}`}
+      >
+        ARIA specification
+      </ExternalLink>
+    </p>
   );
 }

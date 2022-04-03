@@ -1,6 +1,11 @@
 import DialogComponentDocumentation from "solid-a11y?component-docs=dialog/index.tsx:Dialog,DialogOverlay,DialogTitle";
 import { COMPONENTS } from "@docs/components";
-import { CodeSampleShowcase, ComponentAPIExplorer, RunningShowcase } from "@docs/showcase";
+import {
+  AriaSpecLink,
+  CodeSampleShowcase,
+  ComponentAPIExplorer,
+  RunningShowcase,
+} from "@docs/showcase";
 
 import DialogBasicExample from "./basic.example";
 import ProcessedBasicExample from "./basic.example?prism";
@@ -38,3 +43,5 @@ to focus the cancel button rather than the affirmative button.
 <CodeSampleShowcase source={ProcessedWithConfirmation} />
 
 <ComponentAPIExplorer components={DialogComponentDocumentation} />
+
+<AriaSpecLink href="dialog_modal" />

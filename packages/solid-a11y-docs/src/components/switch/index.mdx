@@ -1,7 +1,12 @@
 import SwitchComponentDocumentation from "solid-a11y?component-docs=switch/index.tsx:Switch";
 
 import { COMPONENTS } from "@docs/components";
-import { CodeSampleShowcase, ComponentAPIExplorer, RunningShowcase } from "@docs/showcase";
+import {
+  AriaSpecLink,
+  CodeSampleShowcase,
+  ComponentAPIExplorer,
+  RunningShowcase,
+} from "@docs/showcase";
 
 import SwitchBasicExample from "./basic.example";
 import ProcessedBasicExample from "./basic.example?prism";
@@ -30,5 +35,7 @@ support to the switch, while keeping the text visible and elsewhere in the DOM.
 <CodeSampleShowcase source={ProcessedWithCustomLabelExample} />
 
 <ComponentAPIExplorer components={SwitchComponentDocumentation} />
+
+<AriaSpecLink href="switch" />
 
 [visually_hidden]: /labeling-and-descriptions#visually-hidden-elements

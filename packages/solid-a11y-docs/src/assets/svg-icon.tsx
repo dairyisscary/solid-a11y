@@ -5,7 +5,15 @@ import type { JSX } from "solid-js/jsx-runtime";
 type IconLinkProps = JSX.IntrinsicElements["a"] & {
   readerLabel: JSX.Element;
 };
-type IconName = "github" | "menu" | "close" | "radio-button" | "toggle" | "window" | "table";
+type IconName =
+  | "github"
+  | "menu"
+  | "close"
+  | "radio-button"
+  | "toggle"
+  | "window"
+  | "table"
+  | "external-link";
 type NamedIconProps = Omit<JSX.IntrinsicElements["svg"], "children"> & {
   name: IconName;
 };
@@ -13,23 +21,19 @@ type NamedIconProps = Omit<JSX.IntrinsicElements["svg"], "children"> & {
 function namedIconSymbol(name: IconName): string {
   switch (name) {
     case "github":
-      return "github-line";
     case "menu":
-      return "menu-line";
     case "close":
-      return "close-line";
     case "radio-button":
-      return "radio-button-line";
     case "toggle":
-      return "toggle-line";
+    case "table":
+    case "external-link":
+      return `${name}-line`;
     case "window":
       return "window-2-line";
-    case "table":
-      return "table-line";
   }
 }
 
-export function SVGIcon(props: JSX.IntrinsicElements["svg"]) {
+function SVGIcon(props: JSX.IntrinsicElements["svg"]) {
   return (
     <svg
       // @ts-expect-error -- not in the svg props (yet)

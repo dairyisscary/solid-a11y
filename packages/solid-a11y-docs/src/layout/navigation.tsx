@@ -183,7 +183,7 @@ function ComponentNavigation(props: CollectionLinksProps) {
 export function StickySidebarNavigation(props: { children?: JSX.Element }) {
   return (
     <>
-      <StickySidebar class="hidden w-64 lg:block">
+      <StickySidebar class="hidden w-48 lg:block">
         <ComponentNavigation />
       </StickySidebar>
       <OverlayNav>

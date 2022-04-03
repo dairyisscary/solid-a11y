@@ -22,11 +22,11 @@ export default function Home() {
       <ul class="flex w-full flex-wrap gap-4 md:gap-6">
         <For each={ORDERED_COMPONENTS}>
           {({ key, title, color, icon }) => (
-            <li class="w-full md:w-auto">
+            <li class="w-full md:w-56">
               <Link
                 class={joinSpaceSeparated(
                   color,
-                  "block flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r py-5 px-4 text-white no-underline shadow-lg",
+                  "block flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r py-5 px-4 text-white no-underline shadow-lg md:justify-start",
                 )}
                 href={`/components/${key}`}
               >

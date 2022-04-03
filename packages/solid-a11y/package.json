@@ -1,6 +1,6 @@
 {
   "name": "solid-a11y",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "license": "MIT",
   "description": "A collection of accessibility components and helpers for SolidJS.",
   "repository": {

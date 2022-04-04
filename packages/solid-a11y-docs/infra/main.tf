@@ -118,6 +118,13 @@ resource "cloudflare_record" "dmarc" {
   value   = "v=DMARC1; p=reject; sp=reject; adkim=s; aspf=s;"
 }
 
+resource "cloudflare_record" "analytics" {
+  zone_id = cloudflare_zone.root_zone.id
+  type    = "CNAME"
+  name    = "thorn-side-absolutely"
+  value   = "chilly-welcome.b-cdn.net"
+}
+
 resource "cloudflare_zone_settings_override" "root_zone" {
   zone_id = cloudflare_zone.root_zone.id
 

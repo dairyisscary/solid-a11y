@@ -90,16 +90,14 @@ function highlightLines(content: string, ranges: Range[]) {
 }
 
 export default function solidA11yPrismjsPlugin(): Plugin {
+  Prism.manual = true;
+  Prism.hooks.add("wrap", (env) => {
+    env.classes = Array.from(new Set(env.classes.flatMap(getClassesFor)));
+  });
+  loadPrismLanguages(["css", "tsx"]);
   return {
     name: "solid-a11y:prismjs",
     enforce: "pre",
-    config() {
-      Prism.manual = true;
-      Prism.hooks.add("wrap", (env) => {
-        env.classes = Array.from(new Set(env.classes.flatMap(getClassesFor)));
-      });
-      loadPrismLanguages(["css", "tsx"]);
-    },
     transform(code, id) {
       if (!EXAMPLE_RE.test(id)) {
         return;

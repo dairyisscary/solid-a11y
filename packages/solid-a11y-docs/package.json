@@ -11,6 +11,7 @@
     "@tailwindcss/typography": "^0.5.2",
     "autoprefixer": "^10.4.4",
     "estree-util-value-to-estree": "^1.3.0",
+    "html-minifier-terser": "^6.1.0",
     "postcss": "^8.4.12",
     "prismjs": "^1.27.0",
     "remark-slug": "^7.0.1",
@@ -26,6 +27,7 @@
     "vite-plugin-solid": "^2.2.6"
   },
   "devDependencies": {
+    "@types/html-minifier-terser": "^6.1.0",
     "@types/node": "^16.11.26",
     "@types/prismjs": "^1.26.0",
     "@types/ws": "^8.5.3"

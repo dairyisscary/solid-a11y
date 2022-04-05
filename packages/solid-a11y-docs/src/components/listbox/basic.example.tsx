@@ -28,7 +28,6 @@ export default function BasicExample() {
             <>
               {selectedTreat().label}
               <NamedSVGIcon
-                aria-hidden="true"
                 class="h-5 w-5 text-gray-500 transition-transform"
                 classList={{ "rotate-180": open() }}
                 name="arrow-down"

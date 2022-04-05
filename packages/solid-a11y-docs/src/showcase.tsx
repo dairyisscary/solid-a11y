@@ -75,24 +75,20 @@ function ShowcaseActions(props: ActionsProps) {
       classList={{ "bg-opacity-30": !codeIsShown(), "bg-opacity-90": codeIsShown() }}
     >
       <Show when={props.includePreview}>
-        {() => (
-          <>
-            <ShowcaseActionButton
-              onClick={[props.onSelect, "preview"]}
-              selected={props.selectedAction === "preview"}
-              invert={codeIsShown()}
-            >
-              Preview
-            </ShowcaseActionButton>
-            <ShowcaseActionButton
-              onClick={[props.onSelect, "code"]}
-              selected={props.selectedAction === "code"}
-              invert={codeIsShown()}
-            >
-              Code
-            </ShowcaseActionButton>
-          </>
-        )}
+        <ShowcaseActionButton
+          onClick={[props.onSelect, "preview"]}
+          selected={props.selectedAction === "preview"}
+          invert={codeIsShown()}
+        >
+          Preview
+        </ShowcaseActionButton>
+        <ShowcaseActionButton
+          onClick={[props.onSelect, "code"]}
+          selected={props.selectedAction === "code"}
+          invert={codeIsShown()}
+        >
+          Code
+        </ShowcaseActionButton>
       </Show>
       <ShowcaseActionButton onClick={handleCopyClick} invert={codeIsShown()}>
         {copied() ? "Copied!" : "Copy"}

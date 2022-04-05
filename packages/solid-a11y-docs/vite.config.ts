@@ -14,9 +14,12 @@ export default defineConfig({
     svgPlugin(),
     mdxPlugin(),
     codeHighlightPlugin(),
-    solidPlugin({ extensions: [".mdx"] }),
+    solidPlugin({ ssr: true, extensions: [".mdx"] }),
   ],
   resolve: {
     alias: [{ find: "@docs", replacement: "/src" }],
+  },
+  ssr: {
+    noExternal: ["solid-app-router"],
   },
 });

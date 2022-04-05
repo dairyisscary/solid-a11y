@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "vite build",
+    "build": "vite build --outDir dist/client && vite build --outDir dist/server --ssr src/server.tsx && cp dist/server/server.js dist/server/index.cjs && node prerender.cjs",
     "start": "vite dev"
   },
   "dependencies": {

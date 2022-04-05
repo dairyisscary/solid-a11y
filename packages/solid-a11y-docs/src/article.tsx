@@ -1,26 +1,19 @@
 import {
   type Component,
   For,
-  Show,
   createEffect,
   createResource,
   createUniqueId,
   onCleanup,
 } from "solid-js";
-import { Dynamic } from "solid-js/web";
 
 import { Main, StickySidebar } from "@docs/layout";
 import { NavigationHeader } from "@docs/layout/navigation";
 
-type TableOfContentsProps = {
-  list: { text: string; id: string }[];
-};
+type TableOfContents = { text: string; id: string }[];
+type TableOfContentsProps = { list: TableOfContents };
 type LazyMDXArticleProps = {
-  docTitle?: string;
-  lazyModule: () => Promise<{
-    default: Component;
-    __tableOfContents?: TableOfContentsProps["list"];
-  }>;
+  LazyContent: Component & { preload: () => Promise<{ TABLE_OF_CONTENTS?: TableOfContents }> };
 };
 
 export const SECONDARY_NAVIGATION = Object.freeze([
@@ -35,11 +28,6 @@ export const SECONDARY_NAVIGATION = Object.freeze([
     getModule: () => import("@docs/labeling-and-descriptions/index.mdx"),
   },
 ]);
-
-async function getComponentDocs(source: LazyMDXArticleProps["lazyModule"]) {
-  const { default: MdxComponent, __tableOfContents: tableOfContents } = await source();
-  return { MdxComponent, tableOfContents };
-}
 
 function TableOfContents(props: TableOfContentsProps) {
   const id = createUniqueId();
@@ -60,30 +48,37 @@ function TableOfContents(props: TableOfContentsProps) {
   );
 }
 
-export function LazyMDXArticle(props: LazyMDXArticleProps) {
-  const [mod] = createResource(() => props.lazyModule, getComponentDocs);
+function createTableOfContents(props: LazyMDXArticleProps) {
+  const [tableOfContents] = createResource<TableOfContents>(
+    async () => {
+      const { TABLE_OF_CONTENTS } = await props.LazyContent.preload();
+      return TABLE_OF_CONTENTS || [];
+    },
+    { initialValue: [] },
+  );
+
   createEffect(() => {
-    const pageTitle = props.docTitle || mod()?.tableOfContents?.[0]?.text;
-    if (pageTitle) {
+    const [firstItem] = tableOfContents();
+    if (firstItem) {
       const originalTitle = document.title;
-      document.title = `${pageTitle} | ${originalTitle}`;
+      document.title = `${firstItem.text} | ${originalTitle}`;
       onCleanup(() => {
         document.title = originalTitle;
       });
     }
   });
+
+  return tableOfContents;
+}
+
+export function LazyMDXArticle(props: LazyMDXArticleProps) {
+  const tableOfContents = createTableOfContents(props);
   return (
-    <Show when={mod()} keyed>
-      {({ MdxComponent, tableOfContents }) => (
-        <Main class="flex min-w-0 flex-1 items-start space-x-4 sm:space-x-6 lg:space-x-8">
-          <article class="prose prose-invert prose-headings:scroll-mt-24 lg:prose-lg min-w-0 max-w-none flex-1">
-            <Dynamic component={MdxComponent} />
-          </article>
-          <Show when={tableOfContents} keyed>
-            {(list) => <TableOfContents list={list} />}
-          </Show>
-        </Main>
-      )}
-    </Show>
+    <Main class="flex min-w-0 flex-1 items-start space-x-4 sm:space-x-6 lg:space-x-8">
+      <article class="prose prose-invert prose-headings:scroll-mt-24 lg:prose-lg min-w-0 max-w-none flex-1">
+        <props.LazyContent />
+      </article>
+      <TableOfContents list={tableOfContents()} />
+    </Main>
   );
 }

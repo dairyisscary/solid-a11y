@@ -121,7 +121,7 @@ function tableOfContents() {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     root.children!.push({
       type: "mdxjsEsm",
-      value: `export const __tableOfContents = ${JSON.stringify(data)}`,
+      value: `export const TABLE_OF_CONTENTS = ${JSON.stringify(data)}`,
       data: {
         estree: {
           type: "Program",
@@ -139,7 +139,7 @@ function tableOfContents() {
                     type: "VariableDeclarator",
                     id: {
                       type: "Identifier",
-                      name: "__tableOfContents",
+                      name: "TABLE_OF_CONTENTS",
                     },
                     init: valueToEstree(data),
                   },

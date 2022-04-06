@@ -9,6 +9,7 @@ import {
   createSignal,
   createUniqueId,
   onCleanup,
+  splitProps,
 } from "solid-js";
 import type { JSX } from "solid-js/jsx-runtime";
 
@@ -123,12 +124,18 @@ function SideBarNavLink(props: ComponentProps<typeof NavLink>) {
       {...props}
       activeClass="text-white"
       class="flex items-center whitespace-nowrap px-2 font-medium no-underline"
-    />
+    >
+      {props.children}
+    </NavLink>
   );
 }
 
 function Nav(props: ComponentProps<"nav">) {
-  return <nav {...props} class={joinSpaceSeparated(props.class, "space-y-4")} />;
+  return (
+    <nav {...props} class={joinSpaceSeparated(props.class, "space-y-4")}>
+      {props.children}
+    </nav>
+  );
 }
 
 function SecondarySiteNavigation(props: CollectionLinksProps) {
@@ -200,10 +207,13 @@ export function StickySidebarNavigation(props: { children?: JSX.Element }) {
 }
 
 export function NavigationHeader(props: ComponentProps<"p">) {
+  const [local, rest] = splitProps(props, ["class", "children"]);
   return (
     <p
-      {...props}
-      class={joinSpaceSeparated(props.class, "font-semibold uppercase tracking-wide text-white")}
-    />
+      {...rest}
+      class={joinSpaceSeparated(local.class, "font-semibold uppercase tracking-wide text-white")}
+    >
+      {local.children}
+    </p>
   );
 }

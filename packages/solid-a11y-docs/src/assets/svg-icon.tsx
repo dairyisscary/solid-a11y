@@ -49,7 +49,9 @@ function SVGIcon(props: JSX.IntrinsicElements["svg"]) {
       fill="currentColor"
       xmlns="http://www.w3.org/2000/svg"
       {...props}
-    />
+    >
+      {props.children}
+    </svg>
   );
 }
 
@@ -63,11 +65,11 @@ export function NamedSVGIcon(props: NamedIconProps) {
 }
 
 export function SVGIconLink(props: IconLinkProps) {
-  const [local, aProps] = splitProps(props, ["children", "readerLabel"]);
+  const [local, rest] = splitProps(props, ["readerLabel"]);
   return (
-    <a {...aProps}>
+    <a {...rest}>
       <span class="sr-only">{local.readerLabel}</span>
-      {local.children}
+      {rest.children}
     </a>
   );
 }

@@ -11,7 +11,7 @@ import {
 import type { JSX } from "solid-js/jsx-runtime";
 import { Dynamic } from "solid-js/web";
 
-import { DescriptionGroup, LabelGroup, useDescribedBy, useLabeledBy } from "../group";
+import { DescriptionGroup, LabelGroup, sortByIndex, useDescribedBy, useLabeledBy } from "../group";
 import {
   type A11yDynamicProps,
   type DynamicComponent,
@@ -86,10 +86,6 @@ const UNIQUE_VALUE = Symbol();
 const DEFAULT_GROUP_COMPONENT = "div";
 const DEFAULT_OPTION_COMPONENT = "div";
 const RADIO_GROUP_CONTEXT = createContext<GroupContext | null>(null);
-
-function sortByIndex(a: OptionRegistration, b: OptionRegistration) {
-  return a.index - b.index;
-}
 
 function getValueOfArrowedOption(evt: KeyboardEvent, lookup: OptionRegistration[]) {
   const { key } = evt;

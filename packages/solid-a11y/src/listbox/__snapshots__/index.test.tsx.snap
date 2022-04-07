@@ -1,0 +1,354 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Listbox /> should allow keyboard controls on the button.: 00 red active but not selected 1`] = `
+Array [
+  Object {
+    "classList": Array [
+      "active",
+    ],
+    "disabled": false,
+    "selected": false,
+    "textContent": "red -- Active: true - Selected: false",
+  },
+  Object {
+    "classList": Array [],
+    "disabled": false,
+    "selected": false,
+    "textContent": "blue -- Active: false - Selected: false",
+  },
+  Object {
+    "classList": Array [],
+    "disabled": false,
+    "selected": false,
+    "textContent": "green -- Active: false - Selected: false",
+  },
+]
+`;
+
+exports[`<Listbox /> should allow keyboard controls on the button.: 01 red active but not selected 1`] = `
+Array [
+  Object {
+    "classList": Array [
+      "active",
+    ],
+    "disabled": false,
+    "selected": false,
+    "textContent": "red -- Active: true - Selected: false",
+  },
+  Object {
+    "classList": Array [],
+    "disabled": false,
+    "selected": false,
+    "textContent": "blue -- Active: false - Selected: false",
+  },
+  Object {
+    "classList": Array [],
+    "disabled": false,
+    "selected": false,
+    "textContent": "green -- Active: false - Selected: false",
+  },
+]
+`;
+
+exports[`<Listbox /> should allow keyboard controls on the button.: 02 blue active but not selected 1`] = `
+Array [
+  Object {
+    "classList": Array [],
+    "disabled": false,
+    "selected": false,
+    "textContent": "red -- Active: false - Selected: false",
+  },
+  Object {
+    "classList": Array [
+      "active",
+    ],
+    "disabled": false,
+    "selected": false,
+    "textContent": "blue -- Active: true - Selected: false",
+  },
+  Object {
+    "classList": Array [],
+    "disabled": false,
+    "selected": false,
+    "textContent": "green -- Active: false - Selected: false",
+  },
+]
+`;
+
+exports[`<Listbox /> should allow keyboard controls on the button.: 03 red active but not selected 1`] = `
+Array [
+  Object {
+    "classList": Array [
+      "active",
+    ],
+    "disabled": false,
+    "selected": false,
+    "textContent": "red -- Active: true - Selected: false",
+  },
+  Object {
+    "classList": Array [],
+    "disabled": false,
+    "selected": false,
+    "textContent": "blue -- Active: false - Selected: false",
+  },
+  Object {
+    "classList": Array [],
+    "disabled": false,
+    "selected": false,
+    "textContent": "green -- Active: false - Selected: false",
+  },
+]
+`;
+
+exports[`<Listbox /> should allow keyboard controls on the button.: 04 Green active but no selection 1`] = `
+Array [
+  Object {
+    "classList": Array [],
+    "disabled": false,
+    "selected": false,
+    "textContent": "red -- Active: false - Selected: false",
+  },
+  Object {
+    "classList": Array [],
+    "disabled": false,
+    "selected": false,
+    "textContent": "blue -- Active: false - Selected: false",
+  },
+  Object {
+    "classList": Array [
+      "active",
+    ],
+    "disabled": false,
+    "selected": false,
+    "textContent": "green -- Active: true - Selected: false",
+  },
+]
+`;
+
+exports[`<Listbox /> should allow keyboard controls on the button.: 05 Red active and green selected 1`] = `
+Array [
+  Object {
+    "classList": Array [
+      "active",
+    ],
+    "disabled": false,
+    "selected": false,
+    "textContent": "red -- Active: true - Selected: false",
+  },
+  Object {
+    "classList": Array [],
+    "disabled": false,
+    "selected": false,
+    "textContent": "blue -- Active: false - Selected: false",
+  },
+  Object {
+    "classList": Array [
+      "selected",
+    ],
+    "disabled": false,
+    "selected": true,
+    "textContent": "green -- Active: false - Selected: true",
+  },
+]
+`;
+
+exports[`<Listbox /> should allow keyboard controls on the button.: 06 Green active and active 1`] = `
+Array [
+  Object {
+    "classList": Array [],
+    "disabled": false,
+    "selected": false,
+    "textContent": "red -- Active: false - Selected: false",
+  },
+  Object {
+    "classList": Array [],
+    "disabled": false,
+    "selected": false,
+    "textContent": "blue -- Active: false - Selected: false",
+  },
+  Object {
+    "classList": Array [
+      "active",
+      "selected",
+    ],
+    "disabled": false,
+    "selected": true,
+    "textContent": "green -- Active: true - Selected: true",
+  },
+]
+`;
+
+exports[`<Listbox /> should allow options to change.: 00 baseline, red selected and active 1`] = `
+Array [
+  Object {
+    "classList": Array [
+      "active",
+      "selected",
+    ],
+    "disabled": false,
+    "selected": true,
+    "textContent": "red -- Active: true - Selected: true",
+  },
+  Object {
+    "classList": Array [],
+    "disabled": false,
+    "selected": false,
+    "textContent": "blue -- Active: false - Selected: false",
+  },
+  Object {
+    "classList": Array [],
+    "disabled": false,
+    "selected": false,
+    "textContent": "green -- Active: false - Selected: false",
+  },
+]
+`;
+
+exports[`<Listbox /> should allow options to change.: 01 add cyan and yellow, remove green, red still selected and active 1`] = `
+Array [
+  Object {
+    "classList": Array [
+      "active",
+      "selected",
+    ],
+    "disabled": false,
+    "selected": true,
+    "textContent": "red -- Active: true - Selected: true",
+  },
+  Object {
+    "classList": Array [],
+    "disabled": false,
+    "selected": false,
+    "textContent": "blue -- Active: false - Selected: false",
+  },
+  Object {
+    "classList": Array [],
+    "disabled": false,
+    "selected": false,
+    "textContent": "cyan -- Active: false - Selected: false",
+  },
+  Object {
+    "classList": Array [],
+    "disabled": false,
+    "selected": false,
+    "textContent": "yellow -- Active: false - Selected: false",
+  },
+]
+`;
+
+exports[`<Listbox /> should allow options to change.: 02 cyan now selected 1`] = `
+Array [
+  Object {
+    "classList": Array [
+      "active",
+    ],
+    "disabled": false,
+    "selected": false,
+    "textContent": "red -- Active: true - Selected: false",
+  },
+  Object {
+    "classList": Array [],
+    "disabled": false,
+    "selected": false,
+    "textContent": "blue -- Active: false - Selected: false",
+  },
+  Object {
+    "classList": Array [
+      "selected",
+    ],
+    "disabled": false,
+    "selected": true,
+    "textContent": "cyan -- Active: false - Selected: true",
+  },
+  Object {
+    "classList": Array [],
+    "disabled": false,
+    "selected": false,
+    "textContent": "yellow -- Active: false - Selected: false",
+  },
+]
+`;
+
+exports[`<Listbox /> should allow options to change.: 03 cyan still selected and yellow active 1`] = `
+Array [
+  Object {
+    "classList": Array [],
+    "disabled": false,
+    "selected": false,
+    "textContent": "red -- Active: false - Selected: false",
+  },
+  Object {
+    "classList": Array [],
+    "disabled": false,
+    "selected": false,
+    "textContent": "blue -- Active: false - Selected: false",
+  },
+  Object {
+    "classList": Array [
+      "selected",
+    ],
+    "disabled": false,
+    "selected": true,
+    "textContent": "cyan -- Active: false - Selected: true",
+  },
+  Object {
+    "classList": Array [
+      "active",
+    ],
+    "disabled": false,
+    "selected": false,
+    "textContent": "yellow -- Active: true - Selected: false",
+  },
+]
+`;
+
+exports[`<Listbox /> should render a list of clickable options with a button.: 00 First active, no selected, nor disabled 1`] = `
+Array [
+  Object {
+    "classList": Array [
+      "active",
+    ],
+    "disabled": false,
+    "selected": false,
+    "textContent": "red -- Active: true - Selected: false",
+  },
+  Object {
+    "classList": Array [],
+    "disabled": false,
+    "selected": false,
+    "textContent": "blue -- Active: false - Selected: false",
+  },
+  Object {
+    "classList": Array [],
+    "disabled": false,
+    "selected": false,
+    "textContent": "green -- Active: false - Selected: false",
+  },
+]
+`;
+
+exports[`<Listbox /> should render a list of clickable options with a button.: 01 green active, green selected, nor disabled 1`] = `
+Array [
+  Object {
+    "classList": Array [],
+    "disabled": false,
+    "selected": false,
+    "textContent": "red -- Active: false - Selected: false",
+  },
+  Object {
+    "classList": Array [],
+    "disabled": false,
+    "selected": false,
+    "textContent": "blue -- Active: false - Selected: false",
+  },
+  Object {
+    "classList": Array [
+      "active",
+      "selected",
+    ],
+    "disabled": false,
+    "selected": true,
+    "textContent": "green -- Active: true - Selected: true",
+  },
+]
+`;

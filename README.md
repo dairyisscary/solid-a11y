@@ -16,9 +16,8 @@ $ npm add solid-a11y
 ## Roadmap
 
 - SSR support
-- More components:
-  - combobox (autocomplete)
-  - listbox (select)
+- Add multiple selection and search support to listbox
+- Add combobox (autocomplete)
 
 [solid_js]: https://www.solidjs.com/
 [doc_site]: https://www.solid-a11y.dev/

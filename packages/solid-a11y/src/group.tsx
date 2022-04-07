@@ -78,3 +78,7 @@ export function Description<C extends DynamicComponent = typeof DEFAULT_DESCRIPT
   const id = descriptonGroupContext.useRegisterId();
   return <Dynamic component={DEFAULT_DESCRIPTION_COMPONENT} {...props} id={id} />;
 }
+
+export function sortByIndex(a: { index: number }, b: { index: number }): number {
+  return a.index - b.index;
+}

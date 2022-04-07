@@ -13,6 +13,9 @@ type IconName =
   | "toggle"
   | "window"
   | "table"
+  | "check"
+  | "listbox"
+  | "arrow-down"
   | "external-link";
 type NamedIconProps = Omit<JSX.IntrinsicElements["svg"], "children"> & {
   name: IconName;
@@ -26,8 +29,12 @@ function namedIconSymbol(name: IconName): string {
     case "radio-button":
     case "toggle":
     case "table":
+    case "check":
     case "external-link":
+    case "arrow-down":
       return `${name}-line`;
+    case "listbox":
+      return "layout-top-2-line";
     case "window":
       return "window-2-line";
   }

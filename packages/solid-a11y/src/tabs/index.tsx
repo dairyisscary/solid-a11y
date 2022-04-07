@@ -12,12 +12,13 @@ import {
 import type { JSX } from "solid-js/jsx-runtime";
 import { Dynamic } from "solid-js/web";
 
-import { LabelGroup, useLabeledBy } from "../group";
+import { LabelGroup, sortByIndex, useLabeledBy } from "../group";
 import {
   type A11yDynamicProps,
   type DynamicComponent,
   callThrough,
   focusNextElement,
+  getTypeAttributeForDefaultButtonComponent,
   joinSpaceSeparated,
 } from "../html";
 import {
@@ -94,6 +95,7 @@ type TabProps<C extends DynamicComponent> = A11yDynamicProps<
     index: number;
     /** Can accept a function for conditional children -- passed active signal getter */
     children: ((renderProps: TabRenderProps) => JSX.Element) | JSX.Element;
+    type?: string;
   },
   "role" | "id" | "tabindex" | "aria-controls" | "aria-selected"
 >;
@@ -113,10 +115,6 @@ const DEFAULT_TABS_TAG = "div";
 const DEFAULT_TAB_TAG = "button";
 const DEFAULT_PANEL_TAG = "div";
 const TABS_CONTEXT = createContext<TabsContext | null>(null);
-
-function sortByIndex(a: { index: number }, b: { index: number }) {
-  return a.index - b.index;
-}
 
 function makeRegistrationFn<R extends { index: number }>(
   setter: (fn: (old: R[]) => R[]) => void,
@@ -174,7 +172,7 @@ export function Tab<C extends DynamicComponent = typeof DEFAULT_TAB_TAG>(props: 
       classList={
         typeof props.classList === "function" ? props.classList(renderProps) : props.classList
       }
-      type={rest.component && rest.component !== DEFAULT_TAB_TAG ? undefined : DEFAULT_TAB_TAG}
+      type={getTypeAttributeForDefaultButtonComponent(rest.component, rest.type)}
       ref={tabRef}
       role="tab"
       id={id}

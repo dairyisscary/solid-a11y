@@ -7,6 +7,7 @@ import {
   type A11yDynamicProps,
   type DynamicComponent,
   callThrough,
+  getTypeAttributeForDefaultButtonComponent,
   joinSpaceSeparated,
 } from "../html";
 import { SPACE_KEY, TAB_KEY } from "../keyboard";
@@ -35,7 +36,6 @@ export function Switch<C extends DynamicComponent = typeof DEFAULT_SWITCH_COMPON
 ) {
   const [local, rest] = splitProps(props as SwitchProps<typeof DEFAULT_SWITCH_COMPONENT>, [
     "checked",
-    "type",
     "onChange",
   ]);
   const toggle = () => local.onChange(!local.checked);
@@ -45,11 +45,7 @@ export function Switch<C extends DynamicComponent = typeof DEFAULT_SWITCH_COMPON
     <Dynamic
       component={DEFAULT_SWITCH_COMPONENT}
       {...rest}
-      type={
-        local.type || (rest.component && rest.component !== DEFAULT_SWITCH_COMPONENT)
-          ? local.type
-          : DEFAULT_SWITCH_COMPONENT
-      }
+      type={getTypeAttributeForDefaultButtonComponent(rest.component, rest.type)}
       role="switch"
       tabindex={0}
       aria-labelledby={joinSpaceSeparated(props["aria-labelledby"], labeledBy())}

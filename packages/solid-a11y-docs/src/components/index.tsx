@@ -5,6 +5,12 @@ export const COMPONENTS = Object.freeze({
     title: "Dialog (Modal)",
     icon: "window" as const,
   },
+  listbox: {
+    color: "from-fuchsia-500 to-purple-600",
+    getModule: () => import("@docs/components/listbox/index.mdx"),
+    title: "Listbox (Select)",
+    icon: "listbox" as const,
+  },
   "radio-group": {
     color: "from-green-400 to-cyan-500",
     getModule: () => import("@docs/components/radio-group/index.mdx"),

@@ -1,0 +1,55 @@
+import ListboxComponentDocumentation from "solid-a11y?component-docs=listbox/index.tsx:Listbox,ListboxButton,ListboxOption,ListboxOptions";
+
+import { COMPONENTS } from "@docs/components";
+import {
+  AriaSpecLink,
+  CodeSampleShowcase,
+  ComponentAPIExplorer,
+  RunningShowcase,
+} from "@docs/showcase";
+
+import ListboxBasicExample from "./basic.example";
+import ProcessedBasicExample from "./basic.example?prism";
+import ProcessedDisabledExample from "./disabled.example?prism";
+import ProcessedHorizontalExample from "./horizontal.example?prism";
+import ProcessedRenderPropsExample from "./render-props.example?prism";
+import ProcessedWithLabelExample from "./with-label.example?prism";
+
+# {COMPONENTS.listbox.title}
+
+A listbox is a foundation for an accessible select menu with support for keyboard navigation.
+
+<RunningShowcase source={ProcessedBasicExample} class={COMPONENTS.listbox.color}>
+  <ListboxBasicExample />
+</RunningShowcase>
+
+## Labeling
+
+One can add context to the listbox's button with `<Label />` and `<Description />`.
+
+<CodeSampleShowcase source={ProcessedWithLabelExample} />
+
+## Conditional Content and Classes
+
+`<ListboxButton />` and `<ListboxOption />` both support render function `children` and `classList`
+with `open` and `selected`/`active` render props, respectively.
+
+<CodeSampleShowcase source={ProcessedRenderPropsExample} />
+
+## Disabling Interactivity
+
+One can disable the entire listbox or individual options using the `disabled` prop.
+
+<CodeSampleShowcase source={ProcessedDisabledExample} />
+
+## Horizontal Items
+
+Where the dropdown is visually oriented horizontally (i.e., from left-to-right, rather than
+top-to-bottom), setting the `orientation` prop as `"horizontal"` inverts the keybindings to use left
+and right arrows for keyboard navigation instead.
+
+<CodeSampleShowcase source={ProcessedHorizontalExample} />
+
+<ComponentAPIExplorer components={ListboxComponentDocumentation} />
+
+<AriaSpecLink href="Listbox" />

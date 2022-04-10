@@ -15,8 +15,8 @@ import ProcessedWithCustomLabelsExample from "./with-custom-label.example?prism"
 
 # {COMPONENTS["radio-group"].title}
 
-Radio Groups are an alternative to native `<input type="radio" />`, or a set of checkable buttons,
-known as radio buttons, where no more than one of the buttons can be checked at a time.
+Radio Groups are an alternative to native `<input type="radio" />`, or a set of checkable buttons --
+known as radio buttons -- where only one option can be checked at a time.
 
 <RunningShowcase source={ProcessedBasicExample} class={COMPONENTS["radio-group"].color}>
   <RadioGroupBasicExample />
@@ -24,9 +24,9 @@ known as radio buttons, where no more than one of the buttons can be checked at 
 
 ## Labeling
 
-Both `<RadioGroup />` and `<RadioGroupOption />` have built in support for `<Label />` and
-`<Description />`, allowing one to add desired annotations and descriptions to the either the group
-as a whole or to the individual options.
+Both `<RadioGroup />` and `<RadioGroupOption />` have built-in support for `<Label />` and
+`<Description />`, allowing annotations and descriptions to either the group as a whole or to
+individual options.
 
 <CodeSampleShowcase source={ProcessedWithCustomLabelsExample} />
 
@@ -35,8 +35,8 @@ as a whole or to the individual options.
 Like all `solid-a11y` components, Radio Groups are completely unstyled but do offer an API to
 condtionally style and control the checked and focused (active) elements.
 
-For conditional classes, use the function API on `classList` with `checked` and `active` signal
-render props. For conditinal content/children, use the `checked` and `active` signal render props.
+For conditional classes, use the function API on `classList` with `checked` and `active` render
+props. For conditional content/children, use the `checked` and `active` render props.
 
 <CodeSampleShowcase source={ProcessedWithRenderProps} />
 

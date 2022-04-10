@@ -100,7 +100,7 @@ type TabProps<C extends DynamicComponent> = A11yDynamicProps<
 type TabPanelProps<C extends DynamicComponent> = A11yDynamicProps<
   C,
   {
-    /** Can accept a function for lazy evaluted children */
+    /** Can accept a function for lazy evaluated children */
     children: (() => JSX.Element) | JSX.Element;
     ["aria-labelledby"]?: string;
     /** The index of this Panel -- so TabGroup can associate tabs and panels together and know their order */
@@ -150,7 +150,7 @@ export function Tabs<C extends DynamicComponent = typeof DEFAULT_TABS_TAG>(props
   );
 }
 
-/** The element the a user interacts with to select the currently visible content */
+/** The element the user interacts with to select the currently visible content */
 export function Tab<C extends DynamicComponent = typeof DEFAULT_TAB_TAG>(props: TabProps<C>) {
   const id = createUniqueId();
   const context = useTabsContext("Tab");

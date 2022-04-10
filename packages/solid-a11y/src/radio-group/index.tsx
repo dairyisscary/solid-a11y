@@ -69,7 +69,7 @@ type OptionProps<V, C extends DynamicComponent> = A11yDynamicProps<
 type GroupProps<V, C extends DynamicComponent> = A11yDynamicProps<
   C,
   {
-    /** Callback for when user takes action to chage the value -- desired new value is passed */
+    /** Callback for when user takes action to change the value -- new value is passed */
     onChange: (newValue: V) => void;
     /** The current controlled value of the group */
     value: V;

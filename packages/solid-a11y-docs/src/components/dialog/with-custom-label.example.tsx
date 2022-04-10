@@ -7,11 +7,11 @@ export default function ExampleWithLabels({ onClose }: { onClose: (value: false)
         <DialogOverlay class="fixed inset-0 bg-zinc-900/40" />
         <div class="w-full max-w-md transform rounded-2xl bg-slate-800 p-6 text-sm shadow-xl">
           {/* highlight-next-lines 6 */}
-          {/* Using the DialogTitle with correctly label the modal element */}
+          {/* This DialogTitle labels the entire dialog */}
           <DialogTitle class="text-lg font-medium leading-6 text-white">
             Payment successful
           </DialogTitle>
-          {/* The modal element can also optionally be described for even more ARIA compatible context */}
+          {/* This Description adds optional context to the dialog */}
           <Description>Payment went through perfectly.</Description>
           <button
             type="button"

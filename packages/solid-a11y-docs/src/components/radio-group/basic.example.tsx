@@ -7,7 +7,7 @@ const options = [
   { value: "espresso", label: "Espresso", description: "Rich and sharp" },
   { value: "pour-over", label: "Pour-Over", description: "Refreshing and crisp" },
   { value: "french-press", label: "French Press", description: "Bold and full-bodied" },
-  { value: "areo-press", label: "AreoPress", description: "Smooth and clean" },
+  { value: "aero-press", label: "AeroPress", description: "Smooth and clean" },
 ] as const;
 
 export default function Example() {

@@ -1,27 +1,26 @@
 # Design Philosophy
 
-`solid-a11y` is meant to serve as a small and nimble foundation to a [SolidJS][solid_js] web app and
-design system. It aims to be fully accessible for keyboard and screen reader users by handling
-callbacks and `aria-*` DOM attributes automatically for the developer. It also attempts to encourage
-accessibility best practices with its API, documentation, and conveniences. If one chooses to use
-`solid-a11y`, it is because they believe the web should be available to everyone, even when their
-content is highly interactive and uses Solid.
+`solid-a11y` is a small and nimble foundation to a [SolidJS][solid_js] web app and design system.
+Components aim to be fully accessible for keyboard and screen reader users by adding appropriate
+event handlers and `aria-*` DOM attributes. It also encourages best practices for accessiblity with
+its API, documentation, and conveniences. `solid-a11y` was developed because the web, including
+highly interactive content that uses Solid, should be available to everyone.
 
-As opposed to other component libraries, `solid-a11y` comes with absolutely no styles or CSS.
-Because of this choice, it enables full control and responsibility of visuals to the developer and
-designer. It pairs perfectly with virtually any CSS framework because styling is done through plain
-`class`, `classList`, and `style` props. Example code in the documentation uses the popular
-[Tailwind CSS][tailwindcss], but this is not a necessitated choice.
+As opposed to other component libraries, `solid-a11y` comes without any styles or CSS. It therefore
+enables full control and responsibility over visuals to the developer and designer. It pairs
+perfectly with virtually any CSS framework because styling is done through plain `class`,
+`classList`, and `style` props. [Tailwind CSS][tailwindcss] is used throughout the documention for
+example code, but it is not necessary.
 
-`solid-a11y` moreover aims for simple and tractable APIs, comprehensive and fun documentation, and
-solid and good developer experience. It ships with TypeScript defintions and has _zero_ NPM
-dependencies, if you don't count its peer dependency on Solid. It should be tree-shakeable so that
-one only pays piecewise in bundle bytes.
+Moreover, `solid-a11y` aims for simple and tractable APIs, comprehensive documentation, and
+enjoyable developer experience. It ships with TypeScript defintions and has no NPM dependencies
+other than its peer dependency on Solid. It is tree-shakeable so that features may be adopted
+piecewise without the overhead of extra bundle bytes.
 
 ## Thanks and Appreciations
 
 Much of this library is inspired by the excellent [headless-ui][headless_ui], though some API
-changes to match Solid idioms are in place, and `solid-a11y` is not aiming to be a drop-in
+changes to match Solid idioms are in place, and `solid-a11y` does not aim to be a drop-in
 replacement.
 
 ## License

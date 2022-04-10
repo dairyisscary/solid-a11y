@@ -31,7 +31,7 @@ export default function Example() {
       <RadioGroupOption<Condiments> value="mayo" index={0}>
         {() => (
           <div>
-            <Label>Mayonasie</Label>
+            <Label>Mayonnaise</Label>
             <Description>A creamy and tangy sauce!</Description>
           </div>
         )}

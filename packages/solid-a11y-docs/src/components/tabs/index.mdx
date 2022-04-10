@@ -33,8 +33,8 @@ One can label the group by using the standard `<Label />` component.
 
 ## Controlling the Current Tab
 
-By default, the tab components control their own state. One may optionally pass `initialIndex` to
-initialize an alternative visible tab panel.
+By default, the tab components control their own state, and the first tab is initialized as visible.
+One may pass `initialIndex` to override this behavior.
 
 <CodeSampleShowcase source={ProcessedInitialIndexExample} />
 
@@ -55,15 +55,15 @@ and/or expensive children.
 
 ## Disabled Tabs
 
-Tabs may be disabled so that keyboard interactions ignore these elements.
+A tab's pointer and keyboard interactions may be prevented with the `disabled` prop.
 
 <CodeSampleShowcase source={ProcessedDisabledTabExample} />
 
 ## Vertical Tabs
 
-If vertical tabs are desired, where visually the tabs are oriented from top-to-bottom, rather than
-the standard right-to-left, one should set the `orientation` prop as `"vertical"`. This will invert
-the keybindings to use up and down arrows properly.
+Where tabs are visually oriented vertically (i.e., from top-to-bottom, rather than left-to-right),
+setting the `orientation` prop as `"vertical"` inverts the keybindings to use up and down arrows
+instead.
 
 <CodeSampleShowcase source={ProcessedVerticalExample} />
 

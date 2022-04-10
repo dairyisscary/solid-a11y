@@ -7,9 +7,9 @@ import ProcessedSROnlyCSS from "./sr-only.example.xcss?prism";
 
 # Labeling & Descriptions
 
-Since it is so imperative to add ARIA aware labels to web content where appropriate, all
-`solid-a11y` components have built-in and convenient support for this. Components map to native DOM
-elements by default so one can use the `aria-labelledby` and `aria-describedby` props directly.
+All `solid-a11y` components have built-in and convenient support for adding ARIA-compliant labels
+and descriptions to content. Components utilize native DOM elements by default so one can use the
+`aria-labelledby` and `aria-describedby` props directly.
 
 <CodeSampleShowcase source={ProcessedManualExample} />
 
@@ -29,12 +29,11 @@ by hand.
 
 ## Visually Hidden Elements
 
-Often, one may want to put content on the page that is spoken by screen readers but not seen by
-visual users to add additional context or labeling to the content. In such cases, `display: none;`
-is not appropriate since screen readers will not read this content. For this, one should use
-something like the [`.sr-only` utility class in Tailwind CSS][tailwind_sr_only], which makes the
-text visually hidden without removing it from the scope of screen readers. An example implementation
-might look something like this:
+One may want to add context or labeling only for screen reader users without affecting the visual
+content on the page. In such cases, `display: none;` is not appropriate since screen readers will
+not speak this content. For this, one should use something like the [`.sr-only` utility class in
+Tailwind CSS][tailwind_sr_only], which makes the text visually hidden without removing it from the
+scope of screen readers. An example implementation might look something like this:
 
 <CodeSampleShowcase source={ProcessedSROnlyCSS} />
 

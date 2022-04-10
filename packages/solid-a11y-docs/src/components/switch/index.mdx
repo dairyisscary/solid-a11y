@@ -22,15 +22,15 @@ keyboard navigation as native checkbox elements.
   <SwitchBasicExample />
 </RunningShowcase>
 
-## Proper Labeling
+## Labeling
 
-One should label their switch with screen reader friendly text. The easiest way is to add [visually
-hidden text][visually_hidden] as a direct child of the switch.
+An easy way to add screen reader friendly text is by using [visually hidden text][visually_hidden]
+as a direct child of the switch.
 
 <CodeSampleShowcase source={ProcessedWithDirectLabelExample} />
 
-One can use all the `<Label* />` and/or `<Description* />` components to also provideadditional ARIA
-support to the switch, while keeping the text visible and elsewhere in the DOM.
+One can use the `<Label />` and/or `<Description />` components to provide associate ARIA compliant
+labels to the switch, but still allowing the text to be visible and elsewhere in the DOM.
 
 <CodeSampleShowcase source={ProcessedWithCustomLabelExample} />
 

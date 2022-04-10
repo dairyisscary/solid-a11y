@@ -12,7 +12,7 @@ export default function Home() {
     <Main class="w-full">
       <h1 class="mt-20 text-2xl font-bold text-white sm:text-3xl md:max-w-3xl">
         A collection of fully accessible, completely unstyled components for&nbsp;
-        <a href="https://www.solidjs.com/">solid-js</a>.
+        <a href="https://www.solidjs.com/">SolidJS</a>.
       </h1>
       <p class="ml-3 mb-20 mt-12 md:max-w-3xl">
         Run

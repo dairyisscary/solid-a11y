@@ -22,23 +22,24 @@ A dialog (or "modal") component with keyboard support, focus management, scroll 
 
 ## Labeling
 
-`<Dialog />` has built in support for the `<Label />` (title of the modal) and `<Description />`
-(additional context and information) components. Instead of `<Label />`, one may use the
-`<DialogTitle />` which uses a better default tag of `h1` but is otherwise identical to `<Label />`.
+`<Dialog />` has built-in support for the `<Label />` (title of the modal) and `<Description />`
+components. Instead of `<Label />`, one may use `<DialogTitle />` which uses a default tag of `h1`,
+but is otherwise identical to `<Label />`. `h1` is often the desired heading tag for a dialog's
+content.
 
 <CodeSampleShowcase source={ProcessedWithCustomLabelExample} />
 
 ## Focus Management
 
-It is a good idea to ensure that a dialog has at least one focusable element contained within it. A
-very common pattern will be a button to dismiss the dialog. By default, `<Dialog />` will focus the
-first item within itself and also "trap" focus within the dialog meaning that `Tab`/`Shift+Tab` will
-round robin within the dialog's focusable elements.
+It a good practice to ensure that a dialog contains at least one focusable element, such as a button
+to dismiss the dialog. By default, `<Dialog />` will automatically focus the first focusable element
+in the dialog's content. In addition, focus will be "trapped" within the dialog's content, so that
+`Tab`/`Shift+Tab` will round-robin through only the dialog's focusable elements.
 
-It may also be desirable to override this default behavior with an element that makes more sense. Be
-sure to make this element the "more conservative" or "less destructive" action so that accidental
-key-presses do not disturb the user. For instance, in a delete confirmation dialog, it makes sense
-to focus the cancel button rather than the affirmative button.
+The `initialFocusRef` prop enables overriding this default behavior when the first focusable element
+is not appropriate for initial focus, such as when the first element is a button confirming a
+"destructive" action. One should initially focus a "more conservative" action, such as a cancel
+button, to safeguard against accidental double key-presses causing irreversible consequences.
 
 <CodeSampleShowcase source={ProcessedWithConfirmation} />
 

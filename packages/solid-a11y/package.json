@@ -1,8 +1,9 @@
 {
   "name": "solid-a11y",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "license": "MIT",
-  "description": "A collection of accessibility components and helpers for SolidJS.",
+  "description": "A collection of fully accessible, completely unstyled components for SolidJS.",
+  "homepage": "https://www.solid-a11y.dev/",
   "repository": {
     "type": "git",
     "url": "https://github.com/dairyisscary/solid-a11y.git"

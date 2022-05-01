@@ -14,7 +14,7 @@ import {
 import type { JSX } from "solid-js/jsx-runtime";
 import { Dynamic } from "solid-js/web";
 
-import { DescriptionGroup, LabelGroup, sortByIndex, useDescribedBy, useLabeledBy } from "../group";
+import { DescriptionGroup, LabelGroup, sortByDOM, useDescribedBy, useLabeledBy } from "../group";
 import {
   type A11yDynamicProps,
   type DynamicComponent,
@@ -45,7 +45,6 @@ type ClassList = JSX.IntrinsicElements["div"]["classList"];
 type OptionRegistration = {
   disabled: boolean | undefined;
   ref: () => HTMLElement;
-  index: number;
   value: unknown;
 };
 type GroupContext = {
@@ -63,8 +62,8 @@ type GroupContext = {
   toggleOpen: () => void;
   activateDirection: (direction: "first" | "last" | "next" | "prev") => void;
   registerOption: (registration: OptionRegistration) => () => void;
-  registerButtonRef: (el: HTMLElement) => void;
-  registerOptionsRef: (el: HTMLElement) => void;
+  registerButton: (el: HTMLElement) => void;
+  registerListbox: (el: HTMLElement) => void;
   optionsRefId: () => string | undefined;
   activeOptionId: () => string | undefined;
 };
@@ -88,8 +87,6 @@ type ListboxOptionProps<V, C extends DynamicComponent> = A11yDynamicProps<
   {
     /** The value of the option for when user selects it via pointer or keyboard */
     value: V;
-    /** The index (ordering) of the option */
-    index: number;
     /** If true, option will be disabled */
     disabled?: boolean;
     /** Render prop for conditional classes -- passed selected and active signal getters */
@@ -154,7 +151,7 @@ export function ListboxButton<C extends DynamicComponent = typeof DEFAULT_BUTTON
     <Dynamic
       component={DEFAULT_BUTTON_COMPONENT}
       {...props}
-      ref={context.registerButtonRef}
+      ref={context.registerButton}
       aria-labelledby={joinSpaceSeparated(props["aria-labelledby"], labeledBy())}
       aria-describedby={joinSpaceSeparated(props["aria-describedby"], describedBy())}
       id={id}
@@ -204,7 +201,7 @@ export function ListboxOptions<C extends DynamicComponent = typeof DEFAULT_OPTIO
         <Dynamic
           component={DEFAULT_OPTIONS_COMPONENT}
           {...props}
-          ref={context.registerOptionsRef}
+          ref={context.registerListbox}
           id={id}
           role="listbox"
           tabindex="0"
@@ -259,7 +256,7 @@ export function ListboxOption<
   C extends DynamicComponent = typeof DEFAULT_OPTION_COMPONENT,
 >(props: ListboxOptionProps<V, C>) {
   const id = createUniqueId();
-  const [local, rest] = splitProps(props, ["value", "index", "disabled"]);
+  const [local, rest] = splitProps(props, ["value", "disabled"]);
   let optionRef: undefined | HTMLElement;
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const optionRefGetter = () => optionRef!;
@@ -273,7 +270,6 @@ export function ListboxOption<
         ref: optionRefGetter,
         // We use local.disabled and expect group to manage group disabled
         disabled: local.disabled,
-        index: local.index,
         value: local.value,
       }),
     ),
@@ -322,20 +318,20 @@ export function ListboxOption<
 export function Listbox<V = string>(props: ListboxProps<V>) {
   let buttonRef: undefined | null | HTMLElement;
   const [open, setOpen] = createSignal(false);
-  const [optionsRef, setOptionsRef] = createSignal<HTMLElement | null>(null);
+  const [listboxRef, setListboxRef] = createSignal<HTMLElement | null>(null);
 
   const [activeValue, setActiveValue] = createSignal<null | V>(null);
-  const [optionRefLookup, setOptionRefLookup] = createSignal<OptionRegistration[]>([]);
+  const [options, setOptions] = createSignal<OptionRegistration[]>([]);
 
   const isDisabled = () => Boolean(props.disabled);
   const isActive = createSelector(activeValue);
   const activeOptionRef = () =>
     // XXX is this bad because its not reactive?
-    optionRefLookup()
-      .find((reg) => isActive(reg.value))
+    options()
+      .find((option) => isActive(option.value))
       ?.ref();
   const activateDirection: GroupContext["activateDirection"] = (direction) => {
-    const nonDisabled = optionRefLookup().filter((reg) => !reg.disabled);
+    const nonDisabled = options().filter((option) => !option.disabled);
     switch (direction) {
       case "first": {
         const [first] = nonDisabled;
@@ -356,14 +352,14 @@ export function Listbox<V = string>(props: ListboxProps<V>) {
       case "next":
       case "prev": {
         const [nextElem] = nextFocusableElementPool(
-          nonDisabled.map((reg) => reg.ref()),
+          nonDisabled.map((option) => option.ref()),
           direction,
           activeOptionRef(),
         );
         if (nextElem) {
           setActiveValue(
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            optionRefLookup().find((reg) => reg.ref() === nextElem)!.value as ExcludeValue<V>,
+            options().find((option) => option.ref() === nextElem)!.value as ExcludeValue<V>,
           );
           nextElem.focus();
         }
@@ -374,7 +370,7 @@ export function Listbox<V = string>(props: ListboxProps<V>) {
   const isSelected = createSelector(() => props.value);
   const setHardOpen = (direction: "last" | "first") => {
     setOpen(true);
-    const selectedOption = optionRefLookup().find((reg) => isSelected(reg.value));
+    const selectedOption = options().find((reg) => isSelected(reg.value));
     if (selectedOption) {
       setActiveValue(selectedOption.value as ExcludeValue<V>);
       selectedOption?.ref().focus();
@@ -407,7 +403,7 @@ export function Listbox<V = string>(props: ListboxProps<V>) {
 
     select,
     selectActive: () => {
-      const activeOption = optionRefLookup().find((reg) => isActive(reg.value));
+      const activeOption = options().find((option) => isActive(option.value));
       if (activeOption) {
         select(activeOption.value);
       }
@@ -424,16 +420,22 @@ export function Listbox<V = string>(props: ListboxProps<V>) {
     },
 
     registerOption: (registration) => {
-      setOptionRefLookup((old) => old.concat(registration).sort(sortByIndex));
-      return () => setOptionRefLookup((old) => old.filter((value) => value !== registration));
+      setOptions((old) =>
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        sortByDOM(listboxRef()!, "[role='option']", old.concat(registration), (option) =>
+          option.ref(),
+        ),
+      );
+      return () => setOptions((old) => old.filter((value) => value !== registration));
     },
-    registerButtonRef: (el) => (buttonRef = el),
-    registerOptionsRef: setOptionsRef,
-
-    optionsRefId: () => (isOpen() ? optionsRef()?.id : undefined),
+    registerButton: (el) => (buttonRef = el),
+    registerListbox: (el) => {
+      setListboxRef(el);
+    },
+    optionsRefId: () => (isOpen() ? listboxRef()?.id : undefined),
     activeOptionId: createMemo(() => activeOptionRef()?.id),
   };
-  createClickOutside([() => buttonRef, optionsRef], (evt) => {
+  createClickOutside([() => buttonRef, listboxRef], (evt) => {
     if (open()) {
       setOpen(false);
       if (!isFocusable(evt.target as HTMLElement)) {

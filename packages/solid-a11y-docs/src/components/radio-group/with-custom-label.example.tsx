@@ -10,7 +10,7 @@ export default function Example() {
       {/* highlight-next-lines 2 */}
       {/* Labels the entire group as a child of RadioGroup */}
       <Label>Which condiment do you like on your french fries?</Label>
-      <RadioGroupOption<Condiments> value="ketchup" index={0}>
+      <RadioGroupOption<Condiments> value="ketchup">
         {() => (
           <div>
             {/* highlight-next-lines 3 */}
@@ -20,7 +20,7 @@ export default function Example() {
           </div>
         )}
       </RadioGroupOption>
-      <RadioGroupOption<Condiments> value="mustard" index={0}>
+      <RadioGroupOption<Condiments> value="mustard">
         {() => (
           <div>
             <Label>Mustard</Label>
@@ -28,7 +28,7 @@ export default function Example() {
           </div>
         )}
       </RadioGroupOption>
-      <RadioGroupOption<Condiments> value="mayo" index={0}>
+      <RadioGroupOption<Condiments> value="mayo">
         {() => (
           <div>
             <Label>Mayonnaise</Label>

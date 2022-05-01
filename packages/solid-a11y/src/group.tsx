@@ -82,3 +82,19 @@ export function Description<C extends DynamicComponent = typeof DEFAULT_DESCRIPT
 export function sortByIndex(a: { index: number }, b: { index: number }): number {
   return a.index - b.index;
 }
+
+export function sortByDOM<I = { ref: HTMLElement }>(
+  groupRef: HTMLElement,
+  selector: string,
+  oldItems: I[],
+  getter: (item: I) => HTMLElement,
+): I[] {
+  const newItems: I[] = [];
+  for (const element of groupRef.querySelectorAll(selector)) {
+    const oldOption = oldItems.find((item) => getter(item) === element);
+    if (oldOption) {
+      newItems.push(oldOption);
+    }
+  }
+  return newItems;
+}

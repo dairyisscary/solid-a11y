@@ -8,8 +8,8 @@ export default function ControlledExample() {
     // highlight-next-line
     <TabGroup selectedIndex={selectedIndex()} onChange={setSelectedIndex}>
       <Tabs>
-        <Tab index={0}>First tab</Tab>
-        <Tab index={1}>Second tab</Tab>
+        <Tab>First tab</Tab>
+        <Tab>Second tab</Tab>
         {/* ... */}
       </Tabs>
       <TabPanel index={0}>The first tab's content.</TabPanel>

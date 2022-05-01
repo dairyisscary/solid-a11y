@@ -31,11 +31,10 @@ describe("<Listbox />", () => {
         <ListboxOptions {...(creationOpts?.optionsProps || {})}>
           {() => (
             <For each={options()}>
-              {(option, index) => (
+              {(option) => (
                 <ListboxOption<OptionValue>
                   value={option.value}
                   disabled={option.disabled}
-                  index={index()}
                   classList={({ selected, active }) => ({ selected: selected(), active: active() })}
                 >
                   {({ selected, active }) => (

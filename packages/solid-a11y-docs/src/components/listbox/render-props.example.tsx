@@ -16,7 +16,6 @@ export default function RenderPropsExample() {
           <>
             <ListboxOption<YesOrNo>
               value="yes"
-              index={0}
               // highlight-next-lines 4
               classList={({ active, selected }) => ({
                 "font-semibold": selected(),
@@ -30,9 +29,7 @@ export default function RenderPropsExample() {
                 }focused.`
               }
             </ListboxOption>
-            <ListboxOption<YesOrNo> value="no" index={1}>
-              No
-            </ListboxOption>
+            <ListboxOption<YesOrNo> value="no">No</ListboxOption>
           </>
         )}
       </ListboxOptions>

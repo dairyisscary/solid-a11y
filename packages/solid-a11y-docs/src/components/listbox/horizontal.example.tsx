@@ -12,12 +12,8 @@ export default function HorizontalExample() {
       <ListboxOptions>
         {() => (
           <>
-            <ListboxOption<YesOrNo> value="yes" index={0}>
-              Yes
-            </ListboxOption>
-            <ListboxOption<YesOrNo> value="no" index={1}>
-              No
-            </ListboxOption>
+            <ListboxOption<YesOrNo> value="yes">Yes</ListboxOption>
+            <ListboxOption<YesOrNo> value="no">No</ListboxOption>
           </>
         )}
       </ListboxOptions>

@@ -27,15 +27,9 @@ describe("<Tabs />", () => {
       >
         {options.mainChildren?.()}
         <Tabs>
-          <Tab index={0} disabled={disabledIndexes[0]?.()}>
-            0 tab
-          </Tab>
-          <Tab index={1} disabled={disabledIndexes[1]?.()}>
-            1 tab
-          </Tab>
-          <Tab index={2} disabled={disabledIndexes[2]?.()}>
-            2 tab
-          </Tab>
+          <Tab disabled={disabledIndexes[0]?.()}>0 tab</Tab>
+          <Tab disabled={disabledIndexes[1]?.()}>1 tab</Tab>
+          <Tab disabled={disabledIndexes[2]?.()}>2 tab</Tab>
         </Tabs>
         <TabPanel index={0}>0 panel</TabPanel>
         <TabPanel index={1}>1 panel</TabPanel>

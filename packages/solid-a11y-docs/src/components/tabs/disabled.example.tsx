@@ -4,12 +4,10 @@ export default function DisabledTabExample() {
   return (
     <TabGroup>
       <Tabs>
-        <Tab index={0}>Enabled Tab 1</Tab>
+        <Tab>Enabled Tab 1</Tab>
         {/* highlight-next-line */}
-        <Tab index={1} disabled>
-          Disabled Tab
-        </Tab>
-        <Tab index={2}>Enabled Tab 2</Tab>
+        <Tab disabled>Disabled Tab</Tab>
+        <Tab>Enabled Tab 2</Tab>
         {/* ... */}
       </Tabs>
       <TabPanel index={0}>First tab's content.</TabPanel>

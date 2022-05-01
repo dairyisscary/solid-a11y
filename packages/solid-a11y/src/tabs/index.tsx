@@ -12,7 +12,7 @@ import {
 import type { JSX } from "solid-js/jsx-runtime";
 import { Dynamic } from "solid-js/web";
 
-import { LabelGroup, sortByIndex, useLabeledBy } from "../group";
+import { LabelGroup, sortByDOM, sortByIndex, useLabeledBy } from "../group";
 import {
   type A11yDynamicProps,
   type DynamicComponent,
@@ -36,7 +36,6 @@ import {
 
 type TabRegistration = {
   ref: HTMLElement;
-  index: number;
   disabled: () => boolean | undefined;
 };
 type PanelRegistration = {
@@ -44,14 +43,15 @@ type PanelRegistration = {
   index: number;
 };
 type TabsContext = {
-  change: (index: number) => void;
   changeToIndexOf: (element: HTMLElement | null | undefined) => void;
   orientation: () => "vertical" | undefined;
   registerTab: (registration: TabRegistration) => () => void;
+  registerTabList: (ref: HTMLElement) => void;
   registerPanel: (registration: PanelRegistration) => () => void;
-  isSelected: (index: number) => boolean;
+  isSelectedTab: (ref: HTMLElement | undefined) => boolean;
+  isSelectedPanel: (id: string) => boolean;
   getAssociatedTabId: (index: number) => undefined | string;
-  getAssociatedPanelId: (index: number) => undefined | string;
+  getAssociatedPanelId: (ref: HTMLElement | undefined) => undefined | string;
   getAllNonDisabledTabs: () => HTMLElement[];
 };
 type ClassList = JSX.IntrinsicElements["div"]["classList"];
@@ -91,8 +91,6 @@ type TabProps<C extends DynamicComponent> = A11yDynamicProps<
     classList?: ((renderProps: TabRenderProps) => ClassList) | ClassList;
     onClick?: JSX.EventHandlerUnion<C, MouseEvent>;
     onKeyDown?: JSX.EventHandlerUnion<C, KeyboardEvent>;
-    /** The index of this Tab -- so TabGroup can associate tabs and panels together and know their order */
-    index: number;
     /** Can accept a function for conditional children -- passed active signal getter */
     children: ((renderProps: TabRenderProps) => JSX.Element) | JSX.Element;
     type?: string;
@@ -116,15 +114,6 @@ const DEFAULT_TAB_TAG = "button";
 const DEFAULT_PANEL_TAG = "div";
 const TABS_CONTEXT = createContext<TabsContext | null>(null);
 
-function makeRegistrationFn<R extends { index: number }>(
-  setter: (fn: (old: R[]) => R[]) => void,
-): (registration: R) => () => void {
-  return (registration) => {
-    setter((old) => old.concat(registration).sort(sortByIndex));
-    return () => setter((old) => old.filter((value) => value !== registration));
-  };
-}
-
 function useTabsContext(label: string): TabsContext {
   const context = useContext(TABS_CONTEXT);
   if (!context) {
@@ -141,6 +130,7 @@ export function Tabs<C extends DynamicComponent = typeof DEFAULT_TABS_TAG>(props
     <Dynamic
       component={DEFAULT_TABS_TAG}
       {...props}
+      ref={context.registerTabList}
       role="tablist"
       aria-orientation={context.orientation()}
       aria-labelledby={joinSpaceSeparated(props["aria-labelledby"], labeledBy())}
@@ -152,15 +142,13 @@ export function Tabs<C extends DynamicComponent = typeof DEFAULT_TABS_TAG>(props
 export function Tab<C extends DynamicComponent = typeof DEFAULT_TAB_TAG>(props: TabProps<C>) {
   const id = createUniqueId();
   const context = useTabsContext("Tab");
-  const [local, rest] = splitProps(props, ["index"]);
   let tabRef: HTMLElement | undefined;
-  const renderProps = { selected: () => context.isSelected(local.index) };
+  const renderProps = { selected: () => context.isSelectedTab(tabRef) };
   createEffect(() =>
     onCleanup(
       context.registerTab({
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         ref: tabRef!,
-        index: local.index,
         disabled: () => props.disabled,
       }),
     ),
@@ -168,24 +156,24 @@ export function Tab<C extends DynamicComponent = typeof DEFAULT_TAB_TAG>(props: 
   return (
     <Dynamic
       component={DEFAULT_TAB_TAG}
-      {...rest}
+      {...props}
       classList={
         typeof props.classList === "function" ? props.classList(renderProps) : props.classList
       }
-      type={getTypeAttributeForDefaultButtonComponent(rest.component, rest.type)}
+      type={getTypeAttributeForDefaultButtonComponent(props.component, props.type)}
       ref={tabRef}
       role="tab"
       id={id}
-      aria-controls={context.getAssociatedPanelId(local.index)}
-      aria-selected={context.isSelected(local.index).toString()}
-      tabindex={context.isSelected(local.index) ? 0 : -1}
+      aria-controls={context.getAssociatedPanelId(tabRef)}
+      aria-selected={context.isSelectedTab(tabRef).toString()}
+      tabindex={context.isSelectedTab(tabRef) ? 0 : -1}
       onKeyDown={(evt: KeyboardEvent) => {
         const { key } = evt;
         switch (key) {
           case SPACE_KEY:
           case ENTER_KEY: {
             evt.preventDefault();
-            context.change(local.index);
+            context.changeToIndexOf(tabRef);
             return callThrough(props.onKeyDown, evt);
           }
           case HOME_KEY:
@@ -222,7 +210,7 @@ export function Tab<C extends DynamicComponent = typeof DEFAULT_TAB_TAG>(props: 
         return callThrough(props.onKeyDown, evt);
       }}
       onClick={(evt: MouseEvent) => {
-        context.change(local.index);
+        context.changeToIndexOf(tabRef);
         return callThrough(props.onClick, evt);
       }}
     >
@@ -235,12 +223,12 @@ export function Tab<C extends DynamicComponent = typeof DEFAULT_TAB_TAG>(props: 
 export function TabPanel<C extends DynamicComponent = typeof DEFAULT_PANEL_TAG>(
   props: TabPanelProps<C>,
 ) {
+  const [local, rest] = splitProps(props, ["index"]);
   const id = createUniqueId();
   const context = useTabsContext("TabPanel");
-  const [local, rest] = splitProps(props, ["index"]);
   createEffect(() => onCleanup(context.registerPanel({ id, index: local.index })));
   return (
-    <Show when={context.isSelected(local.index)}>
+    <Show when={context.isSelectedPanel(id)}>
       {() => (
         <Dynamic
           component={DEFAULT_PANEL_TAG}
@@ -265,24 +253,43 @@ export function TabGroup(props: GroupProps) {
   const [selectedIndex, setSelectedIndex] = props.onChange
     ? [() => props.selectedIndex, (newIndex: number) => props.onChange(newIndex)]
     : createSignal(props.initialIndex || 0);
-  const [tabLookup, setTabLookup] = createSignal<TabRegistration[]>([]);
-  const [panelLookup, setPanelLookup] = createSignal<PanelRegistration[]>([]);
+  const [tabs, setTabs] = createSignal<TabRegistration[]>([]);
+  const [panels, setPanels] = createSignal<PanelRegistration[]>([]);
+  let groupRef: HTMLElement | undefined;
   const context: TabsContext = {
-    change: setSelectedIndex,
     changeToIndexOf: (element) => {
-      const index = element ? tabLookup().findIndex((reg) => reg.ref === element) : -1;
+      const index = element ? tabs().findIndex((tab) => tab.ref === element) : -1;
       if (index > -1) {
         setSelectedIndex(index);
       }
     },
-    isSelected: createSelector(selectedIndex),
+    isSelectedTab: createSelector(() => tabs()[selectedIndex()]?.ref),
+    isSelectedPanel: createSelector(() => panels()[selectedIndex()]?.id),
     orientation: () => (props.orientation === "vertical" ? "vertical" : undefined),
-    registerTab: makeRegistrationFn(setTabLookup),
-    registerPanel: makeRegistrationFn(setPanelLookup),
-    getAssociatedTabId: (index) => tabLookup()[index]?.ref.id,
-    getAssociatedPanelId: (index) => panelLookup()[index]?.id,
+    registerTabList: (ref) => (groupRef = ref),
+    registerTab: (registration) => {
+      setTabs((old) =>
+        sortByDOM(
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          groupRef!,
+          "[role='tab']",
+          old.concat(registration),
+          (option) => option.ref,
+        ),
+      );
+      return () => setTabs((old) => old.filter((tab) => tab !== registration));
+    },
+    registerPanel: (registration) => {
+      setPanels((old) => old.concat(registration).sort(sortByIndex));
+      return () => setPanels((old) => old.filter((panel) => panel !== registration));
+    },
+    getAssociatedTabId: (index) => tabs()[index]?.ref.id,
+    getAssociatedPanelId: (tabRef) => {
+      const index = tabs().findIndex((tab) => tab.ref === tabRef);
+      return panels()[index]?.id;
+    },
     getAllNonDisabledTabs: () =>
-      tabLookup()
+      tabs()
         .filter((reg) => !reg.disabled())
         .map((reg) => reg.ref),
   };

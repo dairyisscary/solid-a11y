@@ -25,11 +25,10 @@ describe("<RadioGroup />", () => {
         <Label>Group Label Here</Label>
         <Description>Group Description Here</Description>
         <For each={options()}>
-          {(option, index) => (
+          {(option) => (
             <RadioGroupOption<OptionValue>
               value={option.value}
               disabled={option.disabled}
-              index={index()}
               classList={({ checked, active }) => ({ checked: checked(), active: active() })}
             >
               {({ checked, active }) => (

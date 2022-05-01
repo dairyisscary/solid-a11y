@@ -33,7 +33,7 @@ export default function BasicExample() {
         <ListboxOptions class="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 shadow-lg">
           {() => (
             <For each={TREATS}>
-              {(treat, index) => (
+              {(treat) => (
                 <ListboxOption<Treat>
                   class="flex cursor-default select-none items-center gap-3 py-2 px-4 focus:outline-none"
                   classList={({ active, selected }) => ({
@@ -41,7 +41,6 @@ export default function BasicExample() {
                     "font-semibold": selected(),
                   })}
                   value={treat}
-                  index={index()}
                 >
                   {({ selected }) => (
                     <>

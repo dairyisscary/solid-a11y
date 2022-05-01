@@ -5,9 +5,9 @@ export default function InitialIndexExample() {
     // highlight-next-line
     <TabGroup initialIndex={1}>
       <Tabs>
-        <Tab index={0}>First tab</Tab>
+        <Tab>First tab</Tab>
         {/* highlight-next-line */}
-        <Tab index={1}>Selected on initialization</Tab>
+        <Tab>Selected on initialization</Tab>
         {/* ... */}
       </Tabs>
       <TabPanel index={0}>The first tab's content.</TabPanel>

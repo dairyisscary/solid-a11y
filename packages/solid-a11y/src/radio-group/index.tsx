@@ -11,7 +11,7 @@ import {
 import type { JSX } from "solid-js/jsx-runtime";
 import { Dynamic } from "solid-js/web";
 
-import { DescriptionGroup, LabelGroup, sortByIndex, useDescribedBy, useLabeledBy } from "../group";
+import { DescriptionGroup, LabelGroup, sortByDOM, useDescribedBy, useLabeledBy } from "../group";
 import {
   type A11yDynamicProps,
   type DynamicComponent,
@@ -31,7 +31,6 @@ type OptionRegistration = {
   ref: HTMLElement;
   value: unknown;
   disabled?: boolean;
-  index: number;
 };
 type GroupContext = Readonly<{
   isDisabled: () => boolean | undefined;
@@ -52,8 +51,6 @@ type OptionProps<V, C extends DynamicComponent> = A11yDynamicProps<
     disabled?: boolean;
     /** The option's value */
     value: V;
-    /** The index of this item -- so RadioGroup knows what is the first item for focus management */
-    index: number;
     onClick?: JSX.EventHandlerUnion<C, MouseEvent>;
     onFocus?: JSX.EventHandlerUnion<C, FocusEvent>;
     onBlur?: JSX.EventHandlerUnion<C, FocusEvent>;
@@ -82,7 +79,7 @@ type GroupProps<V, C extends DynamicComponent> = A11yDynamicProps<
   "role" | "aria-disabled"
 >;
 
-const UNIQUE_VALUE = Symbol();
+const UNIQUE_VALUE = {};
 const DEFAULT_GROUP_COMPONENT = "div";
 const DEFAULT_OPTION_COMPONENT = "div";
 const RADIO_GROUP_CONTEXT = createContext<GroupContext | null>(null);
@@ -108,27 +105,36 @@ function RadioGroupRoot<V, C extends DynamicComponent>(props: GroupProps<V, C>) 
   const [local, rest] = splitProps(props, ["value", "onChange", "disabled"]);
   const labeledBy = useLabeledBy();
   const describedBy = useDescribedBy();
-  const [optionRefLookup, setOptionRefLookup] = createSignal<OptionRegistration[]>([]);
+  const [options, setOptions] = createSignal<OptionRegistration[]>([]);
+  let groupRef: undefined | HTMLElement;
+
   const groupContext: GroupContext = {
     isDisabled: () => local.disabled,
     isChecked: createSelector(() => local.value),
     isTabable: createSelector(() => {
-      // We return a unique value that never compares to a value if we can't find an appropriate radio value
       if (local.disabled) {
         return UNIQUE_VALUE;
       }
 
-      const checked = local.value;
-      const checkedOption = optionRefLookup().find((reg) => reg.value === checked);
-      if (checkedOption) {
-        return checkedOption.disabled ? UNIQUE_VALUE : checked;
+      let firstEnabledOption: undefined | OptionRegistration;
+      const checkedValue = local.value;
+      for (const option of options()) {
+        const isDisabled = option.disabled;
+        if (!isDisabled && option.value === checkedValue) {
+          return checkedValue;
+        } else if (!isDisabled && !firstEnabledOption) {
+          firstEnabledOption = option;
+        }
       }
 
-      return optionRefLookup().find((reg) => !reg.disabled)?.value || UNIQUE_VALUE;
+      return firstEnabledOption ? firstEnabledOption.value : UNIQUE_VALUE;
     }),
     register: (registration) => {
-      setOptionRefLookup((old) => old.concat(registration).sort(sortByIndex));
-      return () => setOptionRefLookup((old) => old.filter((value) => value !== registration));
+      setOptions((old) =>
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        sortByDOM(groupRef!, "[role='radio']", old.concat(registration), (option) => option.ref),
+      );
+      return () => setOptions((old) => old.filter((value) => value !== registration));
     },
     change: (newValue) => {
       // We do disabled checking in option...
@@ -140,9 +146,10 @@ function RadioGroupRoot<V, C extends DynamicComponent>(props: GroupProps<V, C>) 
       <Dynamic
         component={DEFAULT_GROUP_COMPONENT}
         {...rest}
+        ref={groupRef}
         role="radiogroup"
         onKeyDown={(evt: KeyboardEvent) => {
-          const nextOption = !local.disabled && getValueOfArrowedOption(evt, optionRefLookup());
+          const nextOption = !local.disabled && getValueOfArrowedOption(evt, options());
           if (nextOption) {
             local.onChange(nextOption.value as V);
           }
@@ -174,7 +181,7 @@ function RadioGroupOptionRoot<V, C extends DynamicComponent>(props: OptionProps<
     throw new Error("Use of <RadioGroupOption /> outside of <RadioGroup />");
   }
   const [active, setActive] = createSignal(false);
-  const [local, rest] = splitProps(props, ["index", "value", "disabled"]);
+  const [local, rest] = splitProps(props, ["value", "disabled"]);
   const labeledBy = useLabeledBy();
   const describedBy = useDescribedBy();
   const disabled = createMemo(() => Boolean(local.disabled || group.isDisabled()));
@@ -188,7 +195,6 @@ function RadioGroupOptionRoot<V, C extends DynamicComponent>(props: OptionProps<
         ref: optionRef!,
         // We use local.disabled and expect group to manage group disabled
         disabled: local.disabled,
-        index: local.index,
         value: local.value,
       }),
     ),

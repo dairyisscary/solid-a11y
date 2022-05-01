@@ -13,15 +13,11 @@ export default function DisabledExample() {
       <ListboxOptions>
         {() => (
           <>
-            <ListboxOption<Color> value="red" index={0}>
-              Red
-            </ListboxOption>
-            <ListboxOption<Color> value="green" index={1}>
-              Green
-            </ListboxOption>
+            <ListboxOption<Color> value="red">Red</ListboxOption>
+            <ListboxOption<Color> value="green">Green</ListboxOption>
             {/* highlight-next-lines 2 */}
             {/* Blue is not an option for this user */}
-            <ListboxOption<Color> disabled value="blue" index={2}>
+            <ListboxOption<Color> disabled value="blue">
               Blue (Out of stock)
             </ListboxOption>
           </>

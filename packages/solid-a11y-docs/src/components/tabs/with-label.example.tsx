@@ -6,9 +6,9 @@ export default function WithLabelExample() {
       {/* highlight-next-line */}
       <Label>All of Acme's Wacky Offerings</Label>
       <Tabs>
-        <Tab index={0}>Bugs Bunny</Tab>
-        <Tab index={1}>Daffy Duck</Tab>
-        <Tab index={2}>Elmer Fudd</Tab>
+        <Tab>Bugs Bunny</Tab>
+        <Tab>Daffy Duck</Tab>
+        <Tab>Elmer Fudd</Tab>
         {/* ... */}
       </Tabs>
       <TabPanel index={0}>Bugs Bunny eats carrots.</TabPanel>

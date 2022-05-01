@@ -21,15 +21,9 @@ export default function LabelExample() {
       <ListboxOptions>
         {() => (
           <>
-            <ListboxOption<Color> value="red" index={0}>
-              Red
-            </ListboxOption>
-            <ListboxOption<Color> value="green" index={1}>
-              Green
-            </ListboxOption>
-            <ListboxOption<Color> value="blue" index={2}>
-              Blue
-            </ListboxOption>
+            <ListboxOption<Color> value="red">Red</ListboxOption>
+            <ListboxOption<Color> value="green">Green</ListboxOption>
+            <ListboxOption<Color> value="blue">Blue</ListboxOption>
           </>
         )}
       </ListboxOptions>

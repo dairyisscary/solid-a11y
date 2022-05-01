@@ -5,14 +5,13 @@ export default function ConditionalContentExample() {
     <TabGroup>
       <Tabs>
         <Tab
-          index={0}
           // highlight-next-line
           classList={({ selected }) => ({ active: selected(), inactive: !selected() })}
         >
           {/* highlight-next-line */}
           {({ selected }) => `First tab is ${selected() ? "selected" : "not selected"}`}
         </Tab>
-        <Tab index={1}>No Conditions on this</Tab>
+        <Tab>No Conditions on this</Tab>
         {/* ... */}
       </Tabs>
       <TabPanel index={0}>

@@ -19,10 +19,9 @@ export default function Example() {
       onChange={setValue}
     >
       <For each={options}>
-        {(option, index) => (
+        {(option) => (
           <RadioGroupOption<OptionValue>
             value={option.value}
-            index={index()}
             class="flex cursor-pointer items-center justify-between rounded-lg px-5 py-4 text-sm shadow-md focus:outline-none"
             classList={({ checked, active }) => ({
               "bg-slate-900 bg-opacity-60 text-white": checked(),

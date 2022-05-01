@@ -25,9 +25,8 @@ export default function BasicExample() {
       <TabGroup>
         <Tabs class="flex space-x-2">
           <For each={TABS}>
-            {(tab, index) => (
+            {(tab) => (
               <Tab
-                index={index()}
                 class="flex-1 border-b-2 p-3 text-sm font-medium ring-white ring-opacity-60 ring-offset-2 ring-offset-amber-400 transition-colors focus:outline-none focus:ring-2"
                 classList={({ selected }) => ({
                   "text-amber-700 border-amber-700": selected(),

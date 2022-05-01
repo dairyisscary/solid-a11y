@@ -9,7 +9,6 @@ export default function Example() {
     <RadioGroup<YesOrNo> value={value()} onChange={setValue}>
       <RadioGroupOption<YesOrNo>
         value="yes"
-        index={0}
         // highlight-next-lines 4
         classList={({ checked, active }) => ({
           "text-white": checked(),
@@ -26,9 +25,7 @@ export default function Example() {
         )}
       </RadioGroupOption>
 
-      <RadioGroupOption<YesOrNo> value="no" index={1}>
-        {() => <Label>No</Label>}
-      </RadioGroupOption>
+      <RadioGroupOption<YesOrNo> value="no">{() => <Label>No</Label>}</RadioGroupOption>
     </RadioGroup>
   );
 }

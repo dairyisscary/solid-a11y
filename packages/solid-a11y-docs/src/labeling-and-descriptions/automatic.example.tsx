@@ -5,7 +5,7 @@ export function AutomaticExample() {
   const [value, setValue] = createSignal();
   return (
     <RadioGroup value={value()} onChange={setValue}>
-      <RadioGroupOption index={0} value="apple">
+      <RadioGroupOption value="apple">
         {() => (
           <>
             <Label>Apple</Label>
@@ -13,7 +13,7 @@ export function AutomaticExample() {
           </>
         )}
       </RadioGroupOption>
-      <RadioGroupOption index={1} value="cucumber">
+      <RadioGroupOption value="cucumber">
         {() => (
           <>
             <Label>Cucumber</Label>

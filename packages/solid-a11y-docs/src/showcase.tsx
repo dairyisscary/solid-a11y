@@ -99,11 +99,7 @@ function ShowcaseActions(props: ActionsProps) {
 }
 
 function CodeSample(props: { code: string }) {
-  return (
-    <pre class="text-code-base bg-code-bg overflow-auto whitespace-pre rounded-xl py-3 px-4 text-sm lg:text-base">
-      <code innerHTML={props.code} />
-    </pre>
-  );
+  return <div innerHTML={props.code} />;
 }
 
 export function CodeSampleShowcase(props: CodeSampleProps) {

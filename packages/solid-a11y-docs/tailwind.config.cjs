@@ -18,16 +18,9 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // Theme for code samples, modified Nord theme
         code: {
-          base: "#F8F8F2",
-          bg: "#1E222B",
-          comment: "#636F88",
-          important: "#EBCB8B",
-          keyword: "#81A1C1",
-          literal: "#A3BE8C",
-          name: "#88C0D0",
-          primitive: "#B48EAD",
+          accent: "#89DDFF",
+          highlight: "#1E212D",
         },
       },
       maxWidth: {

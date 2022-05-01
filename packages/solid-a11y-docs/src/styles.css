@@ -34,6 +34,10 @@
   @apply flex-1;
 }
 
+pre.shiki {
+  @apply overflow-auto whitespace-pre rounded-xl py-3 px-4 text-sm lg:text-base;
+}
+
 .code-line-highlight {
-  @apply border-code-keyword bg-code-keyword -mx-4 border-l-2 bg-opacity-10 px-4;
+  @apply border-code-accent bg-code-highlight -ml-4 border-l-[3px] px-4 py-1;
 }

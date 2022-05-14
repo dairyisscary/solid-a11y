@@ -3,7 +3,6 @@ import { valueToEstree } from "estree-util-value-to-estree";
 import remarkSlug from "remark-slug";
 import remarkSmartypants from "remark-smartypants";
 import { SourceMapGenerator } from "source-map";
-import type { Node } from "unist";
 import type { Plugin } from "vite";
 
 import { COMPONENTS } from "../src/components";
@@ -11,6 +10,7 @@ import { COMPONENTS } from "../src/components";
 type MdxEsmNode = {
   type: "mdxjsEsm";
   value: string;
+  data?: unknown;
 };
 type MdxJsxFlowElement = {
   type: "mdxJsxFlowElement";
@@ -34,7 +34,7 @@ type HeadingNode = {
   tagName: typeof HEADING_ELEMS extends Array<infer T> ? T : never;
   properties: { id: string };
 };
-type HastNode = Node & {
+type HastNode = {
   children?: HastNode[];
 } & (MdxJsxFlowElement | MdxEsmNode | TextNode | MdxTextExpressionNode | HTMLElementNode);
 type ComponentTypesTuple =

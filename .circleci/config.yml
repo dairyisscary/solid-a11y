@@ -7,7 +7,7 @@ commands:
       - run:
           name: Install pnpm
           command: |
-            sudo npm install -g pnpm@6.31.0
+            sudo npm install -g pnpm@7.1.0
             pnpm config set store-dir /home/circleci/.pnpm-store
       - run:
           name: Install deps
@@ -46,8 +46,8 @@ jobs:
       - run:
           name: Build
           command: |
-            pnpm clean --filter solid-a11y
-            pnpm build --filter solid-a11y
+            pnpm --filter solid-a11y clean
+            pnpm --filter solid-a11y build
       - persist_to_workspace:
           root: "./"
           paths:
@@ -61,7 +61,7 @@ jobs:
       - install_npm_deps
       - run:
           name: Build Docs Static Content
-          command: pnpm build --filter solid-a11y-docs
+          command: pnpm --filter solid-a11y-docs build
       - persist_to_workspace:
           root: "./"
           paths:

@@ -1,8 +1,7 @@
 module.exports = {
   clearMocks: true,
   moduleFileExtensions: ["tsx", "ts", "js"],
-  resolver: "jest-node-exports-resolver",
-  testEnvironment: require.resolve("./jest.env.cjs"),
+  testEnvironment: "jest-environment-jsdom",
   transform: {
     "^.+\\.tsx?$": "babel-jest",
   },

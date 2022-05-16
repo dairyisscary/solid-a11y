@@ -67,7 +67,7 @@ importers:
       remark-smartypants: ^2.0.0
       remixicon: ^2.5.0
       shiki: ^0.10.1
-      solid-a11y: file:../solid-a11y
+      solid-a11y: link:../solid-a11y
       solid-app-router: ^0.3.2
       solid-js: ^1.4.1
       solid-mdx: ^0.0.6
@@ -86,7 +86,7 @@ importers:
       remark-smartypants: 2.0.0
       remixicon: 2.5.0
       shiki: 0.10.1
-      solid-a11y: file:packages/solid-a11y_solid-js@1.4.1
+      solid-a11y: link:../solid-a11y
       solid-app-router: 0.3.2_solid-js@1.4.1
       solid-js: 1.4.1
       solid-mdx: 0.0.6_solid-js@1.4.1+vite@2.9.9
@@ -6698,15 +6698,4 @@ packages:
 
   /zwitch/2.0.2:
     resolution: {integrity: sha512-JZxotl7SxAJH0j7dN4pxsTV6ZLXoLdGME+PsjkL/DaBrVryK9kTGq06GfKrwcSOqypP+fdXGoCHE36b99fWVoA==}
-    dev: false
-
-  file:packages/solid-a11y_solid-js@1.4.1:
-    resolution: {directory: packages/solid-a11y, type: directory}
-    id: file:packages/solid-a11y
-    name: solid-a11y
-    version: 0.2.0
-    peerDependencies:
-      solid-js: ^1
-    dependencies:
-      solid-js: 1.4.1
     dev: false

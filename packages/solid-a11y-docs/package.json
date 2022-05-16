@@ -17,7 +17,7 @@
     "remark-smartypants": "^2.0.0",
     "remixicon": "^2.5.0",
     "shiki": "^0.10.1",
-    "solid-a11y": "file:../solid-a11y",
+    "solid-a11y": "link:../solid-a11y",
     "solid-app-router": "^0.3.2",
     "solid-js": "^1.4.1",
     "solid-mdx": "^0.0.6",

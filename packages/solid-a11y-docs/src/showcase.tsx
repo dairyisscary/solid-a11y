@@ -70,7 +70,10 @@ function ShowcaseActions(props: ActionsProps) {
   };
   const codeIsShown = () => props.selectedAction === "code";
   return (
-    <div class="absolute right-0 top-0 flex items-stretch space-x-1 px-2 py-1">
+    <div
+      class="absolute right-0 top-0 flex items-stretch space-x-1 rounded-tr-xl rounded-bl-md bg-slate-900 p-2"
+      classList={{ "bg-opacity-30": !codeIsShown(), "bg-opacity-90": codeIsShown() }}
+    >
       <Show when={props.includePreview}>
         {() => (
           <>

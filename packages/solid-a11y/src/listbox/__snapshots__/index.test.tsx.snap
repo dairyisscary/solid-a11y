@@ -302,6 +302,235 @@ Array [
 ]
 `;
 
+exports[`<Listbox /> should allow the options to be searched.: 00 baseline, one active and selected 1`] = `
+Array [
+  Object {
+    "classList": Array [
+      "active",
+      "selected",
+    ],
+    "disabled": false,
+    "selected": true,
+    "textContent": "one -- Active: true - Selected: true",
+  },
+  Object {
+    "classList": Array [],
+    "disabled": false,
+    "selected": false,
+    "textContent": "two -- Active: false - Selected: false",
+  },
+  Object {
+    "classList": Array [],
+    "disabled": false,
+    "selected": false,
+    "textContent": "tang -- Active: false - Selected: false",
+  },
+  Object {
+    "classList": Array [],
+    "disabled": false,
+    "selected": false,
+    "textContent": "three -- Active: false - Selected: false",
+  },
+]
+`;
+
+exports[`<Listbox /> should allow the options to be searched.: 01 one selected and two active 1`] = `
+Array [
+  Object {
+    "classList": Array [
+      "selected",
+    ],
+    "disabled": false,
+    "selected": true,
+    "textContent": "one -- Active: false - Selected: true",
+  },
+  Object {
+    "classList": Array [
+      "active",
+    ],
+    "disabled": false,
+    "selected": false,
+    "textContent": "two -- Active: true - Selected: false",
+  },
+  Object {
+    "classList": Array [],
+    "disabled": false,
+    "selected": false,
+    "textContent": "tang -- Active: false - Selected: false",
+  },
+  Object {
+    "classList": Array [],
+    "disabled": false,
+    "selected": false,
+    "textContent": "three -- Active: false - Selected: false",
+  },
+]
+`;
+
+exports[`<Listbox /> should allow the options to be searched.: 02 one selected and tang active 1`] = `
+Array [
+  Object {
+    "classList": Array [
+      "selected",
+    ],
+    "disabled": false,
+    "selected": true,
+    "textContent": "one -- Active: false - Selected: true",
+  },
+  Object {
+    "classList": Array [],
+    "disabled": false,
+    "selected": false,
+    "textContent": "two -- Active: false - Selected: false",
+  },
+  Object {
+    "classList": Array [
+      "active",
+    ],
+    "disabled": false,
+    "selected": false,
+    "textContent": "tang -- Active: true - Selected: false",
+  },
+  Object {
+    "classList": Array [],
+    "disabled": false,
+    "selected": false,
+    "textContent": "three -- Active: false - Selected: false",
+  },
+]
+`;
+
+exports[`<Listbox /> should allow the options to be searched.: 03 tang selected and active 1`] = `
+Array [
+  Object {
+    "classList": Array [],
+    "disabled": false,
+    "selected": false,
+    "textContent": "one -- Active: false - Selected: false",
+  },
+  Object {
+    "classList": Array [],
+    "disabled": false,
+    "selected": false,
+    "textContent": "two -- Active: false - Selected: false",
+  },
+  Object {
+    "classList": Array [
+      "active",
+      "selected",
+    ],
+    "disabled": false,
+    "selected": true,
+    "textContent": "tang -- Active: true - Selected: true",
+  },
+  Object {
+    "classList": Array [],
+    "disabled": false,
+    "selected": false,
+    "textContent": "three -- Active: false - Selected: false",
+  },
+]
+`;
+
+exports[`<Listbox /> should allow the options to be searched.: 04 tang selected and one active 1`] = `
+Array [
+  Object {
+    "classList": Array [
+      "active",
+    ],
+    "disabled": false,
+    "selected": false,
+    "textContent": "one -- Active: true - Selected: false",
+  },
+  Object {
+    "classList": Array [],
+    "disabled": false,
+    "selected": false,
+    "textContent": "two -- Active: false - Selected: false",
+  },
+  Object {
+    "classList": Array [
+      "selected",
+    ],
+    "disabled": false,
+    "selected": true,
+    "textContent": "tang -- Active: false - Selected: true",
+  },
+  Object {
+    "classList": Array [],
+    "disabled": false,
+    "selected": false,
+    "textContent": "three -- Active: false - Selected: false",
+  },
+]
+`;
+
+exports[`<Listbox /> should allow the options to be searched.: 05 tang selected and one active 1`] = `
+Array [
+  Object {
+    "classList": Array [
+      "active",
+    ],
+    "disabled": false,
+    "selected": false,
+    "textContent": "one -- Active: true - Selected: false",
+  },
+  Object {
+    "classList": Array [],
+    "disabled": false,
+    "selected": false,
+    "textContent": "two -- Active: false - Selected: false",
+  },
+  Object {
+    "classList": Array [
+      "selected",
+    ],
+    "disabled": false,
+    "selected": true,
+    "textContent": "tang -- Active: false - Selected: true",
+  },
+  Object {
+    "classList": Array [],
+    "disabled": false,
+    "selected": false,
+    "textContent": "three -- Active: false - Selected: false",
+  },
+]
+`;
+
+exports[`<Listbox /> should allow the options to be searched.: 06 tang selected and three active 1`] = `
+Array [
+  Object {
+    "classList": Array [],
+    "disabled": false,
+    "selected": false,
+    "textContent": "one -- Active: false - Selected: false",
+  },
+  Object {
+    "classList": Array [],
+    "disabled": false,
+    "selected": false,
+    "textContent": "two -- Active: false - Selected: false",
+  },
+  Object {
+    "classList": Array [
+      "selected",
+    ],
+    "disabled": false,
+    "selected": true,
+    "textContent": "tang -- Active: false - Selected: true",
+  },
+  Object {
+    "classList": Array [
+      "active",
+    ],
+    "disabled": false,
+    "selected": false,
+    "textContent": "three -- Active: true - Selected: false",
+  },
+]
+`;
+
 exports[`<Listbox /> should render a list of clickable options with a button.: 00 First active, no selected, nor disabled 1`] = `
 Array [
   Object {

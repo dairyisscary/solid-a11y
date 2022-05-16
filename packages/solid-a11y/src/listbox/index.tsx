@@ -67,6 +67,7 @@ type GroupContext = {
   registerListbox: (el: HTMLElement) => void;
   optionsRefId: () => string | undefined;
   activeOptionId: () => string | undefined;
+  search: (char: string) => void;
 };
 type ListboxProps<V> = {
   /** The currently selected value */
@@ -78,6 +79,8 @@ type ListboxProps<V> = {
   children: JSX.Element;
   /** When true, disables the entire listbox */
   disabled?: boolean;
+  /** The callback to customize keyboard search, returning true for an option's value that matches search -- must be implemented if group value is not of type string */
+  keyboardSearchPredicate?: (search: string, value: V) => boolean;
 };
 type OptionRenderProps = Readonly<{
   selected: () => boolean;
@@ -210,7 +213,8 @@ export function ListboxOptions<C extends DynamicComponent = typeof DEFAULT_OPTIO
           aria-activedescendant={context.activeOptionId()}
           onKeyDown={(evt: KeyboardEvent) => {
             const isHorizontal = context.orientation() === "horizontal";
-            switch (evt.key) {
+            const { key } = evt;
+            switch (key) {
               case TAB_KEY:
                 evt.preventDefault();
                 break;
@@ -240,6 +244,11 @@ export function ListboxOptions<C extends DynamicComponent = typeof DEFAULT_OPTIO
                 evt.preventDefault();
                 context.activateDirection("next");
                 break;
+              default:
+                if (key.length === 1) {
+                  evt.preventDefault();
+                  context.search(key);
+                }
             }
             return callThrough(props.onKeyDown, evt);
           }}
@@ -391,6 +400,20 @@ export function Listbox<V = string>(props: ListboxProps<V>) {
     setHardClosed();
   };
   const isOpen = () => open() && !isDisabled();
+
+  const [searchWorkingCopy, setSearchWorkingCopy] = createSignal("");
+  createEffect(() => {
+    if (!isOpen()) {
+      return setSearchWorkingCopy("");
+    }
+    if (searchWorkingCopy()) {
+      const clearSearchTimeoutId = window.setTimeout(() => {
+        setSearchWorkingCopy("");
+      }, 350);
+      onCleanup(() => window.clearTimeout(clearSearchTimeoutId));
+    }
+  });
+
   const context: GroupContext = {
     orientation: createMemo(() => props.orientation || "vertical"),
     isSelected,
@@ -401,6 +424,39 @@ export function Listbox<V = string>(props: ListboxProps<V>) {
     activate: setActiveValue as (v: unknown) => void,
     activateDirection,
     deactivate: (v) => setActiveValue((cur) => (v === cur ? null : cur)),
+
+    search: (char) => {
+      if (!isOpen()) {
+        return;
+      }
+      const originalSearch = searchWorkingCopy();
+      if (!originalSearch && char === SPACE_KEY) {
+        return;
+      }
+      const curSearch = originalSearch + char.toLowerCase();
+      setSearchWorkingCopy(curSearch);
+
+      const reorderOffset = originalSearch ? 0 : 1;
+      const optionsLookup = options();
+      const activeOptionIndex = optionsLookup.findIndex((option) => isActive(option.value));
+      const searchOptions =
+        activeOptionIndex > -1
+          ? optionsLookup
+              .slice(activeOptionIndex + reorderOffset)
+              .concat(optionsLookup.slice(0, activeOptionIndex + reorderOffset))
+          : optionsLookup;
+
+      const findFn =
+        props.keyboardSearchPredicate ||
+        ((search: string, value: V) =>
+          value && (value as unknown as string).toLowerCase().startsWith(search));
+      const option = searchOptions.find(
+        (option) => !option.disabled && findFn(curSearch, option.value as V),
+      );
+      if (option) {
+        setActiveValue(option.value as ExcludeValue<V>);
+      }
+    },
 
     select,
     selectActive: () => {

@@ -13,6 +13,10 @@ describe("<Listbox />", () => {
     value: color,
   })) as { value: OptionValue; disabled?: boolean }[];
 
+  function waitFor(time: number) {
+    return new Promise((res) => setTimeout(res, time));
+  }
+
   function createListBox(creationOpts?: {
     optionsProps?: Record<string, unknown>;
     buttonProps?: Record<string, unknown>;
@@ -301,5 +305,61 @@ describe("<Listbox />", () => {
     expect(document.getElementById(button.getAttribute("aria-describedby")!)!.textContent).toBe(
       "This describes the button.",
     );
+  });
+
+  it("should allow the options to be searched.", async () => {
+    const options = ["one", "two", "tang", "three"] as const;
+    const [value, setValue] = createSignal("one");
+    const rendered = render(() => (
+      <Listbox value={value()} onChange={setValue}>
+        <ListboxButton>{`Button: ${value() || "none"}`}</ListboxButton>
+        <ListboxOptions>
+          {() => (
+            <For each={options}>
+              {(option) => (
+                <ListboxOption
+                  value={option}
+                  classList={({ selected, active }) => ({ selected: selected(), active: active() })}
+                >
+                  {({ selected, active }) => (
+                    <p>{`${option} -- Active: ${active().toString()} - Selected: ${selected().toString()}`}</p>
+                  )}
+                </ListboxOption>
+              )}
+            </For>
+          )}
+        </ListboxOptions>
+      </Listbox>
+    ));
+    const user = UserEvent.setup();
+
+    await user.click(getListBoxButton(rendered));
+    expectButton(rendered, { disabled: false, expanded: true });
+    expect(serializeOptions(rendered)).toMatchSnapshot("00 baseline, one active and selected");
+
+    await user.keyboard("t");
+    expect(serializeOptions(rendered)).toMatchSnapshot("01 one selected and two active");
+
+    await user.keyboard("ang");
+    expect(serializeOptions(rendered)).toMatchSnapshot("02 one selected and tang active");
+
+    await user.keyboard("{Enter}");
+    expectButton(rendered, { disabled: false, expanded: false });
+    expect(value()).toBe("tang");
+
+    await user.click(getListBoxButton(rendered));
+    expectButton(rendered, { disabled: false, expanded: true });
+    expect(serializeOptions(rendered)).toMatchSnapshot("03 tang selected and active");
+
+    await user.keyboard("o");
+    expect(serializeOptions(rendered)).toMatchSnapshot("04 tang selected and one active");
+
+    await waitFor(300);
+    await user.keyboard("ne");
+    expect(serializeOptions(rendered)).toMatchSnapshot("05 tang selected and one active");
+
+    await waitFor(400);
+    await user.keyboard("three");
+    expect(serializeOptions(rendered)).toMatchSnapshot("06 tang selected and three active");
   });
 });

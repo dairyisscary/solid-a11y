@@ -12,11 +12,17 @@ const TREATS = [
   { value: "popcorn", label: "Popcorn" },
 ];
 
+const searchPredicate = (search: string, treat: Treat) => treat.value.startsWith(search);
+
 export default function BasicExample() {
   const [selectedTreat, setSelectedTreat] = createSignal(TREATS[0]);
   return (
     <div class="relative h-[250px] w-full max-w-md text-gray-900">
-      <Listbox<Treat> onChange={setSelectedTreat} value={selectedTreat()}>
+      <Listbox<Treat>
+        keyboardSearchPredicate={searchPredicate}
+        onChange={setSelectedTreat}
+        value={selectedTreat()}
+      >
         <ListboxButton class="flex w-full cursor-default items-center justify-between gap-3 rounded-lg bg-white py-2 px-3 shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-fuchsia-300">
           {({ open }) => (
             <>

@@ -19,6 +19,7 @@ import {
   type A11yDynamicProps,
   type DynamicComponent,
   callThrough,
+  callThroughRef,
   createClickOutside,
   getTypeAttributeForDefaultButtonComponent,
   isFocusable,
@@ -151,7 +152,7 @@ export function ListboxButton<C extends DynamicComponent = typeof DEFAULT_BUTTON
     <Dynamic
       component={DEFAULT_BUTTON_COMPONENT}
       {...props}
-      ref={context.registerButton}
+      ref={callThroughRef(props, context.registerButton)}
       aria-labelledby={joinSpaceSeparated(props["aria-labelledby"], labeledBy())}
       aria-describedby={joinSpaceSeparated(props["aria-describedby"], describedBy())}
       id={id}
@@ -201,7 +202,7 @@ export function ListboxOptions<C extends DynamicComponent = typeof DEFAULT_OPTIO
         <Dynamic
           component={DEFAULT_OPTIONS_COMPONENT}
           {...props}
-          ref={context.registerListbox}
+          ref={callThroughRef(props, context.registerListbox)}
           id={id}
           role="listbox"
           tabindex="0"
@@ -278,7 +279,7 @@ export function ListboxOption<
     <Dynamic
       component={DEFAULT_OPTION_COMPONENT}
       {...rest}
-      ref={optionRef}
+      ref={callThroughRef(rest, (el) => (optionRef = el))}
       id={id}
       classList={
         typeof props.classList === "function" ? props.classList(renderProps) : props.classList

@@ -14,6 +14,7 @@ import {
   type A11yDynamicProps,
   type DynamicComponent,
   callThrough,
+  callThroughRef,
   focusIn,
   joinSpaceSeparated,
 } from "../html";
@@ -167,7 +168,7 @@ function DialogRoot<C extends DynamicComponent>(props: Omit<DialogProps<C>, "onC
     <Dynamic
       component={DEFAULT_DIALOG_COMPONENT}
       {...rest}
-      ref={containerRef}
+      ref={callThroughRef(rest, (el) => (containerRef = el))}
       role="dialog"
       aria-modal="true"
       aria-labelledby={joinSpaceSeparated(local["aria-labelledby"], labeledBy())}

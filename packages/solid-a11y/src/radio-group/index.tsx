@@ -16,6 +16,7 @@ import {
   type A11yDynamicProps,
   type DynamicComponent,
   callThrough,
+  callThroughRef,
   focusNextElement,
   joinSpaceSeparated,
 } from "../html";
@@ -146,7 +147,7 @@ function RadioGroupRoot<V, C extends DynamicComponent>(props: GroupProps<V, C>) 
       <Dynamic
         component={DEFAULT_GROUP_COMPONENT}
         {...rest}
-        ref={groupRef}
+        ref={callThroughRef(rest, (el) => (groupRef = el))}
         role="radiogroup"
         onKeyDown={(evt: KeyboardEvent) => {
           const nextOption = !local.disabled && getValueOfArrowedOption(evt, options());
@@ -203,7 +204,7 @@ function RadioGroupOptionRoot<V, C extends DynamicComponent>(props: OptionProps<
     <Dynamic
       component={DEFAULT_OPTION_COMPONENT}
       {...rest}
-      ref={optionRef}
+      ref={callThroughRef(rest, (el) => (optionRef = el))}
       role="radio"
       aria-labelledby={joinSpaceSeparated(props["aria-labelledby"], labeledBy())}
       aria-describedby={joinSpaceSeparated(props["aria-describedby"], describedBy())}

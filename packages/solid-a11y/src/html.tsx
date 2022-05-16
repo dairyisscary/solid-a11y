@@ -1,6 +1,7 @@
 import { type Component, type ComponentProps, onCleanup, onMount } from "solid-js";
 import type { JSX } from "solid-js/jsx-runtime";
 
+type RefCallback<E> = (el: E) => void;
 export type DynamicComponent = Component | keyof JSX.IntrinsicElements;
 export type A11yDynamicProps<
   Comp extends DynamicComponent,
@@ -9,6 +10,7 @@ export type A11yDynamicProps<
 > = Omit<ComponentProps<Comp>, Omitted | keyof OtherProps> &
   OtherProps & {
     component?: Comp;
+    ref?: HTMLElement | RefCallback<HTMLElement>;
     children?: OtherProps extends { children?: infer OtherChild }
       ? OtherChild
       : ComponentProps<Comp> extends { children?: infer BaseChild }
@@ -87,6 +89,21 @@ export function callThrough<T, E extends Event>(
   } else if (typeof callback === "function") {
     return callback(event as E & { currentTarget: T; target: HTMLElement });
   }
+}
+
+export function callThroughRef<E extends HTMLElement>(
+  props: { ref?: E | RefCallback<E> },
+  callback: RefCallback<E>,
+): RefCallback<E> {
+  return (el) => {
+    const inProps = "ref" in props;
+    if (inProps && typeof props.ref === "function") {
+      props.ref(el);
+    } else if (inProps) {
+      props.ref = el;
+    }
+    callback(el);
+  };
 }
 
 export function nextFocusableElementPool(

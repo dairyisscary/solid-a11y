@@ -17,6 +17,7 @@ import {
   type A11yDynamicProps,
   type DynamicComponent,
   callThrough,
+  callThroughRef,
   focusNextElement,
   getTypeAttributeForDefaultButtonComponent,
   joinSpaceSeparated,
@@ -130,7 +131,7 @@ export function Tabs<C extends DynamicComponent = typeof DEFAULT_TABS_TAG>(props
     <Dynamic
       component={DEFAULT_TABS_TAG}
       {...props}
-      ref={context.registerTabList}
+      ref={callThroughRef(props, context.registerTabList)}
       role="tablist"
       aria-orientation={context.orientation()}
       aria-labelledby={joinSpaceSeparated(props["aria-labelledby"], labeledBy())}
@@ -161,7 +162,7 @@ export function Tab<C extends DynamicComponent = typeof DEFAULT_TAB_TAG>(props: 
         typeof props.classList === "function" ? props.classList(renderProps) : props.classList
       }
       type={getTypeAttributeForDefaultButtonComponent(props.component, props.type)}
-      ref={tabRef}
+      ref={callThroughRef(props, (el) => (tabRef = el))}
       role="tab"
       id={id}
       aria-controls={context.getAssociatedPanelId(tabRef)}

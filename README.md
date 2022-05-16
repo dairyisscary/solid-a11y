@@ -1,7 +1,9 @@
-# solid-a11y
+<p>
+  <img src="https://raw.githubusercontent.com/dairyisscary/solid-a11y/main/banner.png" width="100%" alt="solid-a11y Banner">
+</p>
 
-A collection of fully accessible, completely unstyled (headless) components for
-[solid-js][solid_js].
+`solid-a11y` is a collection of fully accessible, completely unstyled (headless) components for
+[SolidJS][solid_js].
 
 ## Documentation
 

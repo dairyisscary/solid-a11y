@@ -7,7 +7,7 @@ commands:
       - run:
           name: Install pnpm
           command: |
-            sudo npm install -g pnpm@7.1.0
+            sudo npm install -g pnpm@7.1.7
             pnpm config set store-dir /home/circleci/.pnpm-store
       - run:
           name: Install deps
@@ -160,7 +160,7 @@ jobs:
       - install_npm_deps
       - run:
           name: Typecheck
-          command: pnpm -r --no-bail --filter ./packages/ exec tsc
+          command: pnpm -r --no-bail exec tsc
 
   validate_infrastructure_configuration:
     executor: terraform

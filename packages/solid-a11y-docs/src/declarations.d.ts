@@ -1,4 +1,4 @@
-import { JSX as SolidJSX } from "solid-js/jsx-runtime";
+import type { JSX as SolidJSX } from "solid-js/jsx-runtime";
 
 declare global {
   // mdx types shit the bed

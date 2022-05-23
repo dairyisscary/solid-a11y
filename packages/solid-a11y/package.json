@@ -41,16 +41,16 @@
     "solid-js": "^1"
   },
   "devDependencies": {
-    "@babel/core": "^7.17.10",
-    "@babel/preset-env": "^7.17.10",
-    "@babel/preset-typescript": "^7.16.7",
+    "@babel/core": "^7.18.2",
+    "@babel/preset-env": "^7.18.2",
+    "@babel/preset-typescript": "^7.17.12",
     "@testing-library/user-event": "^14.2.0",
     "@types/jest": "^27.5.1",
     "babel-jest": "^28.1.0",
-    "babel-preset-solid": "^1.4.0",
+    "babel-preset-solid": "^1.4.2",
     "jest": "^28.1.0",
     "jest-environment-jsdom": "^28.1.0",
-    "solid-js": "^1.4.1",
+    "solid-js": "^1.4.3",
     "solid-testing-library": "^0.3.0"
   }
 }

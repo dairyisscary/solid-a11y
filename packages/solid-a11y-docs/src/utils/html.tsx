@@ -1,3 +1,5 @@
+import type { JSX } from "solid-js/jsx-runtime";
+
 import { NamedSVGIcon } from "@docs/assets/svg-icon";
 
 export function joinSpaceSeparated(

@@ -1,6 +1,7 @@
 import UserEvent from "@testing-library/user-event";
 import { type ComponentProps, createSignal } from "solid-js";
 import { render } from "solid-testing-library";
+import { describe, expect, it, vi } from "vitest";
 
 import { Switch } from ".";
 
@@ -48,8 +49,8 @@ describe("<Switch />", () => {
   });
 
   it("should allow the user to control attributes.", async () => {
-    const onClick = jest.fn();
-    const onKeyUp = jest.fn();
+    const onClick = vi.fn();
+    const onKeyUp = vi.fn();
     const { switchElement, user } = createSwitch({
       component: "div",
       onKeyUp,

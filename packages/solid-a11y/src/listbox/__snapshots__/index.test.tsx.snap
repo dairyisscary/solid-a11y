@@ -1,23 +1,23 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1
 
-exports[`<Listbox /> should allow keyboard controls on the button.: 00 red active but not selected 1`] = `
-Array [
-  Object {
-    "classList": Array [
+exports[`<Listbox /> > should allow keyboard controls on the button. > 00 red active but not selected 1`] = `
+[
+  {
+    "classList": [
       "active",
     ],
     "disabled": false,
     "selected": false,
     "textContent": "red -- Active: true - Selected: false",
   },
-  Object {
-    "classList": Array [],
+  {
+    "classList": [],
     "disabled": false,
     "selected": false,
     "textContent": "blue -- Active: false - Selected: false",
   },
-  Object {
-    "classList": Array [],
+  {
+    "classList": [],
     "disabled": false,
     "selected": false,
     "textContent": "green -- Active: false - Selected: false",
@@ -25,24 +25,24 @@ Array [
 ]
 `;
 
-exports[`<Listbox /> should allow keyboard controls on the button.: 01 red active but not selected 1`] = `
-Array [
-  Object {
-    "classList": Array [
+exports[`<Listbox /> > should allow keyboard controls on the button. > 01 red active but not selected 1`] = `
+[
+  {
+    "classList": [
       "active",
     ],
     "disabled": false,
     "selected": false,
     "textContent": "red -- Active: true - Selected: false",
   },
-  Object {
-    "classList": Array [],
+  {
+    "classList": [],
     "disabled": false,
     "selected": false,
     "textContent": "blue -- Active: false - Selected: false",
   },
-  Object {
-    "classList": Array [],
+  {
+    "classList": [],
     "disabled": false,
     "selected": false,
     "textContent": "green -- Active: false - Selected: false",
@@ -50,24 +50,24 @@ Array [
 ]
 `;
 
-exports[`<Listbox /> should allow keyboard controls on the button.: 02 blue active but not selected 1`] = `
-Array [
-  Object {
-    "classList": Array [],
+exports[`<Listbox /> > should allow keyboard controls on the button. > 02 blue active but not selected 1`] = `
+[
+  {
+    "classList": [],
     "disabled": false,
     "selected": false,
     "textContent": "red -- Active: false - Selected: false",
   },
-  Object {
-    "classList": Array [
+  {
+    "classList": [
       "active",
     ],
     "disabled": false,
     "selected": false,
     "textContent": "blue -- Active: true - Selected: false",
   },
-  Object {
-    "classList": Array [],
+  {
+    "classList": [],
     "disabled": false,
     "selected": false,
     "textContent": "green -- Active: false - Selected: false",
@@ -75,24 +75,24 @@ Array [
 ]
 `;
 
-exports[`<Listbox /> should allow keyboard controls on the button.: 03 red active but not selected 1`] = `
-Array [
-  Object {
-    "classList": Array [
+exports[`<Listbox /> > should allow keyboard controls on the button. > 03 red active but not selected 1`] = `
+[
+  {
+    "classList": [
       "active",
     ],
     "disabled": false,
     "selected": false,
     "textContent": "red -- Active: true - Selected: false",
   },
-  Object {
-    "classList": Array [],
+  {
+    "classList": [],
     "disabled": false,
     "selected": false,
     "textContent": "blue -- Active: false - Selected: false",
   },
-  Object {
-    "classList": Array [],
+  {
+    "classList": [],
     "disabled": false,
     "selected": false,
     "textContent": "green -- Active: false - Selected: false",
@@ -100,22 +100,22 @@ Array [
 ]
 `;
 
-exports[`<Listbox /> should allow keyboard controls on the button.: 04 Green active but no selection 1`] = `
-Array [
-  Object {
-    "classList": Array [],
+exports[`<Listbox /> > should allow keyboard controls on the button. > 04 Green active but no selection 1`] = `
+[
+  {
+    "classList": [],
     "disabled": false,
     "selected": false,
     "textContent": "red -- Active: false - Selected: false",
   },
-  Object {
-    "classList": Array [],
+  {
+    "classList": [],
     "disabled": false,
     "selected": false,
     "textContent": "blue -- Active: false - Selected: false",
   },
-  Object {
-    "classList": Array [
+  {
+    "classList": [
       "active",
     ],
     "disabled": false,
@@ -125,24 +125,24 @@ Array [
 ]
 `;
 
-exports[`<Listbox /> should allow keyboard controls on the button.: 05 Red active and green selected 1`] = `
-Array [
-  Object {
-    "classList": Array [
+exports[`<Listbox /> > should allow keyboard controls on the button. > 05 Red active and green selected 1`] = `
+[
+  {
+    "classList": [
       "active",
     ],
     "disabled": false,
     "selected": false,
     "textContent": "red -- Active: true - Selected: false",
   },
-  Object {
-    "classList": Array [],
+  {
+    "classList": [],
     "disabled": false,
     "selected": false,
     "textContent": "blue -- Active: false - Selected: false",
   },
-  Object {
-    "classList": Array [
+  {
+    "classList": [
       "selected",
     ],
     "disabled": false,
@@ -152,22 +152,22 @@ Array [
 ]
 `;
 
-exports[`<Listbox /> should allow keyboard controls on the button.: 06 Green active and active 1`] = `
-Array [
-  Object {
-    "classList": Array [],
+exports[`<Listbox /> > should allow keyboard controls on the button. > 06 Green active and active 1`] = `
+[
+  {
+    "classList": [],
     "disabled": false,
     "selected": false,
     "textContent": "red -- Active: false - Selected: false",
   },
-  Object {
-    "classList": Array [],
+  {
+    "classList": [],
     "disabled": false,
     "selected": false,
     "textContent": "blue -- Active: false - Selected: false",
   },
-  Object {
-    "classList": Array [
+  {
+    "classList": [
       "active",
       "selected",
     ],
@@ -178,10 +178,10 @@ Array [
 ]
 `;
 
-exports[`<Listbox /> should allow options to change.: 00 baseline, red selected and active 1`] = `
-Array [
-  Object {
-    "classList": Array [
+exports[`<Listbox /> > should allow options to change. > 00 baseline, red selected and active 1`] = `
+[
+  {
+    "classList": [
       "active",
       "selected",
     ],
@@ -189,14 +189,14 @@ Array [
     "selected": true,
     "textContent": "red -- Active: true - Selected: true",
   },
-  Object {
-    "classList": Array [],
+  {
+    "classList": [],
     "disabled": false,
     "selected": false,
     "textContent": "blue -- Active: false - Selected: false",
   },
-  Object {
-    "classList": Array [],
+  {
+    "classList": [],
     "disabled": false,
     "selected": false,
     "textContent": "green -- Active: false - Selected: false",
@@ -204,10 +204,10 @@ Array [
 ]
 `;
 
-exports[`<Listbox /> should allow options to change.: 01 add cyan and yellow, remove green, red still selected and active 1`] = `
-Array [
-  Object {
-    "classList": Array [
+exports[`<Listbox /> > should allow options to change. > 01 add cyan and yellow, remove green, red still selected and active 1`] = `
+[
+  {
+    "classList": [
       "active",
       "selected",
     ],
@@ -215,20 +215,20 @@ Array [
     "selected": true,
     "textContent": "red -- Active: true - Selected: true",
   },
-  Object {
-    "classList": Array [],
+  {
+    "classList": [],
     "disabled": false,
     "selected": false,
     "textContent": "blue -- Active: false - Selected: false",
   },
-  Object {
-    "classList": Array [],
+  {
+    "classList": [],
     "disabled": false,
     "selected": false,
     "textContent": "cyan -- Active: false - Selected: false",
   },
-  Object {
-    "classList": Array [],
+  {
+    "classList": [],
     "disabled": false,
     "selected": false,
     "textContent": "yellow -- Active: false - Selected: false",
@@ -236,32 +236,32 @@ Array [
 ]
 `;
 
-exports[`<Listbox /> should allow options to change.: 02 cyan now selected 1`] = `
-Array [
-  Object {
-    "classList": Array [
+exports[`<Listbox /> > should allow options to change. > 02 cyan now selected 1`] = `
+[
+  {
+    "classList": [
       "active",
     ],
     "disabled": false,
     "selected": false,
     "textContent": "red -- Active: true - Selected: false",
   },
-  Object {
-    "classList": Array [],
+  {
+    "classList": [],
     "disabled": false,
     "selected": false,
     "textContent": "blue -- Active: false - Selected: false",
   },
-  Object {
-    "classList": Array [
+  {
+    "classList": [
       "selected",
     ],
     "disabled": false,
     "selected": true,
     "textContent": "cyan -- Active: false - Selected: true",
   },
-  Object {
-    "classList": Array [],
+  {
+    "classList": [],
     "disabled": false,
     "selected": false,
     "textContent": "yellow -- Active: false - Selected: false",
@@ -269,30 +269,30 @@ Array [
 ]
 `;
 
-exports[`<Listbox /> should allow options to change.: 03 cyan still selected and yellow active 1`] = `
-Array [
-  Object {
-    "classList": Array [],
+exports[`<Listbox /> > should allow options to change. > 03 cyan still selected and yellow active 1`] = `
+[
+  {
+    "classList": [],
     "disabled": false,
     "selected": false,
     "textContent": "red -- Active: false - Selected: false",
   },
-  Object {
-    "classList": Array [],
+  {
+    "classList": [],
     "disabled": false,
     "selected": false,
     "textContent": "blue -- Active: false - Selected: false",
   },
-  Object {
-    "classList": Array [
+  {
+    "classList": [
       "selected",
     ],
     "disabled": false,
     "selected": true,
     "textContent": "cyan -- Active: false - Selected: true",
   },
-  Object {
-    "classList": Array [
+  {
+    "classList": [
       "active",
     ],
     "disabled": false,
@@ -302,10 +302,10 @@ Array [
 ]
 `;
 
-exports[`<Listbox /> should allow the options to be searched.: 00 baseline, one active and selected 1`] = `
-Array [
-  Object {
-    "classList": Array [
+exports[`<Listbox /> > should allow the options to be searched. > 00 baseline, one active and selected 1`] = `
+[
+  {
+    "classList": [
       "active",
       "selected",
     ],
@@ -313,20 +313,20 @@ Array [
     "selected": true,
     "textContent": "one -- Active: true - Selected: true",
   },
-  Object {
-    "classList": Array [],
+  {
+    "classList": [],
     "disabled": false,
     "selected": false,
     "textContent": "two -- Active: false - Selected: false",
   },
-  Object {
-    "classList": Array [],
+  {
+    "classList": [],
     "disabled": false,
     "selected": false,
     "textContent": "tang -- Active: false - Selected: false",
   },
-  Object {
-    "classList": Array [],
+  {
+    "classList": [],
     "disabled": false,
     "selected": false,
     "textContent": "three -- Active: false - Selected: false",
@@ -334,32 +334,32 @@ Array [
 ]
 `;
 
-exports[`<Listbox /> should allow the options to be searched.: 01 one selected and two active 1`] = `
-Array [
-  Object {
-    "classList": Array [
+exports[`<Listbox /> > should allow the options to be searched. > 01 one selected and two active 1`] = `
+[
+  {
+    "classList": [
       "selected",
     ],
     "disabled": false,
     "selected": true,
     "textContent": "one -- Active: false - Selected: true",
   },
-  Object {
-    "classList": Array [
+  {
+    "classList": [
       "active",
     ],
     "disabled": false,
     "selected": false,
     "textContent": "two -- Active: true - Selected: false",
   },
-  Object {
-    "classList": Array [],
+  {
+    "classList": [],
     "disabled": false,
     "selected": false,
     "textContent": "tang -- Active: false - Selected: false",
   },
-  Object {
-    "classList": Array [],
+  {
+    "classList": [],
     "disabled": false,
     "selected": false,
     "textContent": "three -- Active: false - Selected: false",
@@ -367,32 +367,32 @@ Array [
 ]
 `;
 
-exports[`<Listbox /> should allow the options to be searched.: 02 one selected and tang active 1`] = `
-Array [
-  Object {
-    "classList": Array [
+exports[`<Listbox /> > should allow the options to be searched. > 02 one selected and tang active 1`] = `
+[
+  {
+    "classList": [
       "selected",
     ],
     "disabled": false,
     "selected": true,
     "textContent": "one -- Active: false - Selected: true",
   },
-  Object {
-    "classList": Array [],
+  {
+    "classList": [],
     "disabled": false,
     "selected": false,
     "textContent": "two -- Active: false - Selected: false",
   },
-  Object {
-    "classList": Array [
+  {
+    "classList": [
       "active",
     ],
     "disabled": false,
     "selected": false,
     "textContent": "tang -- Active: true - Selected: false",
   },
-  Object {
-    "classList": Array [],
+  {
+    "classList": [],
     "disabled": false,
     "selected": false,
     "textContent": "three -- Active: false - Selected: false",
@@ -400,22 +400,22 @@ Array [
 ]
 `;
 
-exports[`<Listbox /> should allow the options to be searched.: 03 tang selected and active 1`] = `
-Array [
-  Object {
-    "classList": Array [],
+exports[`<Listbox /> > should allow the options to be searched. > 03 tang selected and active 1`] = `
+[
+  {
+    "classList": [],
     "disabled": false,
     "selected": false,
     "textContent": "one -- Active: false - Selected: false",
   },
-  Object {
-    "classList": Array [],
+  {
+    "classList": [],
     "disabled": false,
     "selected": false,
     "textContent": "two -- Active: false - Selected: false",
   },
-  Object {
-    "classList": Array [
+  {
+    "classList": [
       "active",
       "selected",
     ],
@@ -423,8 +423,8 @@ Array [
     "selected": true,
     "textContent": "tang -- Active: true - Selected: true",
   },
-  Object {
-    "classList": Array [],
+  {
+    "classList": [],
     "disabled": false,
     "selected": false,
     "textContent": "three -- Active: false - Selected: false",
@@ -432,32 +432,32 @@ Array [
 ]
 `;
 
-exports[`<Listbox /> should allow the options to be searched.: 04 tang selected and one active 1`] = `
-Array [
-  Object {
-    "classList": Array [
+exports[`<Listbox /> > should allow the options to be searched. > 04 tang selected and one active 1`] = `
+[
+  {
+    "classList": [
       "active",
     ],
     "disabled": false,
     "selected": false,
     "textContent": "one -- Active: true - Selected: false",
   },
-  Object {
-    "classList": Array [],
+  {
+    "classList": [],
     "disabled": false,
     "selected": false,
     "textContent": "two -- Active: false - Selected: false",
   },
-  Object {
-    "classList": Array [
+  {
+    "classList": [
       "selected",
     ],
     "disabled": false,
     "selected": true,
     "textContent": "tang -- Active: false - Selected: true",
   },
-  Object {
-    "classList": Array [],
+  {
+    "classList": [],
     "disabled": false,
     "selected": false,
     "textContent": "three -- Active: false - Selected: false",
@@ -465,32 +465,32 @@ Array [
 ]
 `;
 
-exports[`<Listbox /> should allow the options to be searched.: 05 tang selected and one active 1`] = `
-Array [
-  Object {
-    "classList": Array [
+exports[`<Listbox /> > should allow the options to be searched. > 05 tang selected and one active 1`] = `
+[
+  {
+    "classList": [
       "active",
     ],
     "disabled": false,
     "selected": false,
     "textContent": "one -- Active: true - Selected: false",
   },
-  Object {
-    "classList": Array [],
+  {
+    "classList": [],
     "disabled": false,
     "selected": false,
     "textContent": "two -- Active: false - Selected: false",
   },
-  Object {
-    "classList": Array [
+  {
+    "classList": [
       "selected",
     ],
     "disabled": false,
     "selected": true,
     "textContent": "tang -- Active: false - Selected: true",
   },
-  Object {
-    "classList": Array [],
+  {
+    "classList": [],
     "disabled": false,
     "selected": false,
     "textContent": "three -- Active: false - Selected: false",
@@ -498,30 +498,30 @@ Array [
 ]
 `;
 
-exports[`<Listbox /> should allow the options to be searched.: 06 tang selected and three active 1`] = `
-Array [
-  Object {
-    "classList": Array [],
+exports[`<Listbox /> > should allow the options to be searched. > 06 tang selected and three active 1`] = `
+[
+  {
+    "classList": [],
     "disabled": false,
     "selected": false,
     "textContent": "one -- Active: false - Selected: false",
   },
-  Object {
-    "classList": Array [],
+  {
+    "classList": [],
     "disabled": false,
     "selected": false,
     "textContent": "two -- Active: false - Selected: false",
   },
-  Object {
-    "classList": Array [
+  {
+    "classList": [
       "selected",
     ],
     "disabled": false,
     "selected": true,
     "textContent": "tang -- Active: false - Selected: true",
   },
-  Object {
-    "classList": Array [
+  {
+    "classList": [
       "active",
     ],
     "disabled": false,
@@ -531,24 +531,24 @@ Array [
 ]
 `;
 
-exports[`<Listbox /> should render a list of clickable options with a button.: 00 First active, no selected, nor disabled 1`] = `
-Array [
-  Object {
-    "classList": Array [
+exports[`<Listbox /> > should render a list of clickable options with a button. > 00 First active, no selected, nor disabled 1`] = `
+[
+  {
+    "classList": [
       "active",
     ],
     "disabled": false,
     "selected": false,
     "textContent": "red -- Active: true - Selected: false",
   },
-  Object {
-    "classList": Array [],
+  {
+    "classList": [],
     "disabled": false,
     "selected": false,
     "textContent": "blue -- Active: false - Selected: false",
   },
-  Object {
-    "classList": Array [],
+  {
+    "classList": [],
     "disabled": false,
     "selected": false,
     "textContent": "green -- Active: false - Selected: false",
@@ -556,22 +556,22 @@ Array [
 ]
 `;
 
-exports[`<Listbox /> should render a list of clickable options with a button.: 01 green active, green selected, nor disabled 1`] = `
-Array [
-  Object {
-    "classList": Array [],
+exports[`<Listbox /> > should render a list of clickable options with a button. > 01 green active, green selected, nor disabled 1`] = `
+[
+  {
+    "classList": [],
     "disabled": false,
     "selected": false,
     "textContent": "red -- Active: false - Selected: false",
   },
-  Object {
-    "classList": Array [],
+  {
+    "classList": [],
     "disabled": false,
     "selected": false,
     "textContent": "blue -- Active: false - Selected: false",
   },
-  Object {
-    "classList": Array [
+  {
+    "classList": [
       "active",
       "selected",
     ],

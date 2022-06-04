@@ -2,6 +2,7 @@ import UserEvent from "@testing-library/user-event";
 import { For, createSignal } from "solid-js";
 import type { JSX } from "solid-js/jsx-runtime";
 import { render } from "solid-testing-library";
+import { describe, expect, it, vi } from "vitest";
 
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from ".";
 import { Description, Label } from "../group";
@@ -144,8 +145,8 @@ describe("<Listbox />", () => {
   });
 
   it("should render a list of clickable options with a button.", async () => {
-    const onOptionsClick = jest.fn();
-    const onButtonClick = jest.fn();
+    const onOptionsClick = vi.fn();
+    const onButtonClick = vi.fn();
     const { value, rendered, user } = createListBox({
       optionsProps: { onClick: onOptionsClick },
       buttonProps: { onClick: onButtonClick },
@@ -192,8 +193,8 @@ describe("<Listbox />", () => {
   });
 
   it("should allow keyboard controls on the button.", async () => {
-    const onOptionsKeyDown = jest.fn();
-    const onButtonKeyDown = jest.fn();
+    const onOptionsKeyDown = vi.fn();
+    const onButtonKeyDown = vi.fn();
     const { value, setValue, setGroupDisabled, rendered, user } = createListBox({
       buttonProps: { onKeyDown: onButtonKeyDown },
       optionsProps: { onKeyDown: onOptionsKeyDown },

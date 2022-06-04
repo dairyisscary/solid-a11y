@@ -1,6 +1,7 @@
 import UserEvent from "@testing-library/user-event";
 import { For, Show, createSignal } from "solid-js";
 import { render } from "solid-testing-library";
+import { describe, expect, it, vi } from "vitest";
 
 import {
   Description,
@@ -118,7 +119,7 @@ describe("Groupings", () => {
     });
 
     it("should allow other attributes to label.", async () => {
-      const onClick = jest.fn();
+      const onClick = vi.fn();
       const label = { textContent: "first", component: "div", onClick };
       const label2 = { textContent: "second", component: "p" };
       const { rendered, user } = createLabelGroup([label, label2]);

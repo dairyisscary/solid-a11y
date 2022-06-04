@@ -1,3 +1,5 @@
+/// <reference types="vitest" />
+
 import { resolve } from "path";
 import { defineConfig } from "vite";
 import solidPlugin from "vite-plugin-solid";
@@ -20,4 +22,17 @@ export default defineConfig({
     },
   },
   plugins: [solidPlugin()],
+  resolve: {
+    conditions: ["development", "browser"],
+  },
+  test: {
+    deps: {
+      inline: [/solid-js/],
+    },
+    environment: "jsdom",
+    transformMode: {
+      web: [/\.tsx?$/],
+    },
+    setupFiles: "./vitest.setup.ts",
+  },
 });

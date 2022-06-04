@@ -2,6 +2,7 @@ import UserEvent from "@testing-library/user-event";
 import { createSignal } from "solid-js";
 import type { JSX } from "solid-js/jsx-runtime";
 import { render } from "solid-testing-library";
+import { describe, expect, it } from "vitest";
 
 import { Tab, TabGroup, TabPanel, Tabs } from ".";
 import { Label } from "../group";

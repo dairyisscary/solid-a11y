@@ -2,6 +2,7 @@ import UserEvent from "@testing-library/user-event";
 import { type ComponentProps, Show, createSignal } from "solid-js";
 import type { JSX } from "solid-js/jsx-runtime";
 import { render } from "solid-testing-library";
+import { describe, expect, it, vi } from "vitest";
 
 import { Dialog, DialogOverlay, DialogTitle } from ".";
 import { Description } from "../group";
@@ -16,7 +17,7 @@ type TestDialogProps = Omit<
 describe("<Dialog />", () => {
   function createDialog(props: TestDialogProps = {}, init = true) {
     const [isShown, setIsShown] = createSignal(init);
-    const onClose = jest.fn(() => setIsShown(false));
+    const onClose = vi.fn(() => setIsShown(false));
     const rendered = render(() => (
       <>
         <button type="button" onClick={() => setIsShown((o) => !o)}>
@@ -208,11 +209,11 @@ describe("<Dialog />", () => {
     });
     const dialogElm = getDialogElement(rendered);
     expect(dialogElm.tagName).toBe("MAIN");
-    expect(dialogElm.classList).toContain("yoyoyo");
+    expect(Array.from(dialogElm.classList)).toContain("yoyoyo");
     expect(dialogElm.getAttribute("aria-live")).toBe("polite");
     const title = rendered.getByText("hi") as HTMLElement;
     expect(title.tagName).toBe("H2");
-    expect(title.classList).toContain("kowabunga");
+    expect(Array.from(title.classList)).toContain("kowabunga");
     expect(rendered.getByText("some more stuff")).not.toBeNull();
   });
 

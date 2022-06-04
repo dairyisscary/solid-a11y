@@ -7,7 +7,7 @@ commands:
       - run:
           name: Install pnpm
           command: |
-            sudo npm install -g pnpm@7.1.7
+            sudo npm install -g pnpm@7.1.8
             pnpm config set store-dir /home/circleci/.pnpm-store
       - run:
           name: Install deps
@@ -151,7 +151,10 @@ jobs:
       - install_npm_deps
       - run:
           name: Run Tests
-          command: pnpm -r --no-bail test -- --maxWorkers=2 --ci
+          command: pnpm -r --no-bail test -- run
+          environment:
+            VITEST_MAX_THREADS: 2
+            VITEST_MIN_THREADS: 2
 
   typecheck:
     executor: default_node

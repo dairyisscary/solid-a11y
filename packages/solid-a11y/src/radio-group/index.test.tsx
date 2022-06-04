@@ -1,6 +1,7 @@
 import UserEvent from "@testing-library/user-event";
 import { For, createSignal } from "solid-js";
 import { render } from "solid-testing-library";
+import { describe, expect, it, vi } from "vitest";
 
 import { RadioGroup, RadioGroupOption } from ".";
 import { Description, Label } from "../group";
@@ -115,7 +116,7 @@ describe("<RadioGroup />", () => {
   });
 
   it("should render a list of clickable options.", async () => {
-    const onClick = jest.fn();
+    const onClick = vi.fn();
     const { selected, rendered, user } = createGroup({ onClick });
     // Init with nothing checked
     expect(getUncheckedRadios(rendered)).toHaveLength(defaultOptions.length);
@@ -154,7 +155,7 @@ describe("<RadioGroup />", () => {
   });
 
   it("should allow focus to with tab and selection with space key.", async () => {
-    const onKeyDown = jest.fn();
+    const onKeyDown = vi.fn();
     const { selected, setSelected, setOptions, setGroupDisabled, rendered, user } = createGroup({
       onKeyDown,
     });
@@ -202,7 +203,7 @@ describe("<RadioGroup />", () => {
   });
 
   it("should allow the arrow keys to select items.", async () => {
-    const onKeyDown = jest.fn();
+    const onKeyDown = vi.fn();
     const { selected, setGroupDisabled, setOptions, rendered, user } = createGroup({ onKeyDown });
     setOptions((old) => [old[0], old[1], { ...old[2], disabled: true }]);
     await user.keyboard("{Tab} ");

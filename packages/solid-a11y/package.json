@@ -34,7 +34,7 @@
   "scripts": {
     "build": "tsc -p tsconfig.publish.json && vite build",
     "clean": "rm -rf types dist",
-    "test": "jest"
+    "test": "vitest"
   },
   "main": "src/index.tsx",
   "peerDependencies": {
@@ -45,12 +45,10 @@
     "@babel/preset-env": "^7.18.2",
     "@babel/preset-typescript": "^7.17.12",
     "@testing-library/user-event": "^14.2.0",
-    "@types/jest": "^27.5.1",
-    "babel-jest": "^28.1.0",
     "babel-preset-solid": "^1.4.2",
-    "jest": "^28.1.0",
-    "jest-environment-jsdom": "^28.1.0",
+    "jsdom": "^19.0.0",
     "solid-js": "^1.4.3",
-    "solid-testing-library": "^0.3.0"
+    "solid-testing-library": "^0.3.0",
+    "vitest": "^0.13.1"
   }
 }

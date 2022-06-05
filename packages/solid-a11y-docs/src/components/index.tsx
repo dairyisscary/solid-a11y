@@ -1,4 +1,10 @@
 export const COMPONENTS = Object.freeze({
+  combobox: {
+    color: "from-pink-500 to-rose-500",
+    getModule: () => import("@docs/components/combobox/index.mdx"),
+    title: "Combobox (Autocomplete)",
+    icon: "layout-top-2" as const,
+  },
   dialog: {
     color: "from-purple-500 to-indigo-500",
     getModule: () => import("@docs/components/dialog/index.mdx"),
@@ -9,7 +15,7 @@ export const COMPONENTS = Object.freeze({
     color: "from-fuchsia-500 to-purple-600",
     getModule: () => import("@docs/components/listbox/index.mdx"),
     title: "Listbox (Select)",
-    icon: "layout-top-2" as const,
+    icon: "layout-top" as const,
   },
   "radio-group": {
     color: "from-green-400 to-cyan-500",

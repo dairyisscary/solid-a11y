@@ -10,6 +10,7 @@ export const ICON_NAMES = [
   "check",
   "arrow-down",
   "external-link",
+  "layout-top",
   "layout-top-2",
   "window-2",
 ] as const;

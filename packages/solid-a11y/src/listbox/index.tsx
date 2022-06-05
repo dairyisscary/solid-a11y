@@ -486,9 +486,7 @@ export function Listbox<V = string>(props: ListboxProps<V>) {
       return () => setOptions((old) => old.filter((value) => value !== registration));
     },
     registerButton: (el) => (buttonRef = el),
-    registerListbox: (el) => {
-      setListboxRef(el);
-    },
+    registerListbox: setListboxRef,
     optionsRefId: () => (isOpen() ? listboxRef()?.id : undefined),
     activeOptionId: createMemo(() => activeOptionRef()?.id),
   };

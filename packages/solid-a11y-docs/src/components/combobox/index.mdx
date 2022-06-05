@@ -1,0 +1,24 @@
+import ComboboxComponentDocumentation from "solid-a11y?component-docs=combobox/index.tsx:Combobox,ComboboxInput,ComboboxOptions,ComboboxOption,ComboboxButton";
+
+import { COMPONENTS } from "@docs/components";
+import {
+  AriaSpecLink,
+  CodeSampleShowcase,
+  ComponentAPIExplorer,
+  RunningShowcase,
+} from "@docs/showcase";
+
+import ComboboxBasicExample from "./basic.example";
+import ProcessedBasicExample from "./basic.example?highlight";
+
+# {COMPONENTS.combobox.title}
+
+Comboboxes are for autocompleting text input, ie command palettes and large dataset searches.
+
+<RunningShowcase source={ProcessedBasicExample} class={COMPONENTS.combobox.color}>
+  <ComboboxBasicExample />
+</RunningShowcase>
+
+<ComponentAPIExplorer components={ComboboxComponentDocumentation} />
+
+<AriaSpecLink href="combobox" />

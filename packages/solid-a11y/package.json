@@ -41,14 +41,14 @@
     "solid-js": "^1"
   },
   "devDependencies": {
-    "@babel/core": "^7.18.2",
+    "@babel/core": "^7.18.5",
     "@babel/preset-env": "^7.18.2",
     "@babel/preset-typescript": "^7.17.12",
-    "@testing-library/user-event": "^14.2.0",
-    "babel-preset-solid": "^1.4.2",
+    "@testing-library/user-event": "^14.2.1",
+    "babel-preset-solid": "^1.4.4",
     "jsdom": "^19.0.0",
-    "solid-js": "^1.4.3",
+    "solid-js": "^1.4.4",
     "solid-testing-library": "^0.3.0",
-    "vitest": "^0.13.1"
+    "vitest": "^0.15.1"
   }
 }

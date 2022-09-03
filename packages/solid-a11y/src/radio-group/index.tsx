@@ -1,4 +1,5 @@
 import {
+  type ValidComponent,
   createContext,
   createEffect,
   createMemo,
@@ -14,7 +15,6 @@ import { Dynamic } from "solid-js/web";
 import { DescriptionGroup, LabelGroup, sortByDOM, useDescribedBy, useLabeledBy } from "../group";
 import {
   type A11yDynamicProps,
-  type DynamicComponent,
   callThrough,
   callThroughRef,
   focusNextElement,
@@ -45,7 +45,7 @@ type OptionRenderProps = Readonly<{
   checked: () => boolean;
   active: () => boolean;
 }>;
-type OptionProps<V, C extends DynamicComponent> = A11yDynamicProps<
+type OptionProps<V, C extends ValidComponent> = A11yDynamicProps<
   C,
   {
     /** When truthy, this option is disabled and non-interactive */
@@ -64,7 +64,7 @@ type OptionProps<V, C extends DynamicComponent> = A11yDynamicProps<
   },
   "role" | "aria-checked" | "aria-disabled" | "tabindex"
 >;
-type GroupProps<V, C extends DynamicComponent> = A11yDynamicProps<
+type GroupProps<V, C extends ValidComponent> = A11yDynamicProps<
   C,
   {
     /** Callback for when user takes action to change the value -- new value is passed */
@@ -102,7 +102,7 @@ function getValueOfArrowedOption(evt: KeyboardEvent, lookup: OptionRegistration[
   }
 }
 
-function RadioGroupRoot<V, C extends DynamicComponent>(props: GroupProps<V, C>) {
+function RadioGroupRoot<V, C extends ValidComponent>(props: GroupProps<V, C>) {
   const [local, rest] = splitProps(props, ["value", "onChange", "disabled"]);
   const labeledBy = useLabeledBy();
   const describedBy = useDescribedBy();
@@ -110,8 +110,8 @@ function RadioGroupRoot<V, C extends DynamicComponent>(props: GroupProps<V, C>) 
   let groupRef: undefined | HTMLElement;
 
   const groupContext: GroupContext = {
-    isDisabled: () => local.disabled,
-    isChecked: createSelector(() => local.value),
+    isDisabled: () => local.disabled as boolean | undefined,
+    isChecked: createSelector(() => local.value as V),
     isTabable: createSelector(() => {
       if (local.disabled) {
         return UNIQUE_VALUE;
@@ -139,7 +139,7 @@ function RadioGroupRoot<V, C extends DynamicComponent>(props: GroupProps<V, C>) 
     },
     change: (newValue) => {
       // We do disabled checking in option...
-      local.onChange(newValue as V);
+      (local.onChange as (n: V) => void)(newValue as V);
     },
   };
   return (
@@ -152,7 +152,7 @@ function RadioGroupRoot<V, C extends DynamicComponent>(props: GroupProps<V, C>) 
         onKeyDown={(evt: KeyboardEvent) => {
           const nextOption = !local.disabled && getValueOfArrowedOption(evt, options());
           if (nextOption) {
-            local.onChange(nextOption.value as V);
+            (local.onChange as (n: V) => void)(nextOption.value as V);
           }
           return callThrough(props.onKeyDown, evt);
         }}
@@ -164,7 +164,7 @@ function RadioGroupRoot<V, C extends DynamicComponent>(props: GroupProps<V, C>) 
 }
 
 /** The group "container" and context holder */
-export function RadioGroup<V = string, C extends DynamicComponent = typeof DEFAULT_GROUP_COMPONENT>(
+export function RadioGroup<V = string, C extends ValidComponent = typeof DEFAULT_GROUP_COMPONENT>(
   props: GroupProps<V, C>,
 ) {
   return (
@@ -176,7 +176,7 @@ export function RadioGroup<V = string, C extends DynamicComponent = typeof DEFAU
   );
 }
 
-function RadioGroupOptionRoot<V, C extends DynamicComponent>(props: OptionProps<V, C>) {
+function RadioGroupOptionRoot<V, C extends ValidComponent>(props: OptionProps<V, C>) {
   const group = useContext(RADIO_GROUP_CONTEXT);
   if (!group) {
     throw new Error("Use of <RadioGroupOption /> outside of <RadioGroup />");
@@ -244,7 +244,7 @@ function RadioGroupOptionRoot<V, C extends DynamicComponent>(props: OptionProps<
 /** An option within the group */
 export function RadioGroupOption<
   V = string,
-  C extends DynamicComponent = typeof DEFAULT_OPTION_COMPONENT,
+  C extends ValidComponent = typeof DEFAULT_OPTION_COMPONENT,
 >(props: OptionProps<V, C>) {
   return (
     <LabelGroup>

@@ -1,4 +1,5 @@
 import {
+  type ValidComponent,
   createContext,
   createMemo,
   createSignal,
@@ -9,10 +10,10 @@ import {
 import type { JSX } from "solid-js/jsx-runtime";
 import { Dynamic } from "solid-js/web";
 
-import { type A11yDynamicProps, type DynamicComponent, joinSpaceSeparated } from "./html";
+import { type A11yDynamicProps, joinSpaceSeparated } from "./html";
 
 type GroupContext = [() => undefined | string, (id: string) => () => void];
-type GroupProps<C extends DynamicComponent> = A11yDynamicProps<C, Record<never, never>, "id">;
+type GroupProps<C extends ValidComponent> = A11yDynamicProps<C, Record<never, never>, "id">;
 
 const DEFAULT_LABEL_COMPONENT = "label";
 const DEFAULT_DESCRIPTION_COMPONENT = "p";
@@ -61,7 +62,7 @@ const labelGroupContext = makeGroupContext("Label");
 export const useLabeledBy = labelGroupContext.useBy;
 export const LabelGroup = labelGroupContext.provider;
 
-export function Label<C extends DynamicComponent = typeof DEFAULT_LABEL_COMPONENT>(
+export function Label<C extends ValidComponent = typeof DEFAULT_LABEL_COMPONENT>(
   props: GroupProps<C>,
 ) {
   const id = labelGroupContext.useRegisterId();
@@ -72,7 +73,7 @@ const descriptonGroupContext = makeGroupContext("Description");
 export const useDescribedBy = descriptonGroupContext.useBy;
 export const DescriptionGroup = descriptonGroupContext.provider;
 
-export function Description<C extends DynamicComponent = typeof DEFAULT_DESCRIPTION_COMPONENT>(
+export function Description<C extends ValidComponent = typeof DEFAULT_DESCRIPTION_COMPONENT>(
   props: GroupProps<C>,
 ) {
   const id = descriptonGroupContext.useRegisterId();

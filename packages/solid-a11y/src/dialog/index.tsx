@@ -1,5 +1,6 @@
 import {
   type ComponentProps,
+  type ValidComponent,
   createContext,
   onCleanup,
   onMount,
@@ -12,7 +13,6 @@ import { Dynamic, Portal } from "solid-js/web";
 import { DescriptionGroup, Label, LabelGroup, useDescribedBy, useLabeledBy } from "../group";
 import {
   type A11yDynamicProps,
-  type DynamicComponent,
   callThrough,
   callThroughRef,
   focusIn,
@@ -26,7 +26,7 @@ type FocusOptions = {
   close: (value: false) => void;
   initialFocusRef?: DialogProps<"div">["initialFocusRef"];
 };
-type DialogOverlayProps<C extends DynamicComponent> = A11yDynamicProps<
+type DialogOverlayProps<C extends ValidComponent> = A11yDynamicProps<
   C,
   {
     /** Click handler for the overlay element -- this always closes the modal */
@@ -34,7 +34,7 @@ type DialogOverlayProps<C extends DynamicComponent> = A11yDynamicProps<
   },
   "aria-hidden"
 >;
-type DialogProps<C extends DynamicComponent> = A11yDynamicProps<
+type DialogProps<C extends ValidComponent> = A11yDynamicProps<
   C,
   {
     "aria-labelledby"?: string;
@@ -145,7 +145,7 @@ function useInertOthers(containerGetter: () => HTMLElement) {
   });
 }
 
-function DialogRoot<C extends DynamicComponent>(props: Omit<DialogProps<C>, "onClose" | "mount">) {
+function DialogRoot<C extends ValidComponent>(props: Omit<DialogProps<C>, "onClose" | "mount">) {
   const [local, rest] = splitProps(props, [
     "initialFocusRef",
     "aria-labelledby",
@@ -178,7 +178,7 @@ function DialogRoot<C extends DynamicComponent>(props: Omit<DialogProps<C>, "onC
 }
 
 /** Main Dialog component */
-export function Dialog<C extends DynamicComponent = typeof DEFAULT_DIALOG_COMPONENT>(
+export function Dialog<C extends ValidComponent = typeof DEFAULT_DIALOG_COMPONENT>(
   props: DialogProps<C>,
 ) {
   const [local, rest] = splitProps(props, ["onClose", "mount"]);
@@ -196,7 +196,7 @@ export function Dialog<C extends DynamicComponent = typeof DEFAULT_DIALOG_COMPON
 }
 
 /** For creating overlays on top of content -- closes modal onClick */
-export function DialogOverlay<C extends DynamicComponent = typeof DEFAULT_DIALOG_COMPONENT>(
+export function DialogOverlay<C extends ValidComponent = typeof DEFAULT_DIALOG_COMPONENT>(
   props: DialogOverlayProps<C>,
 ) {
   const close = useContext(DIALOG_CONTEXT);
@@ -214,7 +214,7 @@ export function DialogOverlay<C extends DynamicComponent = typeof DEFAULT_DIALOG
 }
 
 /** For labeling a modal with its "title" or main idea -- just Label with a more sensible default tag */
-export function DialogTitle<C extends DynamicComponent = typeof DEFAULT_DIALOG_TITLE_COMPONENT>(
+export function DialogTitle<C extends ValidComponent = typeof DEFAULT_DIALOG_TITLE_COMPONENT>(
   props: A11yDynamicProps<C, Record<never, never>, "id">,
 ) {
   return <Label<C> component={DEFAULT_DIALOG_TITLE_COMPONENT} {...props} />;

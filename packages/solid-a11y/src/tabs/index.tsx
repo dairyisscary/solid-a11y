@@ -1,5 +1,6 @@
 import {
   Show,
+  type ValidComponent,
   createContext,
   createEffect,
   createSelector,
@@ -15,7 +16,6 @@ import { Dynamic } from "solid-js/web";
 import { LabelGroup, sortByDOM, sortByIndex, useLabeledBy } from "../group";
 import {
   type A11yDynamicProps,
-  type DynamicComponent,
   callThrough,
   callThroughRef,
   focusNextElement,
@@ -78,12 +78,12 @@ type GroupProps = {
       initialIndex?: number;
     }
 );
-type TabsProps<C extends DynamicComponent> = A11yDynamicProps<
+type TabsProps<C extends ValidComponent> = A11yDynamicProps<
   C,
   { ["aria-labelledby"]?: string },
   "role" | "aria-orientation"
 >;
-type TabProps<C extends DynamicComponent> = A11yDynamicProps<
+type TabProps<C extends ValidComponent> = A11yDynamicProps<
   C,
   {
     /** If truthy, tab will be ignored for keyboard interactions */
@@ -98,7 +98,7 @@ type TabProps<C extends DynamicComponent> = A11yDynamicProps<
   },
   "role" | "id" | "tabindex" | "aria-controls" | "aria-selected"
 >;
-type TabPanelProps<C extends DynamicComponent> = A11yDynamicProps<
+type TabPanelProps<C extends ValidComponent> = A11yDynamicProps<
   C,
   {
     /** Can accept a function for lazy evaluated children */
@@ -124,7 +124,7 @@ function useTabsContext(label: string): TabsContext {
 }
 
 /** The required container for <Tab /> components */
-export function Tabs<C extends DynamicComponent = typeof DEFAULT_TABS_TAG>(props: TabsProps<C>) {
+export function Tabs<C extends ValidComponent = typeof DEFAULT_TABS_TAG>(props: TabsProps<C>) {
   const labeledBy = useLabeledBy();
   const context = useTabsContext("Tabs");
   return (
@@ -140,7 +140,7 @@ export function Tabs<C extends DynamicComponent = typeof DEFAULT_TABS_TAG>(props
 }
 
 /** The element the user interacts with to select the currently visible content */
-export function Tab<C extends DynamicComponent = typeof DEFAULT_TAB_TAG>(props: TabProps<C>) {
+export function Tab<C extends ValidComponent = typeof DEFAULT_TAB_TAG>(props: TabProps<C>) {
   const id = createUniqueId();
   const context = useTabsContext("Tab");
   let tabRef: HTMLElement | undefined;
@@ -221,7 +221,7 @@ export function Tab<C extends DynamicComponent = typeof DEFAULT_TAB_TAG>(props: 
 }
 
 /** A panel of the tabs, only one is visible at a time */
-export function TabPanel<C extends DynamicComponent = typeof DEFAULT_PANEL_TAG>(
+export function TabPanel<C extends ValidComponent = typeof DEFAULT_PANEL_TAG>(
   props: TabPanelProps<C>,
 ) {
   const [local, rest] = splitProps(props, ["index"]);

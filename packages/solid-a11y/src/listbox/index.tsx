@@ -1,5 +1,6 @@
 import {
   Show,
+  type ValidComponent,
   batch,
   createContext,
   createEffect,
@@ -17,7 +18,6 @@ import { Dynamic } from "solid-js/web";
 import { DescriptionGroup, LabelGroup, sortByDOM, useDescribedBy, useLabeledBy } from "../group";
 import {
   type A11yDynamicProps,
-  type DynamicComponent,
   callThrough,
   callThroughRef,
   createClickOutside,
@@ -86,7 +86,7 @@ type OptionRenderProps = Readonly<{
   selected: () => boolean;
   active: () => boolean;
 }>;
-type ListboxOptionProps<V, C extends DynamicComponent> = A11yDynamicProps<
+type ListboxOptionProps<V, C extends ValidComponent> = A11yDynamicProps<
   C,
   {
     /** The value of the option for when user selects it via pointer or keyboard */
@@ -103,7 +103,7 @@ type ListboxOptionProps<V, C extends DynamicComponent> = A11yDynamicProps<
   },
   "id" | "role" | "aria-selected" | "aria-disabled" | "tabindex"
 >;
-type ListboxOptionsProps<C extends DynamicComponent> = A11yDynamicProps<
+type ListboxOptionsProps<C extends ValidComponent> = A11yDynamicProps<
   C,
   {
     /** A lazy render function */
@@ -113,7 +113,7 @@ type ListboxOptionsProps<C extends DynamicComponent> = A11yDynamicProps<
   "id" | "role" | "tabindex" | "aria-orientation" | "aria-activedescendant"
 >;
 type ButtonRenderProps = Readonly<{ open: () => boolean }>;
-type ListboxButtonProps<C extends DynamicComponent> = A11yDynamicProps<
+type ListboxButtonProps<C extends ValidComponent> = A11yDynamicProps<
   C,
   {
     /** Render prop for conditional content -- passed open signal getter */
@@ -143,7 +143,7 @@ function useListboxContext(label: string) {
 }
 
 /** The button to toggle the listbox's open state */
-export function ListboxButton<C extends DynamicComponent = typeof DEFAULT_BUTTON_COMPONENT>(
+export function ListboxButton<C extends ValidComponent = typeof DEFAULT_BUTTON_COMPONENT>(
   props: ListboxButtonProps<C>,
 ) {
   const id = createUniqueId();
@@ -194,7 +194,7 @@ export function ListboxButton<C extends DynamicComponent = typeof DEFAULT_BUTTON
 }
 
 /** The container for options within a listbox */
-export function ListboxOptions<C extends DynamicComponent = typeof DEFAULT_OPTIONS_COMPONENT>(
+export function ListboxOptions<C extends ValidComponent = typeof DEFAULT_OPTIONS_COMPONENT>(
   props: ListboxOptionsProps<C>,
 ) {
   const context = useListboxContext("ListboxOptions");
@@ -263,7 +263,7 @@ export function ListboxOptions<C extends DynamicComponent = typeof DEFAULT_OPTIO
 /** An option within a listbox */
 export function ListboxOption<
   V = string,
-  C extends DynamicComponent = typeof DEFAULT_OPTION_COMPONENT,
+  C extends ValidComponent = typeof DEFAULT_OPTION_COMPONENT,
 >(props: ListboxOptionProps<V, C>) {
   const id = createUniqueId();
   const [local, rest] = splitProps(props, ["value", "disabled"]);

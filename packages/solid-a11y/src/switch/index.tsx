@@ -1,18 +1,17 @@
-import { splitProps } from "solid-js";
+import { type ValidComponent, splitProps } from "solid-js";
 import type { JSX } from "solid-js/jsx-runtime";
 import { Dynamic } from "solid-js/web";
 
 import { useDescribedBy, useLabeledBy } from "../group";
 import {
   type A11yDynamicProps,
-  type DynamicComponent,
   callThrough,
   getTypeAttributeForDefaultButtonComponent,
   joinSpaceSeparated,
 } from "../html";
 import { SPACE_KEY, TAB_KEY } from "../keyboard";
 
-type SwitchProps<C extends DynamicComponent> = A11yDynamicProps<
+type SwitchProps<C extends ValidComponent> = A11yDynamicProps<
   C,
   {
     "aria-labelledby"?: string;
@@ -31,7 +30,7 @@ type SwitchProps<C extends DynamicComponent> = A11yDynamicProps<
 const DEFAULT_SWITCH_COMPONENT = "button";
 
 /** Two-state "switch" element */
-export function Switch<C extends DynamicComponent = typeof DEFAULT_SWITCH_COMPONENT>(
+export function Switch<C extends ValidComponent = typeof DEFAULT_SWITCH_COMPONENT>(
   props: SwitchProps<C>,
 ) {
   const [local, rest] = splitProps(props as SwitchProps<typeof DEFAULT_SWITCH_COMPONENT>, [

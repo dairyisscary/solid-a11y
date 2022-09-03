@@ -73,13 +73,15 @@ export function LazyMDXArticle(props: LazyMDXArticleProps) {
     }
   });
   return (
-    <Show when={mod()}>
+    <Show when={mod()} keyed>
       {({ MdxComponent, tableOfContents }) => (
         <Main class="flex min-w-0 flex-1 items-start space-x-4 sm:space-x-6 lg:space-x-8">
           <article class="prose prose-invert prose-headings:scroll-mt-24 lg:prose-lg min-w-0 max-w-none flex-1">
             <Dynamic component={MdxComponent} />
           </article>
-          <Show when={tableOfContents}>{(list) => <TableOfContents list={list} />}</Show>
+          <Show when={tableOfContents} keyed>
+            {(list) => <TableOfContents list={list} />}
+          </Show>
         </Main>
       )}
     </Show>

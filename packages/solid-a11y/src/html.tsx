@@ -1,15 +1,20 @@
-import { type Component, type ComponentProps, onCleanup, onMount } from "solid-js";
+import {
+  type Component,
+  type ComponentProps,
+  type ValidComponent,
+  onCleanup,
+  onMount,
+} from "solid-js";
 import type { JSX } from "solid-js/jsx-runtime";
 
 type RefCallback<E> = (el: E) => void;
-export type DynamicComponent = Component | keyof JSX.IntrinsicElements;
 export type A11yDynamicProps<
-  Comp extends DynamicComponent,
+  Comp extends ValidComponent,
   OtherProps extends Record<string, unknown> = Record<never, never>,
   Omitted extends string = never,
 > = Omit<ComponentProps<Comp>, Omitted | keyof OtherProps> &
   OtherProps & {
-    component?: Comp;
+    component?: keyof JSX.IntrinsicElements | Component<Record<string, unknown>>;
     ref?: HTMLElement | RefCallback<HTMLElement>;
     children?: OtherProps extends { children?: infer OtherChild }
       ? OtherChild
@@ -147,7 +152,7 @@ export function focusIn(element: HTMLElement, action: FocusAction): undefined | 
 }
 
 export function getTypeAttributeForDefaultButtonComponent(
-  component: DynamicComponent | undefined,
+  component: ValidComponent | undefined,
   type: string | null | undefined,
 ) {
   return type || (component && component !== "button") ? type : "button";

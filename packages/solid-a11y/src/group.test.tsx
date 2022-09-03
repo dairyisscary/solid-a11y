@@ -26,7 +26,7 @@ describe("Groupings", () => {
       const rendered = render(() => (
         <DescriptionGroup>
           <DescribedBy />
-          <Show when={descriptions()}>
+          <Show when={descriptions()} keyed>
             {(des) => <For each={des}>{(d) => <Description>{d}</Description>}</For>}
           </Show>
         </DescriptionGroup>
@@ -75,7 +75,7 @@ describe("Groupings", () => {
       const rendered = render(() => (
         <LabelGroup>
           <LabeledBy />
-          <Show when={labels()}>
+          <Show when={labels()} keyed>
             {(labels) => (
               <For each={labels}>
                 {(l) => (typeof l === "string" ? <Label textContent={l} /> : <Label {...l} />)}

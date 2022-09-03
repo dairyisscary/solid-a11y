@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.4.0](https://github.com/dairyisscary/solid-a11y/compare/v0.3.0...v0.4.0)
+
+### Documentation
+
+- Slim down icons file size
+
+### Chores
+
+- Upgrade NPM dependencies (including Solid 1.5 and Vite 3.0!)
+- Switch from Jest to Vitest
+
 ## [0.3.0](https://github.com/dairyisscary/solid-a11y/compare/v0.2.0...v0.3.0)
 
 ### Features

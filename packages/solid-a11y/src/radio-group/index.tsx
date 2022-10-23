@@ -208,7 +208,7 @@ function RadioGroupOptionRoot<V, C extends ValidComponent>(props: OptionProps<V,
       role="radio"
       aria-labelledby={joinSpaceSeparated(props["aria-labelledby"], labeledBy())}
       aria-describedby={joinSpaceSeparated(props["aria-describedby"], describedBy())}
-      aria-checked={checked().toString()}
+      aria-checked={checked()}
       aria-disabled={disabled() ? "true" : undefined}
       // Setting this to -1 also prevents keyboard navigation
       tabindex={group.isTabable(local.value) ? 0 : -1}

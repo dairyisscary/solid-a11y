@@ -19,7 +19,7 @@
     "shiki": "^0.11.1",
     "solid-a11y": "link:../solid-a11y",
     "solid-app-router": "^0.4.2",
-    "solid-js": "^1.5.4",
+    "solid-js": "^1.6.0",
     "solid-mdx": "^0.0.6",
     "source-map": "^0.7.4",
     "svgo": "^2.8.0",

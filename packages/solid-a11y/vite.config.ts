@@ -1,8 +1,6 @@
-/// <reference types="vitest" />
-
 import { resolve } from "path";
-import { defineConfig } from "vite";
 import solidPlugin from "vite-plugin-solid";
+import { defineConfig } from "vitest/config";
 
 export default defineConfig({
   build: {

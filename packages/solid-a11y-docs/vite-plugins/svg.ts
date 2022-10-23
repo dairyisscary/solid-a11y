@@ -55,20 +55,21 @@ async function crawlForSvg(path: string): Promise<void> {
 }
 
 export default function solidA11ySVGPlugin(): Plugin {
+  let nonSSRRoot: null | string = null;
   return {
     name: "solid-a11y:svg",
     apply: "build",
     enforce: "post",
     configResolved({ root, build: { outDir, assetsDir, ssr } }) {
-      if (ssr) {
-        return;
+      nonSSRRoot = ssr ? null : resolve(root, outDir, assetsDir);
+    },
+    closeBundle() {
+      return nonSSRRoot ? crawlForSvg(nonSSRRoot) : undefined;
+    },
+    buildEnd(error) {
+      if (error) {
+        nonSSRRoot = null;
       }
-      this.closeBundle = () => crawlForSvg(resolve(root, outDir, assetsDir));
-      this.buildEnd = (error) => {
-        if (error) {
-          this.closeBundle = undefined;
-        }
-      };
     },
   };
 }

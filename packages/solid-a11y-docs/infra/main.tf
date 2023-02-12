@@ -15,11 +15,13 @@ terraform {
 }
 
 locals {
-  root_domain = "solid-a11y.dev"
+  old_root_domain = "solid-a11y.dev"
+  root_domain     = "spookysoftware.dev"
+  docs_subdomain  = "solid-a11y"
 }
 
 resource "aws_s3_bucket" "docs_website_bucket" {
-  bucket = "www.${local.root_domain}"
+  bucket = "${local.docs_subdomain}.${local.root_domain}"
 }
 
 resource "aws_s3_bucket_policy" "docs_website_bucket_policy" {
@@ -78,14 +80,18 @@ output "documentation_static_bucket_name" {
 }
 
 resource "cloudflare_zone" "root_zone" {
-  zone = local.root_domain
+  zone = local.old_root_domain
+}
+
+data "cloudflare_zone" "root_zone" {
+  name = local.root_domain
 }
 
 resource "cloudflare_record" "root" {
   zone_id = cloudflare_zone.root_zone.id
   type    = "CNAME"
   name    = "@"
-  value   = "www.${local.root_domain}"
+  value   = "${local.docs_subdomain}.${local.root_domain}"
   proxied = true
 }
 
@@ -93,6 +99,14 @@ resource "cloudflare_record" "www" {
   zone_id = cloudflare_zone.root_zone.id
   type    = "CNAME"
   name    = "www"
+  value   = "${local.docs_subdomain}.${local.root_domain}"
+  proxied = true
+}
+
+resource "cloudflare_record" "a11y_subdomain" {
+  zone_id = data.cloudflare_zone.root_zone.id
+  type    = "CNAME"
+  name    = local.docs_subdomain
   value   = aws_s3_bucket.docs_website_bucket.website_endpoint
   proxied = true
 }
@@ -182,11 +196,23 @@ resource "cloudflare_ruleset" "transform_http_headers" {
 
 resource "cloudflare_page_rule" "redirect_root_to_www" {
   zone_id = cloudflare_zone.root_zone.id
-  target  = "${local.root_domain}/*"
+  target  = "${local.old_root_domain}/*"
 
   actions {
     forwarding_url {
-      url         = "https://www.${local.root_domain}/$1"
+      url         = "https://${local.docs_subdomain}.${local.root_domain}/$1"
+      status_code = 301
+    }
+  }
+}
+
+resource "cloudflare_page_rule" "redirect_www_root_to_new" {
+  zone_id = cloudflare_zone.root_zone.id
+  target  = "www.${local.old_root_domain}/*"
+
+  actions {
+    forwarding_url {
+      url         = "https://${local.docs_subdomain}.${local.root_domain}/$1"
       status_code = 301
     }
   }

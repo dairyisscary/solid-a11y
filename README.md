@@ -7,7 +7,7 @@
 
 ## Documentation
 
-For full documentation, visit [www.solid-a11y.dev][doc_site].
+For full documentation, visit [solid-a11y.spookysoftware.dev][doc_site].
 
 ## Installation
 
@@ -22,4 +22,4 @@ $ npm add solid-a11y
 - Add combobox (autocomplete)
 
 [solid_js]: https://www.solidjs.com/
-[doc_site]: https://www.solid-a11y.dev/
+[doc_site]: https://solid-a11y.spookysoftware.dev/

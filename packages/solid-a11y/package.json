@@ -3,7 +3,7 @@
   "version": "0.5.0",
   "license": "MIT",
   "description": "A collection of fully accessible, completely unstyled components for SolidJS.",
-  "homepage": "https://www.solid-a11y.dev/",
+  "homepage": "https://solid-a11y.spookysoftware.dev/",
   "repository": {
     "type": "git",
     "url": "https://github.com/dairyisscary/solid-a11y.git"

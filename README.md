@@ -9,17 +9,12 @@
 
 For full documentation, visit [solid-a11y.spookysoftware.dev][doc_site].
 
-## Installation
+## Project Status
 
-```sh
-$ npm add solid-a11y
-```
+[![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
 
-## Roadmap
-
-- SSR support
-- Add multiple selection to listbox
-- Add combobox (autocomplete)
+This repository and the documentation site remain for demonstrative and educational purposes but
+are no longer maintained. There are great alternatives out there.
 
 [solid_js]: https://www.solidjs.com/
 [doc_site]: https://solid-a11y.spookysoftware.dev/

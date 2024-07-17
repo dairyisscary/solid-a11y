@@ -22,6 +22,7 @@
   "publishConfig": {
     "exports": {
       ".": {
+        "types": "./types/index.d.ts",
         "import": "./dist/solid-a11y.es.js",
         "require": "./dist/solid-a11y.umd.js"
       }
